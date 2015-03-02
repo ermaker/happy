@@ -23,6 +23,8 @@ module Happy
           'taker_pays_funded' => price * amount
         }
       end
+    rescue
+      retry
     end
 
   end
