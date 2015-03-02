@@ -2,12 +2,12 @@ require 'httparty'
 
 module Happy
   class XRP
-    attr_accessor :address, :bids
+    attr_accessor :address, :asks
 
     def initialize(address)
-      @bids = Hash.new do |hash, (base, counter)|
+      @asks = Hash.new do |hash, (base, counter)|
         hash[[base, counter]] =
-          order_book(base, counter)['bids']
+          order_book(base, counter)['asks']
       end
       @address = address
     end
@@ -15,7 +15,7 @@ module Happy
     def order_book(base, counter)
       limit = 200
       response = HTTParty.get(
-        "https://api.ripple.com/v1/accounts/#{@address}/order_book/#{base}/#{counter}",
+        "https://api.ripple.com/v1/accounts/#{@address}/order_book/#{counter}/#{base}",
         query: { limit: limit })
                  .parsed_response
       fail response.inspect unless response['success']
@@ -26,33 +26,9 @@ module Happy
 
     def market(base, counter)
       order_book = order_book(base, counter)
-      order_book['bids']
-        .map { |bid| bid.filter(*BID_WHITE_LIST) }
+      order_book['asks']
+        .map { |ask| ask.filter(*BID_WHITE_LIST) }
         .to_objectify
-    end
-
-    def exchange_xrp(amount, counter)
-      rest_amount = amount
-      base = amount.currency
-      price = Amount.new('0', counter)
-
-      bid_idx = -1
-      loop do
-        bid = @bids[[base, counter]][bid_idx += 1]
-        pay = Amount[bid['taker_pays_funded']]
-        if rest_amount >= pay
-          rest_amount -= pay
-          price += Amount[bid['taker_gets_funded']]
-        else
-          price += Amount[bid['taker_gets_funded']] * rest_amount / pay
-          break
-        end
-      end
-      result = AmountHash.new
-      result.apply(-amount)
-      result.apply(price)
-      result.apply(-Amount::XRP_FEE)
-      result
     end
   end
 end

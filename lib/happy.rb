@@ -14,6 +14,7 @@ module Happy
   autoload :Amount, 'happy/amount'
   autoload :AmountHash, 'happy/amount_hash'
   autoload :XRP, 'happy/xrp'
+  autoload :XCoin, 'happy/xcoin'
   autoload :Collector, 'happy/collector'
 
   module_function
