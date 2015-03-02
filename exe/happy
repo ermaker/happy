@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'happy'
+require 'happy/cli'
+
+Happy::CLI.start

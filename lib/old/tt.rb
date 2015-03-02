@@ -8,7 +8,7 @@ pp client.search body: {
   query: {
     query_string: {
       query: '*',
-      analyze_wildcard: true,
+      analyze_wildcard: true
     }
-  },
+  }
 }
