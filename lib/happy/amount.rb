@@ -13,8 +13,16 @@ module Happy
 
     def self.[](*args)
       hash = super
-      hash['value'] =
-        BigDecimal.new(hash['value']) if hash.key?('value')
+      if hash.key?('value')
+        hash['value'] = BigDecimal.new(
+          case
+          when hash['value'].is_a?(Hash) && hash['value'].key?('raw')
+            hash['value']['raw']
+          else
+            hash['value']
+          end
+        )
+      end
       hash
     end
 

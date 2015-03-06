@@ -3,6 +3,7 @@ require 'happy/version'
 require 'ext/jsonify'
 require 'ext/objectify'
 require 'ext/hash_filter'
+require 'ext/deep_dup'
 require 'happy/util/logstash'
 require 'logger'
 require 'dotenv'
@@ -15,7 +16,12 @@ module Happy
   autoload :AmountHash, 'happy/amount_hash'
   autoload :XRP, 'happy/xrp'
   autoload :XCoin, 'happy/xcoin'
+  autoload :LoggedMarket, 'happy/logged_market'
   autoload :Collector, 'happy/collector'
+
+  module Util
+    autoload :Query, 'happy/util/query'
+  end
 
   module_function
 
