@@ -6,9 +6,14 @@ module Happy
       @logstash = Happy.logstash.with(type: 'market_prices')
     end
 
+    def taint_eop list
+      list.last[:eop] = true
+    end
+
     def log_market_xrp_impl(base, counter)
       xrp = XRP.new(ENV['XRP_ADDRESS'])
       asks = xrp.market(base, counter)
+      taint_eop(asks)
       Happy.logger.debug { "Count of asks(#{base}, #{counter}): #{asks.size}" }
       @logstash.at_once.stash_all(asks)
     end
@@ -21,6 +26,7 @@ module Happy
     def log_market_xcoin
       xcoin = XCoin.new
       asks = xcoin.market
+      taint_eop(asks)
       Happy.logger.debug { "Count of asks(XCoin): #{asks.size}" }
       @logstash.at_once.stash_all(asks)
     end
