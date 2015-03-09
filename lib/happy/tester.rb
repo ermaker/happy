@@ -11,10 +11,15 @@ module Happy
       worker.time = Time.now - 30 * 60
 
       worker.xcoin_ensure_login
-      worker.exchange(
+      result = worker.exchange(
         Amount.new('3000', 'KRW_X'),
         Currency::BTC_X
         )
+      puts result
+      worker.exchange(
+        result[Currency::BTC_X],
+        Currency::BTC_B2R
+      )
     end
   end
 end

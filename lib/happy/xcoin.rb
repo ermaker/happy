@@ -21,7 +21,7 @@ module Happy
       end
 
       def xcoin_ensure_login
-        Happy.logger.debug { 'ensure_login' }
+        Happy.logger.debug { 'xcoin_ensure_login' }
         visit 'https://www.xcoin.co.kr/u1/US101'
         if xcoin_not_found(:css, '.gnb_s1') && find(:css, '.gnb')
           Happy.logger.debug { 'already logged in' }
@@ -32,7 +32,7 @@ module Happy
         fill_in 'j_password', with: xcoin_password
         Happy.logger.debug { 'Submit' }
         find(:xpath, '//p[@class="btn_org"]').click
-        Happy.logger.debug { 'ensure_login finished' }
+        Happy.logger.debug { 'xcoin_ensure_login finished' }
       rescue => e
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
@@ -91,8 +91,38 @@ module Happy
       Capybara.current_driver = :poltergeist
       include Capybara::DSL
 
-      def exchange_xcoin(amount, counter)
-        # TODO: assert counter
+      def last_order_status
+        Happy.logger.debug { 'last_order_status' }
+        loop do
+          Happy.logger.debug { 'loop' }
+          visit 'https://www.xcoin.co.kr/u2/US202'
+          Happy.logger.debug { 'Parse' }
+          stat = find(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr[last()]/td[7]').text
+          break if stat == '완료'
+          sleep 2
+        end
+        krw_x = find(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr[last()]/td[4]').text
+        btc_x = find(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr[last()]/td[5]').text
+        btc_x_fee = find(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr[last()]/td[6]').text
+        krw_x = Amount.new(krw_x.gsub(',', ''), 'KRW_X')
+        btc_x = Amount.new(btc_x, 'BTC_X')
+        btc_x_fee = Amount.new(btc_x_fee, 'BTC_X')
+        btc_x -= btc_x_fee
+        Happy.logger.debug { 'last_order_status finished' }
+        result = AmountHash.new.tap do |ah|
+          ah.apply(-krw_x)
+          ah.apply(btc_x)
+        end
+        return result
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        retry
+      end
+
+      def exchange_xcoin_impl(amount, counter)
+        # TODO: assert amount and counter
         Happy.logger.debug { 'exchange_xcoin' }
         btc_x = value_shift(amount, counter)
         Happy.logger.debug { "btc_x: #{btc_x}" }
@@ -102,7 +132,9 @@ module Happy
         check 'gen'
         fill_in 'btcQty', with: btc_x['value'].to_s('F')
         # TODO: set price high
-        check 'auto_price'
+        # check 'auto_price'
+        high_btc = find(:xpath, '//tr[@class="sell"][1]/td[2]').text
+        fill_in 'btcAmtComma', with: high_btc
         find(:xpath, '//p[@class="btn_org"]').click
         find(:css, '._wModal_btn_yes').click
         Happy.logger.debug { 'exchange_xcoin finished' }
@@ -111,6 +143,12 @@ module Happy
         Happy.logger.warn { e }
         Happy.logger.warn { e.backtrace.join("\n") }
         retry
+      end
+
+      def exchange_xcoin(amount, counter)
+        # TODO: assert amount and counter
+        exchange_xcoin_impl(amount, counter)
+        last_order_status
       end
 
       def send_xcoin(amount, _counter)
