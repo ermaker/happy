@@ -7,7 +7,7 @@ module Happy
     end
 
     def taint_eop list
-      list.last[:eop] = true
+      list.last[:price_count] = list.size
     end
 
     def log_market_xrp_impl(base, counter)
