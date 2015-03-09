@@ -17,6 +17,17 @@ module Happy
         end.values.uniq.map(&:call)
           .reduce(AmountHash.new, :merge)
       end
+
+      def wait(amount)
+        currency = amount.currency
+        loop do
+          begin
+            return if amount < balance(currency)[currency]
+          rescue
+          end
+          sleep 5
+        end
+      end
     end
 
     module Market
@@ -56,9 +67,11 @@ module Happy
     end
 
     module Exchange
+      attr_accessor :local_balances
       attr_accessor :proc_exchange
 
       def self.extended(mod)
+        mod.local_balances = AmountHash.new
         mod.proc_exchange = Hash.new(mod.method(:exchange_default))
       end
 
@@ -67,7 +80,10 @@ module Happy
       end
 
       def exchange(amount, counter)
-        proc_exchange[[amount.currency, counter]].call(amount, counter)
+        proc_exchange[[amount.currency, counter]]
+          .call(amount, counter).tap do |result|
+          local_balances.apply_all(result)
+        end
       end
     end
   end
