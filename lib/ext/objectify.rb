@@ -9,10 +9,10 @@ class Hash
   CURRENCY_KEYS = %w(currency counterparty)
   def to_objectify
     case
-    when keys.all? { |key| AMOUNT_KEYS.include?(key) }
+    when AMOUNT_KEYS.all? { |key| keys.include?(key) }
       Happy::Amount[self]
-    when keys.all? { |key| AMOUNT_KEYS.include?(key) }
-      Happy::Amount[self]
+    when CURRENCY_KEYS.all? { |key| keys.include?(key) }
+      Happy::Currency[self]
     else
       Hash[map { |k, v| [k, v.to_objectify] }]
     end

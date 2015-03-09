@@ -5,15 +5,15 @@ module Happy
       # worker.extend(XCoin::Information)
       worker.extend(XRP::Information)
       worker.extend(PaxMoneta::Information)
-      #worker.extend(Worker::Market)
-      #worker.extend(Logged::Market)
+      # worker.extend(Worker::Market)
+      # worker.extend(Logged::Market)
       worker.extend(Worker::Exchange)
       # worker.extend(XCoin::Exchange)
-      #worker.extend(B2R::Exchange)
+      # worker.extend(B2R::Exchange)
       worker.extend(XRP::Exchange)
       worker.extend(PaxMoneta::Exchange)
 
-      worker.time = Time.now - 30 * 60
+      # worker.time = Time.now - 30 * 60
 
       # worker.xcoin_ensure_login
       # result = worker.exchange(

@@ -5,6 +5,10 @@ RSpec.describe '#to_objectify' do
     { 'value' => '1', 'currency' => 'XRP', 'counterparty' => '' }
   end
 
+  let(:dummy_amount) do
+    amount.merge('dummy' => true)
+  end
+
   let(:hashed_amount) do
     { 'value' => { 'value' => 1.0, 'raw' => '0.1E1' }, 'currency' => 'XRP', 'counterparty' => '' }
   end
@@ -25,6 +29,10 @@ RSpec.describe '#to_objectify' do
 
   it 'works' do
     expect(amount.to_objectify).to eq(Happy::Amount[amount])
+  end
+
+  it 'works' do
+    expect(dummy_amount.to_objectify).to eq(Happy::Amount[dummy_amount])
   end
 
   it 'works' do
