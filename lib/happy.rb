@@ -17,6 +17,7 @@ module Happy
   autoload :XRP, 'happy/xrp'
   autoload :XCoin, 'happy/xcoin'
   autoload :B2R, 'happy/b2r'
+  autoload :PaxMoneta, 'happy/paxmoneta'
   autoload :Worker, 'happy/worker'
   autoload :Simulator, 'happy/simulator'
   autoload :Logged, 'happy/logged'
