@@ -28,7 +28,7 @@ module Happy
 
     def log_market
       [
-        [Currency::KRW_X, BTC_X],
+        [Currency::KRW_X, Currency::BTC_X],
         [Currency::BTC_P, Currency::XRP],
         [Currency::XRP, Currency::KRW_P]
       ].each { |base,counter| log_market_impl(base, counter) }
