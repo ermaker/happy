@@ -26,7 +26,6 @@ module Happy
     rescue
       retry
     end
-
   end
 end
 

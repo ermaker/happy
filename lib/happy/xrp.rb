@@ -22,12 +22,12 @@ module Happy
       response
     end
 
-    BID_WHITE_LIST = %w(price taker_gets_funded taker_pays_funded)
+    ASK_WHITE_LIST = %w(price taker_gets_funded taker_pays_funded)
 
     def market(base, counter)
       order_book = order_book(base, counter)
       order_book['asks']
-        .map { |ask| ask.filter(*BID_WHITE_LIST) }
+        .map { |ask| ask.filter(*ASK_WHITE_LIST) }
         .to_objectify
     end
   end
