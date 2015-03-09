@@ -11,6 +11,34 @@ module Happy
       end
     end
 
+    module Balance
+      def self.extended(mod)
+        [
+          Happy::Currency::BTC_P,
+          Happy::Currency::XRP,
+          Happy::Currency::KRW_P
+        ].each do |currency|
+          mod.proc_balance[currency] = mod.method(:balance_xrp)
+        end
+      end
+
+      def balance_impl
+        response = HTTParty.get("https://api.ripple.com/v1/accounts/#{xrp_address}/balances")
+                   .parsed_response
+        fail response.inspect unless response['success']
+        response
+      end
+
+      def balance_xrp
+        AmountHash.new.tap do |ah|
+          balance_impl['balances'].to_objectify
+            .each do |amount|
+            ah.apply(amount)
+          end
+        end
+      end
+    end
+
     module Market
       def self.extended(mod)
         [

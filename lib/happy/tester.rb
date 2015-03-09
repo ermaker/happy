@@ -4,14 +4,18 @@ module Happy
       worker = Worker.new
       # worker.extend(XCoin::Information)
       worker.extend(XRP::Information)
-      worker.extend(PaxMoneta::Information)
+      # worker.extend(PaxMoneta::Information)
+      worker.extend(Worker::Balance)
+      worker.extend(XRP::Balance)
       # worker.extend(Worker::Market)
       # worker.extend(Logged::Market)
-      worker.extend(Worker::Exchange)
+      # worker.extend(Worker::Exchange)
       # worker.extend(XCoin::Exchange)
       # worker.extend(B2R::Exchange)
-      worker.extend(XRP::Exchange)
-      worker.extend(PaxMoneta::Exchange)
+      # worker.extend(XRP::Exchange)
+      # worker.extend(PaxMoneta::Exchange)
+
+      puts worker.balance(Currency::BTC_P)
 
       # worker.time = Time.now - 30 * 60
 
@@ -46,11 +50,11 @@ module Happy
       #   Currency::KRW_P
       # )
       # puts result
-      result = worker.exchange(
-        Amount.new('100503', 'KRW_P'),
-        Currency::KRW_R
-      )
-      puts result
+      # result = worker.exchange(
+      #   Amount.new('100503', 'KRW_P'),
+      #   Currency::KRW_R
+      # )
+      # puts result
     end
   end
 end
