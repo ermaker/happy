@@ -22,7 +22,7 @@ module Happy
         end
       end
 
-      def balance_impl
+      def balance_xrp_impl
         response = HTTParty.get("https://api.ripple.com/v1/accounts/#{xrp_address}/balances")
                    .parsed_response
         fail response.inspect unless response['success']
@@ -31,7 +31,7 @@ module Happy
 
       def balance_xrp
         AmountHash.new.tap do |ah|
-          balance_impl['balances'].to_objectify
+          balance_xrp_impl['balances'].to_objectify
             .each do |amount|
             ah.apply(amount)
           end

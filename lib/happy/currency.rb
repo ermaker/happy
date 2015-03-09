@@ -12,6 +12,10 @@ module Happy
       'currency' => 'BTC',
       'counterparty' => 'rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q',
     ]
+    BTC_BS = self[
+      'currency' => 'BTC',
+      'counterparty' => 'rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B',
+    ]
     XRP = self[
       'currency' => 'XRP',
       'counterparty' => '',
@@ -32,6 +36,7 @@ module Happy
       'BTC_X' => BTC_X, BTC_X => BTC_X,
       'BTC_B2R' => BTC_B2R, BTC_B2R => BTC_B2R,
       'BTC_P' => BTC_P, BTC_P => BTC_P,
+      'BTC_BS' => BTC_BS, BTC_BS => BTC_BS,
       'XRP' => XRP, XRP => XRP,
       'KRW_X' => KRW_X, KRW_X => KRW_X,
       'KRW_P' => KRW_P, KRW_P => KRW_P,
