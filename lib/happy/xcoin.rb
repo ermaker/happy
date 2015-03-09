@@ -12,7 +12,7 @@ module Happy
       end
 
       def xcoin_not_found(*args)
-        find *args
+        find(*args)
         return false
       rescue Capybara::ElementNotFound
         return true
@@ -151,8 +151,8 @@ module Happy
         last_order_status
       end
 
-      def send_xcoin(amount, _counter)
-        # TODO: assert _counter
+      def send_xcoin(amount, counter)
+        # TODO: assert counter
         destination_address = ENV['BTC2RIPPLE_ADDRESS']
 
         Happy.logger.debug { 'send_xcoin' }
@@ -191,8 +191,8 @@ module Happy
         result = AmountHash.new.tap do |ah|
           ah.apply(-amount)
           ah.apply(
-            Amount.new(amount['value'], 'BTC_B2R') -
-            Amount.new(Amount::BTC_FEE, 'BTC_B2R'))
+            Amount.new(amount['value'], counter) -
+            Amount.new(Amount::BTC_FEE, counter))
         end
         return result
       rescue => e
