@@ -18,6 +18,8 @@ module Happy
       # For Logged::Market
       worker.time = Time.now
 
+      worker.xcoin_ensure_login
+
       worker.local_balances.apply(Amount.new('3500', 'KRW_X'))
       Happy.logger.debug { "local_balances: #{worker.local_balances}" }
       [
