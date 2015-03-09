@@ -54,7 +54,7 @@ module Happy
         body = {
           secret: xrp_secret,
           order: {
-            type: 'buy',
+            type: 'sell',
             taker_gets: amount,
             taker_pays: counter_amount
           }
