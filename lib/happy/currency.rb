@@ -4,7 +4,7 @@ module Happy
       'currency' => 'BTC',
       'counterparty' => 'XCoin',
     ]
-    BTC_BTCXRP = self[
+    BTC_B2R = self[
       'currency' => 'BTC',
       'counterparty' => 'Gateway_btc2ripple',
     ]
@@ -30,7 +30,7 @@ module Happy
     ]
     CURRENCY = {
       'BTC_X' => BTC_X, BTC_X => BTC_X,
-      'BTC_BTCXRP' => BTC_BTCXRP, BTC_BTCXRP => BTC_BTCXRP,
+      'BTC_B2R' => BTC_B2R, BTC_B2R => BTC_B2R,
       'BTC_P' => BTC_P, BTC_P => BTC_P,
       'XRP' => XRP, XRP => XRP,
       'KRW_X' => KRW_X, KRW_X => KRW_X,

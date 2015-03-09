@@ -33,6 +33,26 @@ module Happy
       def market(base, counter)
         proc_market[[base, counter]].call(base, counter)
       end
+
+      def value_shift(amount, counter)
+        asks = market(amount.currency, counter)
+        rest_amount = amount
+        price = Amount.new('0', counter)
+        ask_idx = -1
+        loop do
+          ask = asks[ask_idx += 1]
+          price_ = ask['taker_gets_funded']
+          pay = ask['taker_pays_funded']
+          if rest_amount >= pay
+            rest_amount -= pay
+            price += price_
+          else
+            price += price_ * rest_amount / pay
+            break
+          end
+        end
+        price
+      end
     end
 
     module Exchange
