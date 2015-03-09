@@ -187,6 +187,14 @@ module Happy
         find(:xpath, '//p[@class="btn_org"]').click
         find(:css, '._wModal_btn_yes').click
         Happy.logger.debug { 'send_xcoin finished' }
+
+        result = AmountHash.new.tap do |ah|
+          ah.apply(-amount)
+          ah.apply(
+            Amount.new(amount['value'], 'BTC_B2R') -
+            Amount.new(Amount::BTC_FEE, 'BTC_B2R'))
+        end
+        return result
       rescue => e
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
