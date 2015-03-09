@@ -46,7 +46,7 @@ module Happy
           [Happy::Currency::BTC_P, Happy::Currency::XRP],
           [Happy::Currency::XRP, Happy::Currency::KRW_P]
         ].each do |base,counter|
-          mod.proc_market[[base, counter]] = mod.method(:exchange_xrp)
+          mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp)
         end
       end
 

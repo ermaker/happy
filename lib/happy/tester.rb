@@ -35,17 +35,12 @@ module Happy
       )
       puts result
       result = worker.exchange(
-        Amount.new('0.01', 'BTC_B2R'),
-        Currency::BTC_P
-      )
-      puts result
-      result = worker.exchange(
         result[Currency::BTC_P],
         Currency::XRP
       )
       puts result
       result = worker.exchange(
-        Currency::XRP,
+        result[Currency::XRP],
         Currency::KRW_P
       )
       puts result
