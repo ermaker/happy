@@ -16,7 +16,9 @@ module Happy
   autoload :AmountHash, 'happy/amount_hash'
   autoload :XRP, 'happy/xrp'
   autoload :XCoin, 'happy/xcoin'
-  autoload :LoggedMarket, 'happy/logged_market'
+  autoload :Worker, 'happy/worker'
+  autoload :Simulator, 'happy/simulator'
+  autoload :Logged, 'happy/logged'
   autoload :Collector, 'happy/collector'
 
   module Util

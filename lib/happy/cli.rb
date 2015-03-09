@@ -3,14 +3,9 @@ require 'happy'
 
 module Happy
   class CLI < Thor
-    desc 'xrp', 'XRP'
-    def xrp
-      Collector.new.log_market_xrp
-    end
-
-    desc 'xcoin', 'XCoin'
-    def xcoin
-      Collector.new.log_market_xcoin
+    desc 'log_market', 'Log Market'
+    def log_market
+      Collector.new.log_market
     end
   end
 end
