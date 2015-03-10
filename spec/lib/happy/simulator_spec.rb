@@ -12,6 +12,7 @@ RSpec.describe Happy::Simulator do
       KRW_R = Happy::Currency::KRW_R
       expect(subject.balance(KRW_R))
         .to be_empty
+      subject.extend(Happy::Worker::Exchange)
       subject.extend(described_class)
       expect(subject.balance(KRW_R))
         .to be_empty

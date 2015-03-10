@@ -1,48 +1,46 @@
 module Happy
   class Tester
     def test
+      Happy.logger.level = Logger::INFO
+
       worker = Worker.new
       worker.extend(XCoin::Information)
       worker.extend(XRP::Information)
-      # worker.extend(PaxMoneta::Information)
+      worker.extend(PaxMoneta::Information)
       worker.extend(Worker::Balance)
-      worker.extend(XRP::Balance)
+      # worker.extend(Logged::Balance) # TODO
+      # worker.extend(XCoin::Balance) # TODO
+      # worker.extend(XRP::Balance)
+      worker.extend(Simulator::Balance)
       worker.extend(Worker::Market)
       worker.extend(Logged::Market)
+      # worker.extend(XCoin::Market)
+      # worker.extend(XRP::Market)
       worker.extend(Worker::Exchange)
-      worker.extend(XCoin::Exchange)
-      worker.extend(B2R::Exchange)
-      worker.extend(XRP::Exchange)
+      # worker.extend(XCoin::Exchange)
+      worker.extend(XCoin::SimulatedExchange)
+      worker.extend(B2R::SimulatedExchange)
+      # worker.extend(XRP::Exchange)
+      worker.extend(XRP::SimulatedExchange)
       # worker.extend(PaxMoneta::Exchange)
-
-      # For Logged::Market
-      worker.time = Time.now
-
-      worker.xcoin_ensure_login
+      worker.extend(PaxMoneta::SimulatedExchange)
 
       worker.local_balances.apply(Amount.new('3500', 'KRW_X'))
-      Happy.logger.debug { "local_balances: #{worker.local_balances}" }
+      Happy.logger.info { "local_balances: #{worker.local_balances}" }
       [
+        Currency::KRW_X,
         Currency::KRW_X,
         Currency::BTC_X,
         Currency::BTC_B2R,
-        Currency::BTC_P
-      ].each_cons(2) do |base,counter|
-        result = worker.exchange(worker.local_balances[base], counter)
-        Happy.logger.debug { "result: #{result}" }
-        Happy.logger.debug { "local_balances: #{worker.local_balances}" }
-      end
-
-      worker.wait(worker.local_balances[Currency::BTC_P])
-
-      [
+        Currency::BTC_P,
         Currency::BTC_P,
         Currency::XRP,
-        Currency::KRW_P
+        Currency::KRW_P,
+        Currency::KRW_R
       ].each_cons(2) do |base,counter|
         result = worker.exchange(worker.local_balances[base], counter)
         Happy.logger.debug { "result: #{result}" }
-        Happy.logger.debug { "local_balances: #{worker.local_balances}" }
+        Happy.logger.info { "local_balances: #{worker.local_balances}" }
       end
     end
   end

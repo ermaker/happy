@@ -22,7 +22,7 @@ module Happy
         currency = amount.currency
         loop do
           begin
-            return if amount < balance(currency)[currency]
+            return if amount <= balance(currency)[currency]
           rescue
           end
           sleep 5

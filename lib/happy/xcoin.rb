@@ -86,12 +86,19 @@ module Happy
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin)
         end
+        [
+          [Happy::Currency::KRW_X, Happy::Currency::KRW_X]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin)
+        end
       end
 
       Capybara.current_driver = :poltergeist
       include Capybara::DSL
 
       def last_order_status
+        # XXX: Not Correct KRW price
+
         Happy.logger.debug { 'last_order_status' }
         loop do
           Happy.logger.debug { 'loop' }
@@ -131,8 +138,8 @@ module Happy
         fill_in 'traPwNo', with: xcoin_password2
         check 'gen'
         fill_in 'btcQty', with: btc_x['value'].to_s('F')
-        # TODO: set price high
         # check 'auto_price'
+        # Set price high
         high_btc = find(:xpath, '//tr[@class="sell"][1]/td[2]').text
         fill_in 'btcAmtComma', with: high_btc
         find(:xpath, '//p[@class="btn_org"]').click
@@ -147,14 +154,16 @@ module Happy
 
       def exchange_xcoin(amount, counter)
         # TODO: assert amount and counter
+        xcoin_ensure_login
         exchange_xcoin_impl(amount, counter)
         last_order_status
       end
 
       def send_xcoin(amount, counter)
         # TODO: assert counter
-        destination_address = ENV['BTC2RIPPLE_ADDRESS']
+        destination_address = ENV['BTC2RIPPLE_ADDRESS'] # FIXME
 
+        xcoin_ensure_login
         Happy.logger.debug { 'send_xcoin' }
         visit 'https://www.xcoin.co.kr/u3/US302'
         btc_value = amount['value'].to_s('F')
@@ -190,9 +199,8 @@ module Happy
 
         result = AmountHash.new.tap do |ah|
           ah.apply(-amount)
-          ah.apply(
-            Amount.new(amount['value'], counter) -
-            Amount.new(Amount::BTC_FEE, counter))
+          ah.apply(Amount.new(amount['value'], counter))
+          ah.apply(-Amount.new(Amount::BTC_FEE, counter))
         end
         return result
       rescue => e
@@ -200,6 +208,53 @@ module Happy
         Happy.logger.warn { e }
         Happy.logger.warn { e.backtrace.join("\n") }
         retry
+      end
+
+      def wait_xcoin(amount, _counter)
+        wait(amount)
+        AmountHash.new
+      end
+    end
+
+    module SimulatedExchange
+      def self.extended(mod)
+        [
+          [Happy::Currency::KRW_X, Happy::Currency::BTC_X]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:exchange_xcoin_simulated)
+        end
+        [
+          [Happy::Currency::BTC_X, Happy::Currency::BTC_B2R]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin_simulated)
+        end
+        [
+          [Happy::Currency::KRW_X, Happy::Currency::KRW_X]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin_simulated)
+        end
+      end
+
+      def exchange_xcoin_simulated(amount, counter)
+        AmountHash.new.tap do |ah|
+          ah.apply(-amount)
+          ah.apply(
+            value_shift(amount, counter) *
+            Amount.new(Amount::XCOIN_ANTI_FEE_RATIO, 'BTC_X')
+          )
+        end
+      end
+
+      def send_xcoin_simulated(amount, counter)
+        AmountHash.new.tap do |ah|
+          ah.apply(-amount)
+          ah.apply(Amount.new(amount['value'], counter))
+          ah.apply(-Amount.new(Amount::BTC_FEE, counter))
+        end
+      end
+
+      def wait_xcoin_simulated(_amount, _counter)
+        AmountHash.new
       end
     end
   end

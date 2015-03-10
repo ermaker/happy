@@ -76,6 +76,11 @@ module Happy
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp)
         end
+        [
+          [Happy::Currency::BTC_P, Happy::Currency::BTC_P]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:wait_xrp)
+        end
       end
 
       def place_order(amount, counter_amount)
@@ -123,6 +128,39 @@ module Happy
           end
         end
         result
+      end
+
+      def wait_xrp(amount, _counter)
+        wait(amount)
+        AmountHash.new
+      end
+    end
+
+    module SimulatedExchange
+      def self.extended(mod)
+        [
+          [Happy::Currency::BTC_P, Happy::Currency::XRP],
+          [Happy::Currency::XRP, Happy::Currency::KRW_P]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp_simulated)
+        end
+        [
+          [Happy::Currency::BTC_P, Happy::Currency::BTC_P]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:wait_xrp_simulated)
+        end
+      end
+
+      def exchange_xrp_simulated(amount, counter)
+        AmountHash.new.tap do |ah|
+          ah.apply(-amount)
+          ah.apply(value_shift(amount, counter))
+          ah.apply(-Amount::XRP_FEE)
+        end
+      end
+
+      def wait_xrp_simulated(_amount, _counter)
+        AmountHash.new
       end
     end
   end

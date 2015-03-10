@@ -7,6 +7,7 @@ module Happy
       attr_accessor :es_client
 
       def self.extended(mod)
+        mod.time = Time.now
         mod.es_client = Elasticsearch::Client.new url: ENV['ES_URI']
         [
           [Happy::Currency::KRW_X, Happy::Currency::BTC_X],

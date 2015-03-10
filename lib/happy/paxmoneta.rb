@@ -78,5 +78,28 @@ module Happy
         result
       end
     end
+
+    module SimulatedExchange
+      def self.extended(mod)
+        [
+          [Happy::Currency::KRW_P, Happy::Currency::KRW_R]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:send_paxmoneta_simulated)
+        end
+      end
+
+      def send_paxmoneta_simulated(amount, counter)
+        # TODO: assert counter
+        fail amount.to_s unless amount.same_currency? Currency::KRW_P
+        result = AmountHash.new.tap do |ah|
+          ah.apply(-amount)
+          ah.apply(-Amount::XRP_FEE)
+          ah.apply(
+            Amount.new(Amount::PAXMONETA_ANTI_FEE_RATIO, counter) *
+            amount)
+        end
+        result
+      end
+    end
   end
 end

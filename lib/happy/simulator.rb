@@ -1,14 +1,11 @@
 module Happy
   module Simulator
     module Balance
-      attr_accessor :simulated_balance
-
-      def self.extended(mod)
-        mod.simulated_balance = AmountHash.new
+      def self.extended(_mod)
       end
 
       def balance(*_currencies)
-        simulated_balance
+        local_balances
       end
     end
   end
