@@ -67,12 +67,23 @@ module Happy
     end
 
     module Exchange
+      attr_reader :initial_balance
       attr_accessor :local_balances
       attr_accessor :proc_exchange
 
       def self.extended(mod)
         mod.local_balances = AmountHash.new
+        mod.initial_balance = Amount.new('0', 'KRW_R')
         mod.proc_exchange = Hash.new(mod.method(:exchange_default))
+      end
+
+      def initial_balance=(amount)
+        local_balances.apply(amount)
+        @initial_balance = amount
+      end
+
+      def benefit
+        local_balances[initial_balance.currency] - initial_balance
       end
 
       def exchange_default(base, counter)

@@ -91,6 +91,11 @@ module Happy
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin)
         end
+        [
+          [Happy::Currency::KRW_R, Happy::Currency::KRW_X]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:move_xcoin)
+        end
       end
 
       Capybara.current_driver = :poltergeist
@@ -214,6 +219,13 @@ module Happy
         wait(amount)
         AmountHash.new
       end
+
+      def move_xcoin(amount, counter)
+        AmountHash.new.tap do |ah|
+          ah.apply(-amount)
+          ah.apply(Amount.new(amount['value'], counter))
+        end
+      end
     end
 
     module SimulatedExchange
@@ -232,6 +244,11 @@ module Happy
           [Happy::Currency::KRW_X, Happy::Currency::KRW_X]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin_simulated)
+        end
+        [
+          [Happy::Currency::KRW_R, Happy::Currency::KRW_X]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:move_xcoin_simulated)
         end
       end
 
@@ -255,6 +272,13 @@ module Happy
 
       def wait_xcoin_simulated(_amount, _counter)
         AmountHash.new
+      end
+
+      def move_xcoin_simulated(amount, counter)
+        AmountHash.new.tap do |ah|
+          ah.apply(-amount)
+          ah.apply(Amount.new(amount['value'], counter))
+        end
       end
     end
   end

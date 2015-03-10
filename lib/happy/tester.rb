@@ -25,9 +25,10 @@ module Happy
       # worker.extend(PaxMoneta::Exchange)
       worker.extend(PaxMoneta::SimulatedExchange)
 
-      worker.local_balances.apply(Amount.new('3500', 'KRW_X'))
+      worker.initial_balance = Amount.new('3500', 'KRW_R')
       Happy.logger.info { "local_balances: #{worker.local_balances}" }
       [
+        Currency::KRW_R,
         Currency::KRW_X,
         Currency::KRW_X,
         Currency::BTC_X,
@@ -42,6 +43,7 @@ module Happy
         Happy.logger.debug { "result: #{result}" }
         Happy.logger.info { "local_balances: #{worker.local_balances}" }
       end
+      Happy.logger.info { "benefit: #{worker.benefit}" }
     end
   end
 end
