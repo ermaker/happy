@@ -91,6 +91,7 @@ module Happy
       end
 
       def exchange(amount, counter)
+        Happy.logger.info { "Exchange from #{amount} to #{counter}" }
         proc_exchange[[amount.currency, counter]]
           .call(amount, counter).tap do |result|
           local_balances.apply_all(result)

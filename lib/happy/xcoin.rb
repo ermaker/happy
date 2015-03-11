@@ -127,31 +127,39 @@ module Happy
       Capybara.current_driver = :poltergeist
       include Capybara::DSL
 
-      def last_order_status
-        # XXX: Not Correct KRW price
+      def xcoin_order_status
+        visit 'https://www.xcoin.co.kr/u2/US202'
+        all(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr')[1..-1]
+          .reverse
+          .map { |tr| tr.all(:xpath, './/td') }
+          .map do |tr|
+            [
+              tr[0].text,
+              tr[6].text,
+              AmountHash.new.tap do |ah|
+                ah.apply(Amount.new(tr[3].text.gsub(',', ''), 'KRW_X'))
+                ah.apply(Amount.new(tr[4].text, 'BTC_X'))
+                ah.apply(-Amount.new(tr[5].text, 'BTC_X'))
+              end
+            ]
+        end
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        retry
+      end
 
-        Happy.logger.debug { 'last_order_status' }
-        loop do
-          Happy.logger.debug { 'loop' }
-          visit 'https://www.xcoin.co.kr/u2/US202'
-          Happy.logger.debug { 'Parse' }
-          stat = find(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr[last()]/td[7]').text
-          break if stat == '완료'
-          sleep 2
+      def exchange_xcoin_history
+        visit 'https://www.xcoin.co.kr/u2/US204'
+        all(:xpath, '//table[@class="g_table_list"][2]//tr')[1..-1]
+          .map { |tr| tr.all(:xpath, './/td') }
+          .map do |tr|
+            [tr[1].text, AmountHash.new.tap do |ah|
+              ah.apply(Amount.new(tr[2].text.split[0, 2].join, 'BTC_X'))
+              ah.apply(Amount.new(tr[3].text.split[0].gsub(',', ''), 'KRW_X'))
+            end]
         end
-        krw_x = find(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr[last()]/td[4]').text
-        btc_x = find(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr[last()]/td[5]').text
-        btc_x_fee = find(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr[last()]/td[6]').text
-        krw_x = Amount.new(krw_x.gsub(',', ''), 'KRW_X')
-        btc_x = Amount.new(btc_x, 'BTC_X')
-        btc_x_fee = Amount.new(btc_x_fee, 'BTC_X')
-        btc_x -= btc_x_fee
-        Happy.logger.debug { 'last_order_status finished' }
-        result = AmountHash.new.tap do |ah|
-          ah.apply(-krw_x)
-          ah.apply(btc_x)
-        end
-        return result
       rescue => e
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
@@ -186,15 +194,35 @@ module Happy
       def exchange_xcoin(amount, counter)
         # TODO: assert amount and counter
         xcoin_ensure_login
+        history = exchange_xcoin_history[0]
+        status = xcoin_order_status[0]
         exchange_xcoin_impl(amount, counter)
-        last_order_status
+        status_ah =
+          loop do
+            status_ = xcoin_order_status.take_while { |record| record != status }
+            break status_[0][2] if status_.one? && status_[0][1] == '완료'
+            Happy.logger.debug { "No correct order status: #{status_}" }
+            sleep 2
+          end
+        AmountHash.new.tap do |ah|
+          exchange_xcoin_history.take_while { |record| record != history }
+            .each { |record| ah.apply_all(record[1]) }
+          unless ah[Currency::BTC_X] == status_ah[Currency::BTC_X]
+            Happy.logger.warn { "Order Status != History: #{status_ah} #{ah}" }
+            MShard::MShard.new.set(
+              pushbullet: true,
+              channel_tag: 'morder_process',
+              type: 'note',
+              title: 'Order Status != History',
+              body: "Order Status: #{status_ah}\nHistory: #{ah}"
+            )
+          end
+        end
       end
 
-      def send_xcoin(amount, counter)
+      def send_xcoin_impl(amount, counter)
         # TODO: assert counter
         destination_address = ENV['BTC2RIPPLE_ADDRESS'] # FIXME
-
-        xcoin_ensure_login
         Happy.logger.debug { 'send_xcoin' }
         visit 'https://www.xcoin.co.kr/u3/US302'
         btc_value = amount['value'].to_s('F')
@@ -227,18 +255,36 @@ module Happy
         find(:xpath, '//p[@class="btn_org"]').click
         find(:css, '._wModal_btn_yes').click
         Happy.logger.debug { 'send_xcoin finished' }
-
-        result = AmountHash.new.tap do |ah|
-          ah.apply(-amount)
-          ah.apply(Amount.new(amount['value'], counter))
-          ah.apply(-Amount.new(Amount::BTC_FEE, counter))
-        end
-        return result
       rescue => e
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
         Happy.logger.warn { e.backtrace.join("\n") }
         retry
+      end
+
+      def send_xcoin(amount, counter)
+        xcoin_ensure_login
+        history = exchange_xcoin_history[0]
+        send_xcoin_impl(amount, counter)
+        history_ah = AmountHash.new.tap do |ah|
+          exchange_xcoin_history.take_while { |record| record != history }
+            .each { |record| ah.apply_all(record[1]) }
+        end
+        AmountHash.new.tap do |ah|
+          ah.apply(-amount)
+          ah.apply(Amount.new(amount['value'], counter))
+          ah.apply(-Amount.new(Amount::BTC_FEE, counter))
+          unless ah[Currency::BTC_X] == history_ah[Currency::BTC_X]
+            Happy.logger.warn { "Expected Status != History: #{ah} #{history_ah}" }
+            MShard::MShard.new.set(
+              pushbullet: true,
+              channel_tag: 'morder_process',
+              type: 'note',
+              title: 'Expected Status != History',
+              body: "Expected Status: #{ah}\nHistory: #{history_ah}"
+            )
+          end
+        end
       end
 
       def wait_xcoin(amount, _counter)
