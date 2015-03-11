@@ -11,6 +11,9 @@ module Happy
         mod.xcoin_password2 = ENV['XCOIN_PASSWORD2']
       end
 
+      Capybara.current_driver = :poltergeist
+      include Capybara::DSL
+
       def xcoin_not_found(*args)
         find(*args)
         return false
@@ -38,6 +41,29 @@ module Happy
         Happy.logger.warn { e }
         Happy.logger.warn { e.backtrace.join("\n") }
         retry
+      end
+    end
+
+    module Balance
+      def self.extended(mod)
+        [
+          Happy::Currency::KRW_X,
+          Happy::Currency::BTC_X
+        ].each do |currency|
+          mod.proc_balance[currency] = mod.method(:balance_xcoin)
+        end
+      end
+
+      Capybara.current_driver = :poltergeist
+      include Capybara::DSL
+
+      def balance_xcoin
+        xcoin_ensure_login
+        data = all(:xpath, '//div[@id="snb"]/ul/li').map(&:text)
+        AmountHash.new.tap do |ah|
+          ah.apply(Amount.new(data[1], 'BTC_X'))
+          ah.apply(Amount.new(data[2].gsub(',', ''), 'KRW_X'))
+        end
       end
     end
 
