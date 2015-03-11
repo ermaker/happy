@@ -22,6 +22,7 @@ module Happy
   autoload :Simulator, 'happy/simulator'
   autoload :Logged, 'happy/logged'
   autoload :Collector, 'happy/collector'
+  autoload :Runner, 'happy/runner'
 
   module Util
     autoload :Query, 'happy/util/query'

@@ -13,5 +13,10 @@ module Happy
     def test
       Tester.new.test
     end
+
+    desc 'order', 'Order'
+    def order
+      Runner.new.main
+    end
   end
 end

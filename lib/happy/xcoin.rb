@@ -220,8 +220,8 @@ module Happy
         end
       end
 
-      def send_xcoin_impl(amount, counter)
-        # TODO: assert counter
+      def send_xcoin_impl(amount, _counter)
+        # TODO: assert _counter
         destination_address = ENV['BTC2RIPPLE_ADDRESS'] # FIXME
         Happy.logger.debug { 'send_xcoin' }
         visit 'https://www.xcoin.co.kr/u3/US302'
@@ -242,7 +242,6 @@ module Happy
           begin
             Happy.logger.debug { 'xcoin_sms_validation_code get' }
             result = MShard::MShard.new.get('xcoin_sms_validation_code')
-            Happy.logger.debug { "xcoin_sms_validation_code get: #{result.inspect}" }
             break result unless result.empty?
           rescue => e
             Happy.logger.warn { e.class }
@@ -250,7 +249,7 @@ module Happy
             Happy.logger.warn { e.backtrace.join("\n") }
           end
         end
-        Happy.logger.debug { 'xcoin_sms_validation_code loop end' }
+        Happy.logger.debug { "sms: #{sms}" }
         fill_in 'smsKeyTmp', with: sms
         find(:xpath, '//p[@class="btn_org"]').click
         find(:css, '._wModal_btn_yes').click
