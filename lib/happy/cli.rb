@@ -9,6 +9,11 @@ module Happy
       Collector.new.log_market
     end
 
+    desc 'log_balances', 'Log Balances'
+    def log_balances
+      Collector.new.log_balances
+    end
+
     desc 'test', 'Test'
     def test
       Tester.new.test
