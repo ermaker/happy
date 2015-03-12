@@ -263,14 +263,18 @@ module Happy
 
       def send_xcoin(amount, counter)
         xcoin_ensure_login
-        history = exchange_xcoin_history[0]
-        history_ = loop do
-          send_xcoin_impl(amount, counter)
-          history_ = exchange_xcoin_history
-            .take_while { |record| record != history }
-          break history_ unless history_.empty?
-          Happy.logger.warn { 'No record found on send xcoin' }
-          sleep 2
+        history_ = catch(:history) do
+          history = exchange_xcoin_history[0]
+          loop do
+            send_xcoin_impl(amount, counter)
+            (3 * 60 / 2).times do
+              history_ = exchange_xcoin_history
+                .take_while { |record| record != history }
+              catch(:history, history_) unless history_.empty?
+              Happy.logger.warn { 'No record found on send xcoin' }
+              sleep 2
+            end
+          end
         end
         history_ah = AmountHash.new.tap do |ah|
           history_.each { |record| ah.apply_all(record[1]) }
