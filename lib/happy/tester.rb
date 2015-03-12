@@ -27,7 +27,7 @@ module Happy
 
       worker.initial_balance = Amount.new('200000', 'KRW_R')
       worker.local_balances = AmountHash.new
-      #worker.local_balances.apply(Amount.new('0.60545455', 'BTC_X'))
+      # worker.local_balances.apply(Amount.new('0.60545455', 'BTC_X'))
       worker.local_balances.apply(Amount.new('0.573971566413374', 'BTC_P'))
       worker.local_balances.apply(-Amount::XRP_FEE)
       worker.local_balances.apply(-Amount::XRP_FEE)

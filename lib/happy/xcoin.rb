@@ -264,10 +264,16 @@ module Happy
       def send_xcoin(amount, counter)
         xcoin_ensure_login
         history = exchange_xcoin_history[0]
-        send_xcoin_impl(amount, counter)
+        history_ = loop do
+          send_xcoin_impl(amount, counter)
+          history_ = exchange_xcoin_history
+            .take_while { |record| record != history }
+          break history_ unless history_.empty?
+          Happy.logger.warn { 'No record found on send xcoin' }
+          sleep 2
+        end
         history_ah = AmountHash.new.tap do |ah|
-          exchange_xcoin_history.take_while { |record| record != history }
-            .each { |record| ah.apply_all(record[1]) }
+          history_.each { |record| ah.apply_all(record[1]) }
         end
         AmountHash.new.tap do |ah|
           ah.apply(-amount)
