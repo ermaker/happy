@@ -1,7 +1,6 @@
 module Happy
   class Runner
     def main
-      Happy.logger.debug { 'Check' }
       krw_r_value = MShard::MShard.new.get('order_btc_xrp_krw_beta')
       return if krw_r_value.empty?
       MShard::MShard.new.set(
