@@ -7,6 +7,7 @@ end
 class Hash
   AMOUNT_KEYS = %w(value currency counterparty)
   CURRENCY_KEYS = %w(currency counterparty)
+
   def to_objectify
     case
     when AMOUNT_KEYS.all? { |key| keys.include?(key) }

@@ -16,6 +16,8 @@ module Happy
       if hash.key?('value')
         hash['value'] = BigDecimal.new(
           case
+          when hash['value'].is_a?(Amount)
+            hash['value']['value']
           when hash['value'].is_a?(Hash) && hash['value'].key?('raw')
             hash['value']['raw']
           else
@@ -38,29 +40,39 @@ module Happy
       "#{value.to_s('F')}#{self['currency']}"
     end
 
+    def coerce(rhs)
+      [with(rhs), self]
+    end
+
     def +(rhs)
+      rhs = with(rhs) unless rhs.is_a?(self.class)
       fail unless same_currency?(rhs)
       merge('value' => self['value'] + rhs['value'])
     end
 
     def -(rhs)
-      fail unless same_currency?(rhs)
-      merge('value' => self['value'] - rhs['value'])
+      rhs = with(rhs) unless rhs.is_a?(self.class)
+      self + (-with(rhs))
     end
 
     def *(rhs)
-      merge('value' => self['value'] * rhs['value'])
+      merge('value' => self['value'] * with(rhs)['value'])
     end
 
     def /(rhs)
-      merge('value' => self['value'] / rhs['value'])
+      self * (with(rhs).invert)
     end
 
     def -@
       merge('value' => -self['value'])
     end
 
+    def invert
+      merge('value' => 1 / self['value'])
+    end
+
     def <=>(rhs)
+      fail unless same_currency?(rhs)
       self['value'] <=> rhs['value']
     end
 

@@ -8,15 +8,28 @@ module Happy
       end
     end
 
-    def apply(amount)
-      currency = amount.currency
-      self[currency] += amount
-      delete(currency) if self[currency]['value'] == BigDecimal.new('0')
+    def map_amount obj
+      case obj
+      when Amount
+        [obj]
+      when Enumerable
+        obj.flat_map { |item| map_amount(item) }
+      else
+        []
+      end
     end
 
-    def apply_all(amount_hash)
-      amount_hash.values.each { |amount| apply(amount) }
+    BIG_ZERO = BigDecimal.new('0')
+
+    def apply(*amount_list)
+      map_amount(amount_list.to_objectify).each do |amount|
+        self[amount.currency] += amount
+      end
+      reject! { |_,amount| amount['value'] == BIG_ZERO }
+      self
     end
+
+    alias_method :apply_all, :apply
 
     def to_s
       values.map(&:to_s).to_s

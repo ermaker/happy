@@ -58,11 +58,15 @@ module Happy
     end
 
     def same_currency?(rhs)
-      %w(currency counterparty).all? { |k| self[k] == rhs[k] }
+      currency == rhs.currency
     end
 
     def currency
       Currency[%w(currency counterparty).map { |k| [k, self[k]] }]
+    end
+
+    def with value
+      Happy::Amount.new(value, currency)
     end
   end
 end
