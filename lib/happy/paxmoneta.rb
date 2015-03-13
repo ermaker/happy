@@ -11,7 +11,7 @@ module Happy
     module Exchange
       def self.extended(mod)
         [
-          [Happy::Currency::KRW_P, Happy::Currency::KRW_R]
+          [Currency::KRW_P, Currency::KRW_R]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:send_paxmoneta)
         end
@@ -56,13 +56,15 @@ module Happy
         payment = exchange_paxmoneta_prepare_payment(amount)['payments'][0]
         payment['destination_tag'] = paxmoneta_tag
         response = exchange_paxmoneta_submit_payment(payment)
-        result = AmountHash.new.tap do |ah|
+
+        ah = AmountHash.new
+
+        balances =
           response['payment']['source_balance_changes']
             .map { |amount| amount.merge('counterparty' => amount['issuer']) }
-            .to_objectify.each do |amount|
-            ah.apply(amount)
-          end
+        ah.apply(balances)
 
+        balances =
           response['payment']['destination_balance_changes']
             .map { |amount| amount.merge('counterparty' => amount['issuer']) }
             .map do |amount|
@@ -70,19 +72,17 @@ module Happy
               amount['counterparty'] = counter['counterparty']
             end
             amount
-          end.to_objectify.each do |amount|
-            ah.apply(amount *
-              Amount.new(PAXMONETA_ANTI_FEE_RATIO, 'KRW_R'))
-          end
+          end.to_objectify.map do |amount|
+          amount * PAXMONETA_ANTI_FEE_RATIO
         end
-        result
+        ah.apply(balances)
       end
     end
 
     module SimulatedExchange
       def self.extended(mod)
         [
-          [Happy::Currency::KRW_P, Happy::Currency::KRW_R]
+          [Currency::KRW_P, Currency::KRW_R]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:send_paxmoneta_simulated)
         end
@@ -91,14 +91,11 @@ module Happy
       def send_paxmoneta_simulated(amount, counter)
         # TODO: assert counter
         fail amount.to_s unless amount.same_currency? Currency::KRW_P
-        result = AmountHash.new.tap do |ah|
-          ah.apply(-amount)
-          ah.apply(-Amount::XRP_FEE)
-          ah.apply(
-            Amount.new(Amount::PAXMONETA_ANTI_FEE_RATIO, counter) *
-            amount)
-        end
-        result
+        AmountHash.new.apply(
+          -amount,
+          -Amount::XRP_FEE,
+          counter.with(amount) * Amount::PAXMONETA_ANTI_FEE_RATIO
+        )
       end
     end
   end

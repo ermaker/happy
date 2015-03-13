@@ -53,5 +53,6 @@ RSpec.describe Happy::Amount do
   it 'works' do
     expect(described_class['value' => '1']['value']).to eq(BigDecimal.new('1'))
     expect(described_class['value' => 1]['value']).to eq(BigDecimal.new('1'))
+    expect(described_class['value' => BigDecimal.new('1')]['value']).to eq(BigDecimal.new('1'))
   end
 end

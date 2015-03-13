@@ -47,8 +47,8 @@ module Happy
     module Balance
       def self.extended(mod)
         [
-          Happy::Currency::KRW_X,
-          Happy::Currency::BTC_X
+          Currency::KRW_X,
+          Currency::BTC_X
         ].each do |currency|
           mod.proc_balance[currency] = mod.method(:balance_xcoin)
         end
@@ -60,17 +60,17 @@ module Happy
       def balance_xcoin
         xcoin_ensure_login
         data = all(:xpath, '//div[@id="snb"]/ul/li').map(&:text)
-        AmountHash.new.tap do |ah|
-          ah.apply(Amount.new(data[1], 'BTC_X'))
-          ah.apply(Amount.new(data[2].gsub(',', ''), 'KRW_X'))
-        end
+        AmountHash.new.apply(
+          Amount.new(data[1], 'BTC_X'),
+          Amount.new(data[2].gsub(',', ''), 'KRW_X')
+        )
       end
     end
 
     module Market
       def self.extended(mod)
         [
-          [Happy::Currency::KRW_X, Happy::Currency::BTC_X]
+          [Currency::KRW_X, Currency::BTC_X]
         ].each do |base,counter|
           mod.proc_market[[base, counter]] = mod.method(:market_xcoin)
         end
@@ -103,22 +103,22 @@ module Happy
     module Exchange
       def self.extended(mod)
         [
-          [Happy::Currency::KRW_X, Happy::Currency::BTC_X]
+          [Currency::KRW_X, Currency::BTC_X]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xcoin)
         end
         [
-          [Happy::Currency::BTC_X, Happy::Currency::BTC_B2R]
+          [Currency::BTC_X, Currency::BTC_B2R]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin)
         end
         [
-          [Happy::Currency::KRW_X, Happy::Currency::KRW_X]
+          [Currency::KRW_X, Currency::KRW_X]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin)
         end
         [
-          [Happy::Currency::KRW_R, Happy::Currency::KRW_X]
+          [Currency::KRW_R, Currency::KRW_X]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:move_xcoin)
         end
@@ -136,11 +136,11 @@ module Happy
             [
               tr[0].text,
               tr[6].text,
-              AmountHash.new.tap do |ah|
-                ah.apply(Amount.new(tr[3].text.gsub(',', ''), 'KRW_X'))
-                ah.apply(Amount.new(tr[4].text, 'BTC_X'))
-                ah.apply(-Amount.new(tr[5].text, 'BTC_X'))
-              end
+              AmountHash.new.apply(
+                Amount.new(tr[3].text.gsub(',', ''), 'KRW_X'),
+                Amount.new(tr[4].text, 'BTC_X'),
+                -Amount.new(tr[5].text, 'BTC_X')
+              )
             ]
         end
       rescue => e
@@ -155,10 +155,10 @@ module Happy
         all(:xpath, '//table[@class="g_table_list"][2]//tr')[1..-1]
           .map { |tr| tr.all(:xpath, './/td') }
           .map do |tr|
-            [tr[1].text, AmountHash.new.tap do |ah|
-              ah.apply(Amount.new(tr[2].text.split[0, 2].join, 'BTC_X'))
-              ah.apply(Amount.new(tr[3].text.split[0].gsub(',', ''), 'KRW_X'))
-            end]
+            [tr[1].text, AmountHash.new.apply(
+              Amount.new(tr[2].text.split[0, 2].join, 'BTC_X'),
+              Amount.new(tr[3].text.split[0].gsub(',', ''), 'KRW_X')
+            )]
         end
       rescue => e
         Happy.logger.warn { e.class }
@@ -177,8 +177,6 @@ module Happy
         fill_in 'traPwNo', with: xcoin_password2
         check 'gen'
         fill_in 'btcQty', with: btc_x['value'].to_s('F')
-        # check 'auto_price'
-        # Set price high
         high_btc = find(:xpath, '//tr[@class="sell"][1]/td[2]').text
         fill_in 'btcAmtComma', with: high_btc
         find(:xpath, '//p[@class="btn_org"]').click
@@ -205,8 +203,8 @@ module Happy
             sleep 2
           end
         AmountHash.new.tap do |ah|
-          exchange_xcoin_history.take_while { |record| record != history }
-            .each { |record| ah.apply_all(record[1]) }
+          balances = exchange_xcoin_history.take_while { |record| record != history }
+          ah.apply(balances)
           unless ah[Currency::BTC_X] == status_ah[Currency::BTC_X]
             Happy.logger.warn { "Order Status != History: #{status_ah} #{ah}" }
             MShard::MShard.new.set(
@@ -276,13 +274,13 @@ module Happy
             end
           end
         end
-        history_ah = AmountHash.new.tap do |ah|
-          history_.each { |record| ah.apply_all(record[1]) }
-        end
+        history_ah = AmountHash.new.apply(history_)
         AmountHash.new.tap do |ah|
-          ah.apply(-amount)
-          ah.apply(Amount.new(amount['value'], counter))
-          ah.apply(-Amount.new(Amount::BTC_FEE, counter))
+          ah.apply(
+            -amount,
+            counter.with(amount),
+            -coutner.with(Amount::BTC_FEE)
+          )
           unless ah[Currency::BTC_X] == history_ah[Currency::BTC_X]
             Happy.logger.warn { "Expected Status != History: #{ah} #{history_ah}" }
             MShard::MShard.new.set(
@@ -302,53 +300,51 @@ module Happy
       end
 
       def move_xcoin(amount, counter)
-        AmountHash.new.tap do |ah|
-          ah.apply(-amount)
-          ah.apply(Amount.new(amount['value'], counter))
-        end
+        AmountHash.new.apply(
+          -amount,
+          counter.with(amount)
+        )
       end
     end
 
     module SimulatedExchange
       def self.extended(mod)
         [
-          [Happy::Currency::KRW_X, Happy::Currency::BTC_X]
+          [Currency::KRW_X, Currency::BTC_X]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xcoin_simulated)
         end
         [
-          [Happy::Currency::BTC_X, Happy::Currency::BTC_B2R]
+          [Currency::BTC_X, Currency::BTC_B2R]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin_simulated)
         end
         [
-          [Happy::Currency::KRW_X, Happy::Currency::KRW_X]
+          [Currency::KRW_X, Currency::KRW_X]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin_simulated)
         end
         [
-          [Happy::Currency::KRW_R, Happy::Currency::KRW_X]
+          [Currency::KRW_R, Currency::KRW_X]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:move_xcoin_simulated)
         end
       end
 
       def exchange_xcoin_simulated(amount, counter)
-        AmountHash.new.tap do |ah|
-          ah.apply(-amount)
-          ah.apply(
-            value_shift(amount, counter) *
-            Amount.new(Amount::XCOIN_ANTI_FEE_RATIO, 'BTC_X')
-          )
-        end
+        AmountHash.new.apply(
+          -amount,
+          value_shift(amount, counter) *
+            Amount::XCOIN_ANTI_FEE_RATIO
+        )
       end
 
       def send_xcoin_simulated(amount, counter)
-        AmountHash.new.tap do |ah|
-          ah.apply(-amount)
-          ah.apply(Amount.new(amount['value'], counter))
-          ah.apply(-Amount.new(Amount::BTC_FEE, counter))
-        end
+        AmountHash.new.apply(
+          -amount,
+          counter.with(amount),
+          -coutner.with(Amount::BTC_FEE)
+        )
       end
 
       def wait_xcoin_simulated(_amount, _counter)
@@ -356,10 +352,10 @@ module Happy
       end
 
       def move_xcoin_simulated(amount, counter)
-        AmountHash.new.tap do |ah|
-          ah.apply(-amount)
-          ah.apply(Amount.new(amount['value'], counter))
-        end
+        AmountHash.new.apply(
+          -amount,
+          counter.with(amount)
+        )
       end
     end
   end

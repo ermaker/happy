@@ -12,10 +12,11 @@ module Happy
       end
 
       def balance(*currencies)
-        proc_balance.select do |currency,_|
-          currencies.include?(currency)
-        end.values.uniq.map(&:call)
-          .reduce(AmountHash.new, :merge)
+        balances =
+          proc_balance.select do |currency,_|
+            currencies.include?(currency)
+          end.values.uniq.map(&:call)
+        AmountHash.new.apply(balances)
       end
 
       def wait(amount)
@@ -48,7 +49,7 @@ module Happy
       def value_shift(amount, counter)
         asks = market(amount.currency, counter)
         rest_amount = amount
-        price = Amount.new('0', counter)
+        price = counter.with('0')
         ask_idx = -1
         loop do
           ask = asks[ask_idx += 1]
@@ -94,7 +95,7 @@ module Happy
         Happy.logger.info { "Exchange from #{amount} to #{counter}" }
         proc_exchange[[amount.currency, counter]]
           .call(amount, counter).tap do |result|
-          local_balances.apply_all(result)
+          local_balances.apply(result)
         end
       end
     end

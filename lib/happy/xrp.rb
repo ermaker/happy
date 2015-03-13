@@ -14,9 +14,9 @@ module Happy
     module Balance
       def self.extended(mod)
         [
-          Happy::Currency::BTC_P,
-          Happy::Currency::XRP,
-          Happy::Currency::KRW_P
+          Currency::BTC_P,
+          Currency::XRP,
+          Currency::KRW_P
         ].each do |currency|
           mod.proc_balance[currency] = mod.method(:balance_xrp)
         end
@@ -30,20 +30,15 @@ module Happy
       end
 
       def balance_xrp
-        AmountHash.new.tap do |ah|
-          balance_xrp_impl['balances'].to_objectify
-            .each do |amount|
-            ah.apply(amount)
-          end
-        end
+        AmountHash.new.apply(balance_xrp_impl['balances'])
       end
     end
 
     module Market
       def self.extended(mod)
         [
-          [Happy::Currency::BTC_P, Happy::Currency::XRP],
-          [Happy::Currency::XRP, Happy::Currency::KRW_P]
+          [Currency::BTC_P, Currency::XRP],
+          [Currency::XRP, Currency::KRW_P]
         ].each do |base,counter|
           mod.proc_market[[base, counter]] = mod.method(:market_xrp)
         end
@@ -71,13 +66,13 @@ module Happy
     module Exchange
       def self.extended(mod)
         [
-          [Happy::Currency::BTC_P, Happy::Currency::XRP],
-          [Happy::Currency::XRP, Happy::Currency::KRW_P]
+          [Currency::BTC_P, Currency::XRP],
+          [Currency::XRP, Currency::KRW_P]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp)
         end
         [
-          [Happy::Currency::BTC_P, Happy::Currency::BTC_P]
+          [Currency::BTC_P, Currency::BTC_P]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xrp)
         end
@@ -121,13 +116,9 @@ module Happy
       def exchange_xrp(amount, counter)
         counter_amount = PRICE[[amount.currency, counter]] * amount
         hash = place_order(amount, counter_amount)['hash']
-        result = AmountHash.new.tap do |ah|
+        AmountHash.new.apply(
           order_transaction(hash)['balance_changes']
-            .to_objectify.each do |amount|
-            ah.apply(amount)
-          end
-        end
-        result
+        )
       end
 
       def wait_xrp(amount, _counter)
@@ -139,24 +130,24 @@ module Happy
     module SimulatedExchange
       def self.extended(mod)
         [
-          [Happy::Currency::BTC_P, Happy::Currency::XRP],
-          [Happy::Currency::XRP, Happy::Currency::KRW_P]
+          [Currency::BTC_P, Currency::XRP],
+          [Currency::XRP, Currency::KRW_P]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp_simulated)
         end
         [
-          [Happy::Currency::BTC_P, Happy::Currency::BTC_P]
+          [Currency::BTC_P, Currency::BTC_P]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xrp_simulated)
         end
       end
 
       def exchange_xrp_simulated(amount, counter)
-        AmountHash.new.tap do |ah|
-          ah.apply(-amount)
-          ah.apply(value_shift(amount, counter))
-          ah.apply(-Amount::XRP_FEE)
-        end
+        AmountHash.new.apply(
+          -amount,
+          value_shift(amount, counter),
+          -Amount::XRP_FEE
+        )
       end
 
       def wait_xrp_simulated(_amount, _counter)

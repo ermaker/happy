@@ -61,7 +61,7 @@ module Happy
         Happy.logger.info { "local_balances: #{worker.local_balances}" }
       end
       Happy.logger.info { "benefit: #{worker.benefit}" }
-      percent = ((worker.benefit/worker.initial_balance)['value'] * 100)
+      percent = (worker.benefit/worker.initial_balance * 100)['value']
         .round(2).to_s('F')
       percent = "#{percent}%"
       MShard::MShard.new.set(

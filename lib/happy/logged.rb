@@ -10,9 +10,9 @@ module Happy
         mod.time = Time.now
         mod.es_client = Elasticsearch::Client.new url: ENV['ES_URI']
         [
-          [Happy::Currency::KRW_X, Happy::Currency::BTC_X],
-          [Happy::Currency::BTC_P, Happy::Currency::XRP],
-          [Happy::Currency::XRP, Happy::Currency::KRW_P]
+          [Currency::KRW_X, Currency::BTC_X],
+          [Currency::BTC_P, Currency::XRP],
+          [Currency::XRP, Currency::KRW_P]
         ].each do |base,counter|
           mod.proc_market[[base, counter]] = mod.method(:market_logged)
         end
@@ -39,7 +39,6 @@ module Happy
       end
 
       def market_logged_range
-        # { gt: market_logged_lower, lte: market_logged_upper }.to_jsonify
         { lte: market_logged_upper }.to_jsonify
           .tap { |range| Happy.logger.debug { "Time range: #{range}" } }
       end
