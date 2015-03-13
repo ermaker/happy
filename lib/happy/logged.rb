@@ -12,6 +12,7 @@ module Happy
         [
           [Currency::KRW_X, Currency::BTC_X],
           [Currency::BTC_P, Currency::XRP],
+          [Currency::BTC_BSR, Currency::XRP],
           [Currency::XRP, Currency::KRW_P]
         ].each do |base,counter|
           mod.proc_market[[base, counter]] = mod.method(:market_logged)

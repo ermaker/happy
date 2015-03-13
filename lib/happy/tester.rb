@@ -32,17 +32,17 @@ module Happy
       worker.local_balances.apply(-Amount::XRP_FEE)
       Happy.logger.info { "local_balances: #{worker.local_balances}" }
       [
-        Currency::KRW_R,
-        Currency::KRW_X,
-        Currency::KRW_X,
-        Currency::BTC_X,
-        Currency::BTC_BS,
+        # Currency::KRW_R,
+        # Currency::KRW_X,
+        # Currency::KRW_X,
+        # Currency::BTC_X,
+        # Currency::BTC_BS,
         # Currency::BTC_BS,
         # Currency::BTC_BSR,
-        # Currency::BTC_BSR,
-        # Currency::XRP,
-        # Currency::KRW_P,
-        # Currency::KRW_R
+        Currency::BTC_BSR,
+        Currency::XRP,
+        Currency::KRW_P,
+        Currency::KRW_R
       ].each_cons(2) do |base,counter|
         result = worker.exchange(worker.local_balances[base], counter)
         Happy.logger.debug { "result: #{result}" }

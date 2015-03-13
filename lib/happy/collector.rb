@@ -27,6 +27,7 @@ module Happy
       [
         [Currency::KRW_X, Currency::BTC_X],
         [Currency::BTC_P, Currency::XRP],
+        [Currency::BTC_BSR, Currency::XRP],
         [Currency::XRP, Currency::KRW_P]
       ].each { |base,counter| log_market_impl(base, counter) }
     end
@@ -46,6 +47,7 @@ module Happy
         Currency::KRW_X,
         Currency::BTC_X,
         Currency::BTC_P,
+        Currency::BTC_BSR,
         Currency::XRP,
         Currency::KRW_P
       )

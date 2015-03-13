@@ -15,6 +15,7 @@ module Happy
       def self.extended(mod)
         [
           Currency::BTC_P,
+          Currency::BTC_BSR,
           Currency::XRP,
           Currency::KRW_P
         ].each do |currency|
@@ -38,6 +39,7 @@ module Happy
       def self.extended(mod)
         [
           [Currency::BTC_P, Currency::XRP],
+          [Currency::BTC_BSR, Currency::XRP],
           [Currency::XRP, Currency::KRW_P]
         ].each do |base,counter|
           mod.proc_market[[base, counter]] = mod.method(:market_xrp)
@@ -67,12 +69,14 @@ module Happy
       def self.extended(mod)
         [
           [Currency::BTC_P, Currency::XRP],
+          [Currency::BTC_BSR, Currency::XRP],
           [Currency::XRP, Currency::KRW_P]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp)
         end
         [
-          [Currency::BTC_P, Currency::BTC_P]
+          [Currency::BTC_P, Currency::BTC_P],
+          [Currency::BTC_BSR, Currency::BTC_BSR]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xrp)
         end
@@ -131,21 +135,31 @@ module Happy
       def self.extended(mod)
         [
           [Currency::BTC_P, Currency::XRP],
+          [Currency::BTC_BSR, Currency::XRP],
           [Currency::XRP, Currency::KRW_P]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp_simulated)
         end
         [
-          [Currency::BTC_P, Currency::BTC_P]
+          [Currency::BTC_P, Currency::BTC_P],
+          [Currency::BTC_BSR, Currency::BTC_BSR]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xrp_simulated)
         end
       end
 
       def exchange_xrp_simulated(amount, counter)
+        # FIXME
+        anti_fee_ratio =
+          if amount.same_currency? Currency::BTC_BSR
+            Amount::BITSTAMP_RIPPLE_ANTI_FEE_RATIO
+          else
+            '1'
+          end
+
         AmountHash.new.apply(
           -amount,
-          value_shift(amount, counter),
+          value_shift(amount, counter) * anti_fee_ratio,
           -Amount::XRP_FEE
         )
       end
