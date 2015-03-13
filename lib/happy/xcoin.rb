@@ -108,7 +108,8 @@ module Happy
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xcoin)
         end
         [
-          [Currency::BTC_X, Currency::BTC_B2R]
+          [Currency::BTC_X, Currency::BTC_B2R],
+          [Currency::BTC_X, Currency::BTC_BS]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin)
         end
@@ -218,10 +219,15 @@ module Happy
         end
       end
 
-      def send_xcoin_impl(amount, _counter)
-        # TODO: assert _counter
-        destination_address = ENV['BTC2RIPPLE_ADDRESS'] # FIXME
+      DESTINATION_ADDRESS = {
+        Currency::BTC_B2R => ENV['BTC2RIPPLE_ADDRESS'],
+        Currency::BTC_BS => ENV['BITSTAMP_ADDRESS']
+      }
+
+      def send_xcoin_impl(amount, counter)
         Happy.logger.debug { 'send_xcoin' }
+        destination_address =  DESTINATION_ADDRESS[counter.currency]
+        fail counter.to_s if destination_address.nil?
         visit 'https://www.xcoin.co.kr/u3/US302'
         btc_value = amount['value'].to_s('F')
         Happy.logger.debug { "btc_value: #{btc_value}" }
@@ -279,7 +285,7 @@ module Happy
           ah.apply(
             -amount,
             counter.with(amount),
-            -coutner.with(Amount::BTC_FEE)
+            -counter.with(Amount::BTC_FEE)
           )
           unless ah[Currency::BTC_X] == history_ah[Currency::BTC_X]
             Happy.logger.warn { "Expected Status != History: #{ah} #{history_ah}" }
@@ -315,7 +321,8 @@ module Happy
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xcoin_simulated)
         end
         [
-          [Currency::BTC_X, Currency::BTC_B2R]
+          [Currency::BTC_X, Currency::BTC_B2R],
+          [Currency::BTC_X, Currency::BTC_BS]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin_simulated)
         end
@@ -343,7 +350,7 @@ module Happy
         AmountHash.new.apply(
           -amount,
           counter.with(amount),
-          -coutner.with(Amount::BTC_FEE)
+          -counter.with(Amount::BTC_FEE)
         )
       end
 
