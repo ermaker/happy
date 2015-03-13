@@ -20,6 +20,8 @@ module Happy
             hash['value']['value']
           when hash['value'].is_a?(Hash) && hash['value'].key?('raw')
             hash['value']['raw']
+          when hash['value'].is_a?(String)
+            hash['value'].gsub(',', '')
           else
             hash['value']
           end

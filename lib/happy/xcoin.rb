@@ -61,8 +61,8 @@ module Happy
         xcoin_ensure_login
         data = all(:xpath, '//div[@id="snb"]/ul/li').map(&:text)
         AmountHash.new.apply(
-          Amount.new(data[1], 'BTC_X'),
-          Amount.new(data[2].gsub(',', ''), 'KRW_X')
+          data[1].currency('BTC_X'),
+          data[2].currency('KRW_X')
         )
       end
     end
@@ -85,8 +85,8 @@ module Happy
         Nokogiri.HTML(page.body).xpath("//tr[@class='sell']")
           .map do |tr|
           [
-            Amount.new(tr.xpath('./td[2]').text.gsub(',', ''), 'KRW_X'),
-            Amount.new(tr.xpath('./td[3]').text, 'BTC_X')
+            tr.xpath('./td[2]').text.currency('KRW_X'),
+            tr.xpath('./td[3]').text.currency('BTC_X')
           ]
         end.reverse.map do |price,amount|
           {
@@ -137,9 +137,9 @@ module Happy
               tr[0].text,
               tr[6].text,
               AmountHash.new.apply(
-                Amount.new(tr[3].text.gsub(',', ''), 'KRW_X'),
-                Amount.new(tr[4].text, 'BTC_X'),
-                -Amount.new(tr[5].text, 'BTC_X')
+                tr[3].text.currency('KRW_X'),
+                tr[4].text.currency('BTC_X'),
+                -tr[5].text.currency('BTC_X')
               )
             ]
         end
@@ -156,8 +156,8 @@ module Happy
           .map { |tr| tr.all(:xpath, './/td') }
           .map do |tr|
             [tr[1].text, AmountHash.new.apply(
-              Amount.new(tr[2].text.split[0, 2].join, 'BTC_X'),
-              Amount.new(tr[3].text.split[0].gsub(',', ''), 'KRW_X')
+              tr[2].text.split[0, 2].join.currency('BTC_X'),
+              tr[3].text.split[0].currency('KRW_X')
             )]
         end
       rescue => e
