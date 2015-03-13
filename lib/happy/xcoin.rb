@@ -274,7 +274,7 @@ module Happy
             (3 * 60 / 2).times do
               history_ = exchange_xcoin_history
                 .take_while { |record| record != history }
-              catch(:history, history_) unless history_.empty?
+              throw(:history, history_) unless history_.empty?
               Happy.logger.warn { 'No record found on send xcoin' }
               sleep 2
             end

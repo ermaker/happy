@@ -50,7 +50,7 @@ module Happy
         Currency::KRW_P
       )
       Happy.logstash.with(type: 'balances')
-        .at_once.stash_all(balances)
+        .at_once.stash_all(balances.values)
     end
   end
 end
