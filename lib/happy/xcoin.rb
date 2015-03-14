@@ -1,4 +1,5 @@
 require 'phantomjs/poltergeist'
+require 'time'
 
 module Happy
   module XCoin
@@ -156,10 +157,14 @@ module Happy
         all(:xpath, '//table[@class="g_table_list"][2]//tr')[1..-1]
           .map { |tr| tr.all(:xpath, './/td') }
           .map do |tr|
-            [tr[1].text, AmountHash.new.apply(
-              tr[2].text.split[0, 2].join.currency('BTC_X'),
-              tr[3].text.split[0].currency('KRW_X')
-            )]
+            [
+              Time.parse(tr[1].text),
+              tr[0].text,
+              AmountHash.new.apply(
+                tr[2].text.split[0, 2].join.currency('BTC_X'),
+                tr[3].text.split[0].currency('KRW_X')
+              )
+            ]
         end
       rescue => e
         Happy.logger.warn { e.class }
@@ -193,7 +198,7 @@ module Happy
       def exchange_xcoin(amount, counter)
         # TODO: assert amount and counter
         xcoin_ensure_login
-        history = exchange_xcoin_history[0]
+        history_pivot_time = exchange_xcoin_history[0][0]
         status = xcoin_order_status[0]
         exchange_xcoin_impl(amount, counter)
         status_ah =
@@ -204,7 +209,11 @@ module Happy
             sleep 2
           end
         AmountHash.new.tap do |ah|
-          balances = exchange_xcoin_history.take_while { |record| record != history }
+          balances = exchange_xcoin_history.take_while do |record|
+            record[0] > history_pivot_time
+          end.select do |record|
+            record[1] == '구매완료'
+          end
           ah.apply(balances)
           unless ah[Currency::BTC_X] == status_ah[Currency::BTC_X]
             Happy.logger.warn { "Order Status != History: #{status_ah} #{ah}" }
@@ -279,14 +288,18 @@ module Happy
       def send_xcoin(amount, counter)
         xcoin_ensure_login
         history_ = catch(:history) do
-          history = exchange_xcoin_history[0]
+          history_pivot_time = exchange_xcoin_history[0][0]
           loop do
             send_xcoin_impl(amount, counter)
             (3 * 60 / 2).times do
               history_ = exchange_xcoin_history
-                .take_while { |record| record != history }
+                .take_while do |record|
+                  record[0] > history_pivot_time
+              end.select do |record|
+                record[1] == 'BTC출금중'
+              end
               throw(:history, history_) unless history_.empty?
-              Happy.logger.warn { 'No record found on send xcoin' }
+              Happy.logger.debug { 'No record found on send xcoin' }
               sleep 2
             end
             Happy.logger.warn { 'No history changed. Send XCoin again.' }
