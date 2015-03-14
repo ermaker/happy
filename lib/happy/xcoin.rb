@@ -289,6 +289,14 @@ module Happy
               Happy.logger.warn { 'No record found on send xcoin' }
               sleep 2
             end
+            Happy.logger.warn { 'No history changed. Send XCoin again.' }
+            MShard::MShard.new.set(
+              pushbullet: true,
+              channel_tag: 'morder_process',
+              type: 'note',
+              title: 'Send XCoin again',
+              body: 'No history changed'
+            )
           end
         end
         history_ah = AmountHash.new.apply(history_)
