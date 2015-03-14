@@ -241,18 +241,29 @@ module Happy
         find(:xpath, '//div[text()="인증요청"]').click
         find(:css, '._wModal_btn_yes').click
         Happy.logger.debug { 'xcoin_sms_validation_code loop start' }
-        sms = loop do
-          sleep 1
-          begin
-            Happy.logger.debug { 'xcoin_sms_validation_code get' }
-            result = MShard::MShard.new.get('xcoin_sms_validation_code')
-            break result unless result.empty?
-          rescue => e
-            Happy.logger.warn { e.class }
-            Happy.logger.warn { e }
-            Happy.logger.warn { e.backtrace.join("\n") }
+        sms =
+          catch(:sms_done) do
+            (1 * 60 / 1).times do
+              sleep 1
+              begin
+                Happy.logger.debug { 'xcoin_sms_validation_code get' }
+                result = MShard::MShard.new.get('xcoin_sms_validation_code')
+                throw(:sms_done, result) unless result.empty?
+              rescue => e
+                Happy.logger.warn { e.class }
+                Happy.logger.warn { e }
+                Happy.logger.warn { e.backtrace.join("\n") }
+              end
+            end
+            MShard::MShard.new.set(
+              pushbullet: true,
+              channel_tag: 'morder_process',
+              type: 'note',
+              title: 'No SMS response',
+              body: 'No SMS response'
+            )
+            fail 'No SMS response'
           end
-        end
         Happy.logger.debug { "sms: #{sms}" }
         fill_in 'smsKeyTmp', with: sms
         find(:xpath, '//p[@class="btn_org"]').click
