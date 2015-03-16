@@ -288,7 +288,7 @@ module Happy
         Happy.logger.debug { 'xcoin_sms_validation_code loop start' }
         sms =
           catch(:sms_done) do
-            (1 * 60 / 1).times do
+            (30 / 1).times do
               sleep 1
               begin
                 Happy.logger.debug { 'xcoin_sms_validation_code get' }
@@ -327,7 +327,7 @@ module Happy
           history_pivot_time = exchange_xcoin_history[0][0]
           loop do
             send_xcoin_impl(amount, counter)
-            (3 * 60 / 2).times do
+            (60 / 2).times do
               history_ = exchange_xcoin_history
                 .take_while do |record|
                   record[0] > history_pivot_time

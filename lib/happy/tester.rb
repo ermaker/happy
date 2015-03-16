@@ -1,55 +1,66 @@
 module Happy
   class Tester
-    def test
+    def min_of_avg(from, to, base)
       worker = Worker.new
       worker.extend(Worker::Market)
       worker.extend(Logged::Market)
 
-      base = Currency::KRW_X
-      counter = Currency::BTC_X
-
       query = Util::Query.new
-      query[:index] = 'logstash-market_prices-*'
-      query[:type] = 'market_prices'
-      query.match('taker_pays_funded.currency': base['currency'])
-      query.match('taker_pays_funded.counterparty': base['counterparty']) unless base['counterparty'].empty?
-      query.match('taker_gets_funded.currency': counter['currency'])
-      query.match('taker_gets_funded.counterparty': counter['counterparty']) unless counter['counterparty'].empty?
-
-      query.range('@timestamp': { gt: Time.now - 5 * 60, lte: Time.now + 5 * 60 }.to_jsonify)
+      query[:index] = 'logstash-estimated_benefit-*'
+      query[:type] = 'estimated_benefit'
+      query.match(algo: 'simple')
+      query.match(base: base)
+      query.range('@timestamp': { gt: from, lte: to }.to_jsonify)
       query[:body][:size] = 0
       query[:body][:aggs] = {
-        a: {
+        benefit: {
           date_histogram: {
             field: '@timestamp',
-            interval: '3m'
+            interval: '5m'
           },
           aggs: {
-            x: {
+            benefit: {
               avg: {
-                field: 'base_price.value'
-              },
-              aggs: {
-                b: {
-                  terms: {
-                    field: '@timestamp'
-                  },
-                  aggs: {
-                    base_price: {
-                      min: {
-                        field: 'price.value.value'
-                      }
-                    }
-                  }
-                }
+                field: 'benefit'
               }
             }
           }
         }
       }
+      worker.es_client.search(query)['aggregations']['benefit']['buckets']
+        .map { |bucket| bucket['benefit']['value'] }.min
+    end
 
+    def delayed_estimated_benefit(time, base)
+      worker = Worker.new
+      worker.extend(Worker::Market)
+      worker.extend(Logged::Market)
+
+      query = Util::Query.new
+      query[:index] = 'logstash-estimated_benefit-*'
+      query[:type] = 'estimated_benefit'
+      query.match(algo: 'delayed')
+      query.match(base: base)
+      query.range('@timestamp': { lte: time }.to_jsonify)
+      query[:body][:size] = 1
+      query.sort('@timestamp': { order: 'desc' })
+      worker.es_client.search(query)['hits']['hits'].first['_source']['benefit']
+    end
+
+    def test
       require 'pp'
-      pp worker.es_client.search(query)
+      base_amount = 100000
+      base_time = (Time.now - 60 * 60).to_i
+      (base_time - 60 * 60..base_time).step(60).map do |now|
+        now = Time.at(now)
+        [
+          min_of_avg(now - 10 * 60, now, base_amount) / base_amount * 100,
+          min_of_avg(now - 30 * 60, now, base_amount) / base_amount * 100,
+          min_of_avg(now - 50 * 60, now, base_amount) / base_amount * 100,
+          min_of_avg(now - 70 * 60, now, base_amount) / base_amount * 100,
+          delayed_estimated_benefit(now, base_amount) / base_amount * 100
+        ].tap { |item| pp item }
+      end
     end
 
     def test2

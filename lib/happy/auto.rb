@@ -1,12 +1,60 @@
 module Happy
   class Auto
+    def min_of_avg(from, to, base)
+      worker = Worker.new
+      worker.extend(Worker::Market)
+      worker.extend(Logged::Market)
+
+      query = Util::Query.new
+      query[:index] = 'logstash-estimated_benefit-*'
+      query[:type] = 'estimated_benefit'
+      query.match(algo: 'simple')
+      query.match(base: base)
+      query.range('@timestamp': { gt: from, lte: to }.to_jsonify)
+      query[:body][:size] = 0
+      query[:body][:aggs] = {
+        benefit: {
+          date_histogram: {
+            field: '@timestamp',
+            interval: '5m'
+          },
+          aggs: {
+            benefit: {
+              avg: {
+                field: 'benefit'
+              }
+            }
+          }
+        }
+      }
+      worker.es_client.search(query)['aggregations']['benefit']['buckets']
+        .map { |bucket| bucket['benefit']['value'] }.min
+    end
+
     def main
-      krw_r_value = '100000'
+      now = Time.now
+      base_amount = 100000
+      value = (base_amount..5 * base_amount).step(base_amount).select do |amount|
+        min_of_avg(now - 10 * 60, now, amount) / amount >= 0.01 &&
+          min_of_avg(now - 30 * 60, now, amount) / amount >= 0.005 &&
+          min_of_avg(now - 50 * 60, now, amount) / amount >= -0.005 &&
+          min_of_avg(now - 70 * 60, now, amount) / amount >= -0.01
+      end.max
+      return if value.nil?
+      krw_r_value = value
       krw_r = Amount.new(krw_r_value, 'KRW_R')
       run(krw_r)
     end
 
     def run(krw_r)
+      MShard::MShard.new.set(
+        pushbullet: true,
+        channel_tag: 'morder_process',
+        type: 'note',
+        title: 'SIMULATE Start',
+        body: "#{krw_r.to_human}"
+      )
+
       Happy.logger.level = Logger::FATAL
 
       worker = Worker.new
@@ -73,13 +121,13 @@ module Happy
       Happy.logger.info('SIMULATED') do
         "benefit: #{worker.benefit.to_human(round: 2)}, #{percent}"
       end
-      # MShard::MShard.new.set(
-      #   pushbullet: true,
-      #   channel_tag: 'morder_process',
-      #   type: 'note',
-      #   title: 'SIMULATED',
-      #   body: "#{worker.benefit.to_human(round: 2)}(#{percent}) #{worker.initial_balance.to_human}"
-      # )
+      MShard::MShard.new.set(
+        pushbullet: true,
+        channel_tag: 'morder_process',
+        type: 'note',
+        title: 'SIMULATE Finish',
+        body: "#{worker.benefit.to_human(round: 2)}(#{percent}) #{worker.initial_balance.to_human}"
+      )
     end
   end
 end
