@@ -19,15 +19,20 @@ module Happy
         AmountHash.new.apply(balances)
       end
 
-      def wait(amount)
+      def wait(amount, time: nil)
         currency = amount.currency
-        loop do
+        if time.nil?
+          method(:loop)
+        else
+          (time/5).method(:times)
+        end.call do
           begin
-            return if amount <= balance(currency)[currency]
+            return true if amount <= balance(currency)[currency]
           rescue
           end
           sleep 5
         end
+        false
       end
     end
 

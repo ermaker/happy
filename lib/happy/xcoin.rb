@@ -333,8 +333,21 @@ module Happy
       end
 
       def wait_xcoin(amount, _counter)
-        wait(amount)
-        AmountHash.new
+        return AmountHash.new if wait(amount, time: 30)
+
+        message_detail = "#{amount.to_human}, but #{balance(amount.currency)[amount.currency].to_human(round: 2)}"
+        message_brief = 'Not enough KRW_X'
+        Happy.logger.error do
+          "#{message_brief}: #{message_detail}"
+        end
+        MShard::MShard.new.set(
+          pushbullet: true,
+          channel_tag: 'morder_process',
+          type: 'note',
+          title: message_brief,
+          body: message_detail
+        )
+        fail message_brief
       end
 
       def move_xcoin(amount, counter)

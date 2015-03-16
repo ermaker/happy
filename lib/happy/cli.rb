@@ -23,5 +23,10 @@ module Happy
     def order
       Runner.new.main
     end
+
+    desc 'auto', 'Auto'
+    def auto
+      Auto.new.main
+    end
   end
 end
