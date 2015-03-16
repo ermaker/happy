@@ -111,6 +111,7 @@ module Happy
       seb = (base..(40 * base)).step(base).map do |krw_r_value|
         simple_estimated_benefit(base_worker, krw_r_value)
       end
+      seb.max_by { |item| item[:benefit] }[:best] = true
       Happy.logstash.with(type: 'estimated_benefit')
         .at_once.stash_all(seb)
     end
