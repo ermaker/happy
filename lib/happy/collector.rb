@@ -115,5 +115,66 @@ module Happy
       Happy.logstash.with(type: 'estimated_benefit')
         .at_once.stash_all(seb)
     end
+
+    def delayed_estimated_benefit(base_worker, krw_r_value, delay)
+      worker = simulated_worker
+      worker.cached_market_logged = base_worker.cached_market_logged
+
+      worker.time = base_worker.time - delay
+      Happy.logger.debug { "Worker time: #{worker.time}" }
+
+      worker.initial_balance = krw_r_value.currency('KRW_R')
+      worker.local_balances.apply(-Amount::XRP_FEE)
+      worker.local_balances.apply(-Amount::XRP_FEE)
+      [
+        Currency::KRW_R,
+        Currency::KRW_X,
+        Currency::KRW_X,
+        Currency::BTC_X,
+        Currency::BTC_B2R
+      ].each_cons(2) do |base,counter|
+        worker.exchange(worker.local_balances[base], counter)
+      end
+
+      worker.time = base_worker.time
+      Happy.logger.debug { "Worker time: #{worker.time}" }
+
+      [
+        Currency::BTC_B2R,
+        Currency::BTC_P,
+        Currency::BTC_P,
+        Currency::XRP,
+        Currency::KRW_P,
+        Currency::KRW_R
+      ].each_cons(2) do |base,counter|
+        worker.exchange(worker.local_balances[base], counter)
+      end
+
+      base_worker.cached_market_logged = worker.cached_market_logged
+
+      {
+        algo: 'delayed',
+        path: 'KRW/XCOIN/B2R/XRP/PAX/KRW',
+        delay: delay,
+        benefit: worker.benefit['value'].round(2).to_f,
+        percent:
+          (worker.benefit / worker.initial_balance * 100)['value']
+            .round(2).to_f,
+        base: worker.initial_balance['value'].to_i
+      }
+    end
+
+    def log_delayed_estimated_benefit
+      delay = 1 * 60 * 60 + 10 * 60
+      base_worker = simulated_worker
+      base = 100000
+      seb = (base..(40 * base)).step(base).map do |krw_r_value|
+        delayed_estimated_benefit(base_worker, krw_r_value, delay)
+      end
+      seb.max_by { |item| item[:benefit] }[:best] = true
+      Happy.logstash.with(type: 'estimated_benefit')
+        .at_once(time: simulated_worker.time - delay)
+        .stash_all(seb)
+    end
   end
 end
