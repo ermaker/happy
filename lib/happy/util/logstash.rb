@@ -15,7 +15,7 @@ module Happy
         )
       end
 
-      def at_once(norm: false, time: time, &blk)
+      def at_once(norm: false, time: nil, &blk)
         time ||= Time.now
         time = normalized_time(time) if norm
         with('@timestamp' => time, &blk)
