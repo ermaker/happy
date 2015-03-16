@@ -14,6 +14,11 @@ module Happy
       Collector.new.log_balances
     end
 
+    desc 'log_seb', 'Log SEB'
+    def log_seb
+      Collector.new.log_simple_estimated_benefit
+    end
+
     desc 'test', 'Test'
     def test
       Tester.new.test

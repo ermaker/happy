@@ -5,9 +5,11 @@ module Happy
   module Logged
     module Market
       attr_accessor :es_client
+      attr_accessor :cached_market_logged
 
       def self.extended(mod)
         mod.time = Time.now
+        mod.cached_market_logged = {}
         mod.es_client = Elasticsearch::Client.new url: ENV['ES_URI']
         [
           [Currency::KRW_X, Currency::BTC_X],
@@ -83,11 +85,14 @@ module Happy
       end
 
       def market_logged(base, counter)
+        return cached_market_logged[[time, base, counter]] unless cached_market_logged[[time, base, counter]].nil?
         base_query = market_logged_base_query(base, counter)
         last_status = market_logged_last_status(base_query)
         market_logged_hits(base_query, last_status).map do |hit|
           hit['_source']
-        end.to_objectify
+        end.to_objectify.tap do |result|
+          cached_market_logged[[time, base, counter]] = result
+        end
       end
     end
   end
