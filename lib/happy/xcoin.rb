@@ -7,7 +7,9 @@ module Happy
       Capybara::Poltergeist::Driver.new(
         app,
         phantomjs: Phantomjs.path,
+        js_errors: false,
         phantomjs_options: [
+          '--load-images=no',
           "--proxy=#{ENV['XCOIN_PROXY']}" # ,
           # "--proxy-auth=#{ENV['XCOIN_PROXY_AUTH']}"
         ]
