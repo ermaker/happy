@@ -1,4 +1,5 @@
 require 'nokogiri'
+require 'mail'
 
 module Happy
   class MailWorker
