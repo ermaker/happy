@@ -24,6 +24,11 @@ module Happy
       Collector.new.log_delayed_estimated_benefit
     end
 
+    desc 'mail', 'Mail'
+    def mail
+      MailWorker.new.main
+    end
+
     desc 'test', 'Test'
     def test
       Tester.new.test

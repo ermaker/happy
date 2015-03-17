@@ -23,6 +23,7 @@ module Happy
   autoload :Simulator, 'happy/simulator'
   autoload :Logged, 'happy/logged'
   autoload :Collector, 'happy/collector'
+  autoload :MailWorker, 'happy/mail_worker'
   autoload :Runner, 'happy/runner'
   autoload :Auto, 'happy/auto'
 
