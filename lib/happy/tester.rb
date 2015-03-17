@@ -47,7 +47,7 @@ module Happy
       worker.es_client.search(query)['hits']['hits'].first['_source']['benefit']
     end
 
-    def test
+    def test_x
       require 'pp'
       base_amount = 100000
       base_time = (Time.now - 60 * 60).to_i
@@ -63,7 +63,7 @@ module Happy
       end
     end
 
-    def test2
+    def test
       # Happy.logger.level = Logger::INFO
 
       worker = Worker.new
@@ -85,12 +85,13 @@ module Happy
       # worker.extend(B2R::SimulatedExchange)
       # worker.extend(BitStamp::Exchange) # TODO
       # worker.extend(BitStamp::SimulatedExchange) # TODO
-      # worker.extend(XRP::Exchange)
-      worker.extend(XRP::SimulatedExchange)
+      worker.extend(XRP::Exchange)
+      # worker.extend(XRP::SimulatedExchange)
       # worker.extend(PaxMoneta::Exchange)
       worker.extend(PaxMoneta::SimulatedExchange)
 
-      worker.initial_balance = Amount.new('200000', 'KRW_R')
+      worker.initial_balance = Amount.new('100000', 'KRW_R')
+      worker.local_balances.apply('0.30738461'.currency('BTC_P'))
       worker.local_balances.apply(-Amount::XRP_FEE)
       worker.local_balances.apply(-Amount::XRP_FEE)
       Happy.logger.info { "local_balances: #{worker.local_balances}" }
@@ -99,10 +100,10 @@ module Happy
         # Currency::KRW_X,
         # Currency::KRW_X,
         # Currency::BTC_X,
-        # Currency::BTC_BS,
-        # Currency::BTC_BS,
-        # Currency::BTC_BSR,
-        Currency::BTC_BSR,
+        # Currency::BTC_B2R,
+        # Currency::BTC_B2R,
+         Currency::BTC_P,
+        Currency::BTC_P,
         Currency::XRP,
         Currency::KRW_P,
         Currency::KRW_R

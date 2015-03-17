@@ -113,6 +113,8 @@ module Happy
       PRICE = {
         [Currency::BTC_P, Currency::XRP] =>
         Amount.new('10000.0', 'XRP'),
+        [Currency::BTC_BSR, Currency::XRP] =>
+        Amount.new('10000.0', 'XRP'),
         [Currency::XRP, Currency::KRW_P] =>
         Amount.new('5.0', 'KRW_P')
       }

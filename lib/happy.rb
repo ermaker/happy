@@ -1,5 +1,6 @@
 require 'happy/version'
 
+# require 'pretty_backtrace/enable'
 require 'ext/jsonify'
 require 'ext/objectify'
 require 'ext/hash_filter'

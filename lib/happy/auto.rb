@@ -36,7 +36,7 @@ module Happy
       base_amount = 100000
       value = (base_amount..5 * base_amount).step(base_amount).select do |amount|
         min_of_avg(now - 10 * 60, now, amount) / amount >= 0.01 &&
-          min_of_avg(now - 30 * 60, now, amount) / amount >= 0.005 &&
+          min_of_avg(now - 30 * 60, now, amount) / amount >= 0.003 &&
           min_of_avg(now - 50 * 60, now, amount) / amount >= -0.005 &&
           min_of_avg(now - 70 * 60, now, amount) / amount >= -0.01
       end.max
