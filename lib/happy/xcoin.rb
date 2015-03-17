@@ -3,6 +3,18 @@ require 'time'
 
 module Happy
   module XCoin
+    Capybara.register_driver(:poltergeist_proxy) do |app|
+      Capybara::Poltergeist::Driver.new(
+        app,
+        phantomjs: Phantomjs.path,
+        phantomjs_options: [
+          "--proxy=#{ENV['XCOIN_PROXY']}" # ,
+          # "--proxy-auth=#{ENV['XCOIN_PROXY_AUTH']}"
+        ]
+      )
+    end
+    Capybara.current_driver = :poltergeist_proxy
+
     module Information
       attr_accessor :xcoin_user, :xcoin_password, :xcoin_password2
 
@@ -12,16 +24,6 @@ module Happy
         mod.xcoin_password2 = ENV['XCOIN_PASSWORD2']
       end
 
-      Capybara.register_driver(:poltergeist) do |app|
-        Capybara::Poltergeist::Driver.new(
-          app,
-          phantomjs_options: [
-            "--proxy=#{ENV['XCOIN_PROXY']}" # ,
-            # "--proxy-auth=#{ENV['XCOIN_PROXY_AUTH']}"
-          ]
-        )
-      end
-      Capybara.current_driver = :poltergeist
       include Capybara::DSL
 
       def xcoin_not_found(*args)
@@ -64,16 +66,6 @@ module Happy
         end
       end
 
-      Capybara.register_driver(:poltergeist) do |app|
-        Capybara::Poltergeist::Driver.new(
-          app,
-          phantomjs_options: [
-            "--proxy=#{ENV['XCOIN_PROXY']}" # ,
-            # "--proxy-auth=#{ENV['XCOIN_PROXY_AUTH']}"
-          ]
-        )
-      end
-      Capybara.current_driver = :poltergeist
       include Capybara::DSL
 
       def balance_xcoin
@@ -95,16 +87,6 @@ module Happy
         end
       end
 
-      Capybara.register_driver(:poltergeist) do |app|
-        Capybara::Poltergeist::Driver.new(
-          app,
-          phantomjs_options: [
-            "--proxy=#{ENV['XCOIN_PROXY']}" # ,
-            # "--proxy-auth=#{ENV['XCOIN_PROXY_AUTH']}"
-          ]
-        )
-      end
-      Capybara.current_driver = :poltergeist
       include Capybara::DSL
 
       def market_xcoin(_base, _counter)
@@ -153,16 +135,6 @@ module Happy
         end
       end
 
-      Capybara.register_driver(:poltergeist) do |app|
-        Capybara::Poltergeist::Driver.new(
-          app,
-          phantomjs_options: [
-            "--proxy=#{ENV['XCOIN_PROXY']}" # ,
-            # "--proxy-auth=#{ENV['XCOIN_PROXY_AUTH']}"
-          ]
-        )
-      end
-      Capybara.current_driver = :poltergeist
       include Capybara::DSL
 
       def xcoin_order_status
