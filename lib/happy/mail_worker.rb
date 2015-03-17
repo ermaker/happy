@@ -49,7 +49,7 @@ module Happy
       Happy.logger.debug { 'put' }
       if matched = mail.body.to_s.match(/XCOIN Verification Code : (\d+)/)
         Happy.logger.info { "SMS: #{matched[1]}" }
-        MShard::MShard.new.set(
+        MShard::MShard.new.set_safe(
           id: 'xcoin_sms_validation_code',
           contents: matched[1]
         )

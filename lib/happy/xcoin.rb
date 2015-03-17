@@ -254,7 +254,7 @@ module Happy
         fill_in 'btcOutAdd', with: destination_address
         fill_in 'traPwNo', with: xcoin_password2
         Happy.logger.debug { 'xcoin_sms_validation_code set' }
-        MShard::MShard.new.set(
+        MShard::MShard.new.set_safe(
           id: 'xcoin_sms_validation_code',
           contents: '')
         find(:xpath, '//div[text()="인증요청"]').click
@@ -266,8 +266,8 @@ module Happy
               sleep 1
               begin
                 Happy.logger.debug { 'xcoin_sms_validation_code get' }
-                result = MShard::MShard.new.get('xcoin_sms_validation_code')
-                throw(:sms_done, result) unless result.empty?
+                result = MShard::MShard.new.get_safe('xcoin_sms_validation_code')
+                throw(:sms_done, result) unless result.nil? || result.empty?
               rescue => e
                 Happy.logger.warn { e.class }
                 Happy.logger.warn { e }

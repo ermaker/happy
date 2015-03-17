@@ -1,9 +1,9 @@
 module Happy
   class Runner
     def main
-      krw_r_value = MShard::MShard.new.get('order_btc_xrp_krw_beta')
+      krw_r_value = MShard::MShard.new.get_safe('order_btc_xrp_krw_beta')
       return if krw_r_value.empty?
-      MShard::MShard.new.set(
+      MShard::MShard.new.set_safe(
         id: 'order_btc_xrp_krw_beta',
         contents: '')
       krw_r = Amount.new(krw_r_value, 'KRW_R')
