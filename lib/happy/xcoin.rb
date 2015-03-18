@@ -8,10 +8,11 @@ module Happy
         app,
         phantomjs: Phantomjs.path,
         js_errors: false,
+        timeout: 90,
         phantomjs_options: [
           '--load-images=no',
-          "--proxy=#{ENV['XCOIN_PROXY']}" # ,
-          # "--proxy-auth=#{ENV['XCOIN_PROXY_AUTH']}"
+          "--proxy=#{ENV['XCOIN_PROXY']}",
+          "--proxy-auth=#{ENV['XCOIN_PROXY_AUTH']}"
         ]
       )
     end

@@ -47,6 +47,10 @@ module Happy
     end
 
     def run(krw_r)
+      Happy.logger.debug('SIMULATED') do
+        "Order Start: #{krw_r.to_human}"
+      end
+
       MShard::MShard.new.set(
         pushbullet: true,
         channel_tag: 'morder_process',
