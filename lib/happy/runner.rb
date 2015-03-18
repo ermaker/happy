@@ -40,6 +40,7 @@ module Happy
       # worker.extend(PaxMoneta::Exchange)
       worker.extend(PaxMoneta::SimulatedExchange)
 
+      Happy.logger.info { "Order Start: #{krw_r}" }
       worker.initial_balance = krw_r
       worker.local_balances.apply(-Amount::XRP_FEE)
       worker.local_balances.apply(-Amount::XRP_FEE)
