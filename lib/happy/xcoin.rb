@@ -3,17 +3,20 @@ require 'time'
 
 module Happy
   module XCoin
+    PHANTOMJS_OPTIONS = [
+      '--load-images=no'
+    ]
+    PHANTOMJS_OPTIONS.push("--proxy=#{ENV['XCOIN_PROXY']}") unless
+      ENV['XCOIN_PROXY'].nil? || ENV['XCOIN_PROXY'].empty?
+    PHANTOMJS_OPTIONS.push("--proxy-auth=#{ENV['XCOIN_PROXY_AUTH']}") unless
+      ENV['XCOIN_PROXY_AUTH'].nil? || ENV['XCOIN_PROXY_AUTH'].empty?
     Capybara.register_driver(:poltergeist_proxy) do |app|
       Capybara::Poltergeist::Driver.new(
         app,
         phantomjs: Phantomjs.path,
         js_errors: false,
         timeout: 90,
-        phantomjs_options: [
-          '--load-images=no',
-          "--proxy=#{ENV['XCOIN_PROXY']}",
-          "--proxy-auth=#{ENV['XCOIN_PROXY_AUTH']}"
-        ]
+        phantomjs_options: PHANTOMJS_OPTIONS
       )
     end
     Capybara.current_driver = :poltergeist_proxy
