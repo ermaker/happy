@@ -196,7 +196,7 @@ module Happy
         Happy.logger.debug { 'Fill' }
         fill_in 'traPwNo', with: xcoin_password2
         check 'gen'
-        fill_in 'btcQty', with: btc_x['value'].to_s('F')
+        fill_in 'btcQty', with: btc_x['value'].floor(8).to_s('F')
         high_btc = find(:xpath, '//tr[@class="sell"][1]/td[2]').text
         fill_in 'btcAmtComma', with: high_btc
         find(:xpath, '//p[@class="btn_org"]').click
