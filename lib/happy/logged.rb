@@ -59,7 +59,7 @@ module Happy
 
       def market_logged_last_status(base_query)
         bulk_query = base_query.deep_dup
-        bulk_query.exists('price_count')
+        bulk_query.exists('bunch_size')
         bulk_query.range('@timestamp': market_logged_range)
         bulk_query[:body][:size] = 1
         bulk_query.sort('@timestamp': { order: 'desc' })
@@ -74,11 +74,11 @@ module Happy
       def market_logged_hits(base_query, last_status)
         hits_query = base_query.deep_dup
         hits_query.match('@timestamp': last_status['@timestamp'])
-        hits_query[:body][:size] = last_status['price_count']
+        hits_query[:body][:size] = last_status['bunch_size']
         hits_query.sort('price.value.value': { order: 'asc' })
         loop do
           hits_ = es_client.search(hits_query)['hits']
-          return hits_['hits'] if hits_['total'] == last_status['price_count']
+          return hits_['hits'] if hits_['total'] == last_status['bunch_size']
           Happy.logger.debug 'hits.sleep ...'
           sleep 0.3
         end

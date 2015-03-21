@@ -2,9 +2,13 @@ require 'happy/xrp'
 
 module Happy
   class Collector
-    def taint_eop list
-      list.last[:price_count] = list.size
+    def taint_bunch_size bunch
+      bunch.last[:bunch_size] = bunch.size
     end
+    def taint_best_price bunch
+      bunch.min_by { |item| item[:price].to_objectify }[:best] = true
+    end
+
 
     def market_worker
       Happy::Worker.new.tap do |worker|
@@ -17,7 +21,7 @@ module Happy
 
     def log_market_impl(base, counter)
       asks = market_worker.market(base, counter)
-      taint_eop(asks)
+      taint_bunch_size(asks)
       Happy.logger.debug { "Count of asks(#{base}, #{counter}): #{asks.size}" }
       Happy.logstash.with(type: 'market_prices')
         .at_once.stash_all(asks)
@@ -53,6 +57,15 @@ module Happy
       )
       Happy.logstash.with(type: 'balances')
         .at_once.stash_all(balances.values)
+    end
+
+    LOG_DELAY = 1 * 60 * 60 + 10 * 60
+    LOG_BASE = 100000
+    LOG_RANGE_TIMES = 40
+    LOG_RANGE = (LOG_BASE..LOG_RANGE_TIMES * LOG_BASE).step(LOG_BASE)
+
+    def taint_best_benefit bunch
+      bunch.max_by { |item| item[:benefit] }[:best] = true
     end
 
     def simulated_worker
@@ -107,11 +120,10 @@ module Happy
 
     def log_simple_estimated_benefit
       base_worker = simulated_worker
-      base = 100000
-      seb = (base..(40 * base)).step(base).map do |krw_r_value|
+      seb = LOG_RANGE.map do |krw_r_value|
         simple_estimated_benefit(base_worker, krw_r_value)
       end
-      seb.max_by { |item| item[:benefit] }[:best] = true
+      taint_best_benefit(seb)
       Happy.logstash.with(type: 'estimated_benefit')
         .at_once.stash_all(seb)
     end
@@ -165,16 +177,14 @@ module Happy
     end
 
     def log_delayed_estimated_benefit
-      delay = 1 * 60 * 60 + 10 * 60
       base_worker = simulated_worker
-      base = 100000
-      seb = (base..(40 * base)).step(base).map do |krw_r_value|
-        delayed_estimated_benefit(base_worker, krw_r_value, delay)
+      deb = LOG_RANGE.map do |krw_r_value|
+        delayed_estimated_benefit(base_worker, krw_r_value, LOG_DELAY)
       end
-      seb.max_by { |item| item[:benefit] }[:best] = true
+      taint_best_benefit(deb)
       Happy.logstash.with(type: 'estimated_benefit')
-        .at_once(time: simulated_worker.time - delay)
-        .stash_all(seb)
+        .at_once(time: simulated_worker.time - LOG_DELAY)
+        .stash_all(deb)
     end
   end
 end
