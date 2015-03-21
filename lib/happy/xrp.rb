@@ -153,7 +153,10 @@ module Happy
       def exchange_xrp_simulated(amount, counter)
         # FIXME
         anti_fee_ratio =
-          if amount.same_currency? Currency::BTC_BSR
+          case
+          when amount.same_currency?(Currency::BTC_P)
+            Amount::B2R_RIPPLE_ANTI_FEE_RATIO
+          when amount.same_currency?(Currency::BTC_BSR)
             Amount::BITSTAMP_RIPPLE_ANTI_FEE_RATIO
           else
             '1'
