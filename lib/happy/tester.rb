@@ -102,7 +102,7 @@ module Happy
         # Currency::BTC_X,
         # Currency::BTC_B2R,
         # Currency::BTC_B2R,
-         Currency::BTC_P,
+        Currency::BTC_P,
         Currency::BTC_P,
         Currency::XRP,
         Currency::KRW_P,

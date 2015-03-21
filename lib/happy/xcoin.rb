@@ -213,15 +213,29 @@ module Happy
         # TODO: assert amount and counter
         xcoin_ensure_login
         history_pivot_time = exchange_xcoin_history[0][0]
-        status = xcoin_order_status[0]
-        exchange_xcoin_impl(amount, counter)
-        status_ah =
+        status_ah = catch(:status) do
+          status = xcoin_order_status[0]
           loop do
-            status_ = xcoin_order_status.take_while { |record| record != status }
-            break status_[0][2] if status_.one? && status_[0][1] == '완료'
-            Happy.logger.debug { "No correct order status: #{status_}" }
-            sleep 2
+            exchange_xcoin_impl(amount, counter)
+            (60 / 2).times do
+              status_ = xcoin_order_status.take_while do |record|
+                record != status
+              end
+              throw(:status, status_[0][2]) if
+                status_.one? && status_[0][1] == '완료'
+              Happy.logger.debug { "No correct order status: #{status_}" }
+              sleep 2
+            end
+            Happy.logger.warn { 'No correct order status. Exchange XCoin again.' }
+            MShard::MShard.new.set(
+              pushbullet: true,
+              channel_tag: 'morder_process',
+              type: 'note',
+              title: 'Exchange XCoin again',
+              body: 'No correct order status'
+            )
           end
+        end
         AmountHash.new.tap do |ah|
           balances = exchange_xcoin_history.take_while do |record|
             record[0] > history_pivot_time
