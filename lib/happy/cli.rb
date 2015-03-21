@@ -9,6 +9,16 @@ module Happy
       Collector.new.log_market
     end
 
+    desc 'log_market_xcoin', 'Log Market XCoin'
+    def log_market_xcoin
+      Collector.new.log_market_xcoin
+    end
+
+    desc 'log_market_xrp', 'Log Market XRP'
+    def log_market_xrp
+      Collector.new.log_market_xrp
+    end
+
     desc 'log_balances', 'Log Balances'
     def log_balances
       Collector.new.log_balances

@@ -5,10 +5,10 @@ module Happy
     def taint_bunch_size bunch
       bunch.last[:bunch_size] = bunch.size
     end
+
     def taint_best_price bunch
       bunch.min_by { |item| item[:price].to_objectify }[:best] = true
     end
-
 
     def market_worker
       Happy::Worker.new.tap do |worker|
@@ -22,18 +22,29 @@ module Happy
     def log_market_impl(base, counter)
       asks = market_worker.market(base, counter)
       taint_bunch_size(asks)
+      taint_best_price(asks)
       Happy.logger.debug { "Count of asks(#{base}, #{counter}): #{asks.size}" }
       Happy.logstash.with(type: 'market_prices')
         .at_once.stash_all(asks)
     end
 
-    def log_market
+    def log_market_xcoin
       [
-        [Currency::KRW_X, Currency::BTC_X],
+        [Currency::KRW_X, Currency::BTC_X]
+      ].each { |base,counter| log_market_impl(base, counter) }
+    end
+
+    def log_market_xrp
+      [
         [Currency::BTC_P, Currency::XRP],
         [Currency::BTC_BSR, Currency::XRP],
         [Currency::XRP, Currency::KRW_P]
       ].each { |base,counter| log_market_impl(base, counter) }
+    end
+
+    def log_market
+      log_market_xcoin
+      log_market_xrp
     end
 
     def balance_worker
