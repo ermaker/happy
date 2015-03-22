@@ -7,7 +7,7 @@ module Happy
         id: 'order_btc_xrp_krw',
         contents: '')
       krw_r = Amount.new(krw_r_value, 'KRW_R')
-      MShard::MShard.new.set(
+      MShard::MShard.new.set_safe(
         pushbullet: true,
         channel_tag: 'morder_process',
         type: 'note',
@@ -65,7 +65,7 @@ module Happy
       percent = (worker.benefit/worker.initial_balance * 100)['value']
         .round(2).to_s('F')
       percent = "#{percent}%"
-      MShard::MShard.new.set(
+      MShard::MShard.new.set_safe(
         pushbullet: true,
         channel_tag: 'morder_process',
         type: 'note',
