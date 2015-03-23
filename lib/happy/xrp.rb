@@ -110,6 +110,12 @@ module Happy
         response
       end
 
+      FEE_RATIO = Hash.new(BigDecimal.new('0'))
+      FEE_RATIO[[Currency::BTC_P, Currency::XRP]] =
+        Amount::B2R_RIPPLE_FEE_RATIO
+      FEE_RATIO[[Currency::BTC_BSR, Currency::XRP]] =
+        Amount::BITSTAMP_RIPPLE_FEE_RATIO
+
       PRICE = {
         [Currency::BTC_P, Currency::XRP] =>
         Amount.new('10000.0', 'XRP'),
@@ -120,6 +126,9 @@ module Happy
       }
 
       def exchange_xrp(amount, counter)
+        fee_ratio = FEE_RATIO[[amount.currency, counter.currency]]
+        amount = amount / (1 + fee_ratio)
+
         counter_amount = PRICE[[amount.currency, counter]] * amount
         hash = place_order(amount, counter_amount)['hash']
         AmountHash.new.apply(
@@ -150,21 +159,18 @@ module Happy
         end
       end
 
+      FEE_RATIO = Hash.new(BigDecimal.new('0'))
+      FEE_RATIO[[Currency::BTC_P, Currency::XRP]] =
+        Amount::B2R_RIPPLE_FEE_RATIO
+      FEE_RATIO[[Currency::BTC_BSR, Currency::XRP]] =
+        Amount::BITSTAMP_RIPPLE_FEE_RATIO
+
       def exchange_xrp_simulated(amount, counter)
-        # FIXME
-        anti_fee_ratio =
-          case
-          when amount.same_currency?(Currency::BTC_P)
-            Amount::B2R_RIPPLE_ANTI_FEE_RATIO
-          when amount.same_currency?(Currency::BTC_BSR)
-            Amount::BITSTAMP_RIPPLE_ANTI_FEE_RATIO
-          else
-            '1'
-          end
+        fee_ratio = FEE_RATIO[[amount.currency, counter.currency]]
 
         AmountHash.new.apply(
           -amount,
-          value_shift(amount, counter) * anti_fee_ratio,
+          value_shift(amount / (1 + fee_ratio), counter),
           -Amount::XRP_FEE
         )
       end

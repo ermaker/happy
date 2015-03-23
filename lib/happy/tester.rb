@@ -1,5 +1,28 @@
 module Happy
   class Tester
+    def test
+      worker = Worker.new
+      worker.extend(Worker::Market)
+      worker.extend(Logged::Market)
+
+      query = Util::Query.new
+      query[:index] = 'logstash-balances-*'
+      query[:type] = 'balances'
+      query[:body][:size] = 0
+      query[:body][:aggs] = {
+        '1': {
+          'min': {
+            'field': '@timestamp',
+            'script_file': 'test'
+          }
+        }
+      }
+      # query.sort('@timestamp': { order: 'desc' })
+
+      require 'pp'
+      pp worker.es_client.search(query)
+    end
+
     def min_of_avg(from, to, base)
       worker = Worker.new
       worker.extend(Worker::Market)
@@ -63,7 +86,7 @@ module Happy
       end
     end
 
-    def test
+    def test_y
       # Happy.logger.level = Logger::INFO
 
       worker = Worker.new

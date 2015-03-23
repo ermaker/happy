@@ -79,8 +79,8 @@ module Happy
     end
 
     XCOIN_ANTI_FEE_RATIO = '0.999'
-    B2R_RIPPLE_ANTI_FEE_RATIO = '0.998'
-    BITSTAMP_RIPPLE_ANTI_FEE_RATIO = '0.998'
+    B2R_RIPPLE_FEE_RATIO = BigDecimal.new('0.002')
+    BITSTAMP_RIPPLE_FEE_RATIO = BigDecimal.new('0.002')
     PAXMONETA_ANTI_FEE_RATIO = '0.995'
     BTC_FEE = '0.0002'
     BTC2BTCXRP_FEE = Amount.new('0.01', 'XRP')
