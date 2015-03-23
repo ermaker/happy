@@ -62,6 +62,10 @@ module Happy
       to_s_impl(self['currency'], self['counterparty'])
     end
 
+    def to_human
+      merge('counterparty' => self['counterparty'][0, 8]).to_s
+    end
+
     def same_currency?(rhs)
       currency == rhs.currency
     end
