@@ -148,6 +148,7 @@ module Happy
         all(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr')[1..-1]
           .reverse
           .map { |tr| tr.all(:xpath, './/td') }
+          .select { |tr| tr.size == 8 }
           .map do |tr|
             [
               tr[0].text,
