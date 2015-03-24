@@ -127,7 +127,7 @@ module Happy
 
       def exchange_xrp(amount, counter)
         fee_ratio = FEE_RATIO[[amount.currency, counter.currency]]
-        amount = amount / (1 + fee_ratio)
+        amount /= (1 + fee_ratio)
 
         counter_amount = PRICE[[amount.currency, counter]] * amount
         hash = place_order(amount, counter_amount)['hash']
