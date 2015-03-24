@@ -32,6 +32,10 @@ module Happy
       [
         [Currency::KRW_X, Currency::BTC_X]
       ].each { |base,counter| log_market_impl(base, counter) }
+    rescue => e
+      Happy.logger.warn { e.class }
+      Happy.logger.warn { e }
+      Happy.logger.warn { e.backtrace.join("\n") }
     end
 
     def log_market_xrp
