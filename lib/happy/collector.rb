@@ -50,9 +50,11 @@ module Happy
     def balance_worker
       Happy::Worker.new.tap do |worker|
         worker.extend(Happy::XCoin::Information)
+        worker.extend(Happy::BitStamp::Information)
         worker.extend(Happy::XRP::Information)
         worker.extend(Happy::Worker::Balance)
         worker.extend(Happy::XCoin::Balance)
+        worker.extend(Happy::BitStamp::Balance)
         worker.extend(Happy::XRP::Balance)
       end
     end
@@ -61,6 +63,7 @@ module Happy
       balances = balance_worker.balance(
         Currency::KRW_X,
         Currency::BTC_X,
+        Currency::BTC_BS,
         Currency::BTC_P,
         Currency::BTC_BSR,
         Currency::XRP,
@@ -88,6 +91,7 @@ module Happy
         worker.extend(Worker::Exchange)
         worker.extend(XCoin::SimulatedExchange)
         worker.extend(B2R::SimulatedExchange)
+        worker.extend(BitStamp::SimulatedExchange)
         worker.extend(XRP::SimulatedExchange)
         worker.extend(PaxMoneta::SimulatedExchange)
       end
@@ -106,9 +110,10 @@ module Happy
         Currency::KRW_X,
         Currency::KRW_X,
         Currency::BTC_X,
-        Currency::BTC_B2R,
-        Currency::BTC_P,
-        Currency::BTC_P,
+        Currency::BTC_BS,
+        Currency::BTC_BS,
+        Currency::BTC_BSR,
+        Currency::BTC_BSR,
         Currency::XRP,
         Currency::KRW_P,
         Currency::KRW_R
@@ -120,7 +125,7 @@ module Happy
 
       {
         algo: 'simple',
-        path: 'KRW/XCOIN/B2R/XRP/PAX/KRW',
+        path: 'KRW/XCOIN/BS/XRP/PAX/KRW',
         benefit: worker.benefit['value'].round(2).to_f,
         percent:
           (worker.benefit / worker.initial_balance * 100)['value']
@@ -154,7 +159,7 @@ module Happy
         Currency::KRW_X,
         Currency::KRW_X,
         Currency::BTC_X,
-        Currency::BTC_B2R
+        Currency::BTC_BS
       ].each_cons(2) do |base,counter|
         worker.exchange(worker.local_balances[base], counter)
       end
@@ -163,7 +168,8 @@ module Happy
       Happy.logger.debug { "Worker time: #{worker.time}" }
 
       [
-        Currency::BTC_B2R,
+        Currency::BTC_BS,
+        Currency::BTC_BS,
         Currency::BTC_P,
         Currency::BTC_P,
         Currency::XRP,
@@ -177,7 +183,7 @@ module Happy
 
       {
         algo: 'delayed',
-        path: 'KRW/XCOIN/B2R/XRP/PAX/KRW',
+        path: 'KRW/XCOIN/BS/XRP/PAX/KRW',
         delay: delay,
         benefit: worker.benefit['value'].round(2).to_f,
         percent:
