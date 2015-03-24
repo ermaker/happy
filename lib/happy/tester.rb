@@ -1,6 +1,6 @@
 module Happy
   class Tester
-    def test
+    def test_z
       worker = Worker.new
       worker.extend(Worker::Market)
       worker.extend(Logged::Market)
@@ -86,35 +86,44 @@ module Happy
       end
     end
 
-    def test_y
+    def test
       # Happy.logger.level = Logger::INFO
 
       worker = Worker.new
       worker.extend(XCoin::Information)
       worker.extend(XRP::Information)
+      worker.extend(BitStamp::Information)
       worker.extend(PaxMoneta::Information)
       worker.extend(Worker::Balance)
-      # worker.extend(Logged::Balance) # TODO
-      worker.extend(XCoin::Balance)
-      worker.extend(XRP::Balance)
+      # worker.extend(Logged::Balance)
+      # worker.extend(XCoin::Balance)
+      worker.extend(BitStamp::Balance)
+      # worker.extend(XRP::Balance)
       # worker.extend(Simulator::Balance)
       worker.extend(Worker::Market)
       worker.extend(Logged::Market)
       # worker.extend(XCoin::Market)
       # worker.extend(XRP::Market)
       worker.extend(Worker::Exchange)
-      worker.extend(XCoin::Exchange)
-      # worker.extend(XCoin::SimulatedExchange)
+      # worker.extend(XCoin::Exchange)
+      worker.extend(XCoin::SimulatedExchange)
       # worker.extend(B2R::SimulatedExchange)
-      # worker.extend(BitStamp::Exchange) # TODO
-      # worker.extend(BitStamp::SimulatedExchange) # TODO
-      worker.extend(XRP::Exchange)
-      # worker.extend(XRP::SimulatedExchange)
+      worker.extend(BitStamp::Exchange)
+      # worker.extend(BitStamp::SimulatedExchange)
+      # worker.extend(XRP::Exchange)
+      worker.extend(XRP::SimulatedExchange)
       # worker.extend(PaxMoneta::Exchange)
       worker.extend(PaxMoneta::SimulatedExchange)
 
-      worker.initial_balance = Amount.new('100000', 'KRW_R')
-      worker.local_balances.apply('0.30738461'.currency('BTC_P'))
+      Happy.logger.debug { "balance: #{worker.balance(Currency::BTC_BS)}" }
+
+      exit
+
+      initial_balance = Amount.new('3000', 'KRW_R')
+      worker.initial_balance = initial_balance
+      worker.local_balances.apply(-initial_balance)
+      worker.local_balances.apply('0.01'.currency('BTC_BSR'))
+      # worker.local_balances.apply('0.30738461'.currency('BTC_P'))
       worker.local_balances.apply(-Amount::XRP_FEE)
       worker.local_balances.apply(-Amount::XRP_FEE)
       Happy.logger.info { "local_balances: #{worker.local_balances}" }
@@ -123,13 +132,13 @@ module Happy
         # Currency::KRW_X,
         # Currency::KRW_X,
         # Currency::BTC_X,
-        # Currency::BTC_B2R,
-        # Currency::BTC_B2R,
-        Currency::BTC_P,
-        Currency::BTC_P,
-        Currency::XRP,
-        Currency::KRW_P,
-        Currency::KRW_R
+        Currency::BTC_BS,
+        Currency::BTC_BS,
+        # Currency::BTC_BSR,
+        # Currency::BTC_BSR,
+        # Currency::XRP,
+        # Currency::KRW_P,
+        # Currency::KRW_R
       ].each_cons(2) do |base,counter|
         result = worker.exchange(worker.local_balances[base], counter)
         Happy.logger.debug { "result: #{result}" }
