@@ -29,6 +29,11 @@ module Happy
       Collector.new.log_simple_estimated_benefit
     end
 
+    desc 'log_sebr', 'Log SEBR'
+    def log_sebr
+      Collector.new.log_simple_estimated_benefit_reversed
+    end
+
     desc 'log_deb', 'Log DEB'
     def log_deb
       Collector.new.log_delayed_estimated_benefit

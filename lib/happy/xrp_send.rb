@@ -1,23 +1,16 @@
 module Happy
-  module PaxMoneta
-    module Information
-      attr_accessor :paxmoneta_tag
-
-      def self.extended(mod)
-        mod.paxmoneta_tag = ENV['PAXMONETA_TAG']
-      end
-    end
-
+  module XRPSend
     module Exchange
       def self.extended(mod)
         [
-          [Currency::KRW_P, Currency::KRW_R]
+          [Currency::KRW_P, Currency::KRW_R],
+          [Currency::BTC_BSR, Currency::BTC_BS]
         ].each do |base,counter|
-          mod.proc_exchange[[base, counter]] = mod.method(:send_paxmoneta)
+          mod.proc_exchange[[base, counter]] = mod.method(:send_xrpsend)
         end
       end
 
-      def exchange_paxmoneta_prepare_payment(amount)
+      def exchange_xrpsend_prepare_payment(amount)
         response = HTTParty.get(
           "https://api.ripple.com/v1/accounts/#{xrp_address}/payments/paths/#{amount['counterparty']}/#{amount}",
           query: { source_currencies: amount.currency.to_s.gsub('+', ' ') })
@@ -27,17 +20,17 @@ module Happy
         response
       end
 
-      def exchange_paxmoneta_uuid
+      def exchange_xrpsend_uuid
         response = HTTParty.get('https://api.ripple.com/v1/uuid')
                    .parsed_response
         fail response.inspect unless response['success']
         response
       end
 
-      def exchange_paxmoneta_submit_payment(payment)
+      def exchange_xrpsend_submit_payment(payment)
         body = {
           secret: xrp_secret,
-          client_resource_id: exchange_paxmoneta_uuid['uuid'],
+          client_resource_id: exchange_xrpsend_uuid['uuid'],
           payment: payment
         }
         response = HTTParty.post(
@@ -50,12 +43,20 @@ module Happy
         response
       end
 
-      def send_paxmoneta(amount, counter)
-        # TODO: assert counter
-        fail amount.to_s unless amount.same_currency? Currency::KRW_P
-        payment = exchange_paxmoneta_prepare_payment(amount)['payments'][0]
-        payment['destination_tag'] = paxmoneta_tag
-        response = exchange_paxmoneta_submit_payment(payment)
+      SEND_XRPSEND_DESTINATION_TAG = {
+        Currency::KRW_P => ENV['PAXMONETA_TAG'],
+        Currency::BTC_BSR => ENV['BITSTAMP_TAG']
+      }
+
+      SEND_XRPSEND_ANTI_FEE_RATIO = {
+        Currency::KRW_P => Amount::PAXMONETA_ANTI_FEE_RATIO,
+        Currency::BTC_BSR => BigDecimal.new('1')
+      }
+
+      def send_xrpsend(amount, counter)
+        payment = exchange_xrpsend_prepare_payment(amount)['payments'][0]
+        payment['destination_tag'] = SEND_XRPSEND_DESTINATION_TAG[amount.currency]
+        response = exchange_xrpsend_submit_payment(payment)
 
         ah = AmountHash.new
 
@@ -72,8 +73,8 @@ module Happy
               amount['counterparty'] = counter['counterparty']
             end
             amount
-          end.to_objectify.map do |amount|
-          amount * PAXMONETA_ANTI_FEE_RATIO
+          end.to_objectify.map do |amount_|
+          amount_ * SEND_XRPSEND_ANTI_FEE_RATIO[amount.currency]
         end
         ah.apply(balances)
       end
@@ -82,19 +83,23 @@ module Happy
     module SimulatedExchange
       def self.extended(mod)
         [
-          [Currency::KRW_P, Currency::KRW_R]
+          [Currency::KRW_P, Currency::KRW_R],
+          [Currency::BTC_BSR, Currency::BTC_BS]
         ].each do |base,counter|
-          mod.proc_exchange[[base, counter]] = mod.method(:send_paxmoneta_simulated)
+          mod.proc_exchange[[base, counter]] = mod.method(:send_xrpsend_simulated)
         end
       end
 
-      def send_paxmoneta_simulated(amount, counter)
-        # TODO: assert counter
-        fail amount.to_s unless amount.same_currency? Currency::KRW_P
+      SEND_XRPSEND_ANTI_FEE_RATIO = {
+        Currency::KRW_P => Amount::PAXMONETA_ANTI_FEE_RATIO,
+        Currency::BTC_BSR => BigDecimal.new('1')
+      }
+
+      def send_xrpsend_simulated(amount, counter)
         AmountHash.new.apply(
           -amount,
           -Amount::XRP_FEE,
-          counter.with(amount) * Amount::PAXMONETA_ANTI_FEE_RATIO
+          counter.with(amount) * SEND_XRPSEND_ANTI_FEE_RATIO[amount.currency]
         )
       end
     end

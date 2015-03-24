@@ -9,6 +9,7 @@ module Happy
       query[:index] = 'logstash-estimated_benefit-*'
       query[:type] = 'estimated_benefit'
       query.match(algo: 'simple')
+      query.match(path: 'KRW/XCOIN/BS/XRP/PAX/KRW')
       query.match(base: base)
       query.range('@timestamp': { gt: from, lte: to }.to_jsonify)
       query[:body][:size] = 0
@@ -65,7 +66,6 @@ module Happy
       worker.extend(XCoin::Information)
       worker.extend(BitStamp::Information)
       worker.extend(XRP::Information)
-      worker.extend(PaxMoneta::Information)
       worker.extend(Worker::Balance)
       # worker.extend(Logged::Balance) # TODO
       # worker.extend(XCoin::Balance)
@@ -84,8 +84,8 @@ module Happy
       worker.extend(BitStamp::SimulatedExchange)
       # worker.extend(XRP::Exchange)
       worker.extend(XRP::SimulatedExchange)
-      # worker.extend(PaxMoneta::Exchange)
-      worker.extend(PaxMoneta::SimulatedExchange)
+      # worker.extend(XRPSend::Exchange)
+      worker.extend(XRPSend::SimulatedExchange)
 
       worker.initial_balance = krw_r
       worker.local_balances.apply(-Amount::XRP_FEE)

@@ -79,6 +79,7 @@ module Happy
     end
 
     XCOIN_ANTI_FEE_RATIO = '0.999'
+    XCOIN_WITHDRAWAL_FEE = Amount.new('1000', 'KRW_R')
     B2R_RIPPLE_FEE_RATIO = BigDecimal.new('0.002')
     BITSTAMP_RIPPLE_FEE_RATIO = BigDecimal.new('0.002')
     PAXMONETA_ANTI_FEE_RATIO = '0.995'

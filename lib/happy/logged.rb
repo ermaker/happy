@@ -13,9 +13,13 @@ module Happy
         mod.es_client = Elasticsearch::Client.new url: ENV['ES_URI']
         [
           [Currency::KRW_X, Currency::BTC_X],
+          [Currency::BTC_X, Currency::KRW_X],
           [Currency::BTC_P, Currency::XRP],
           [Currency::BTC_BSR, Currency::XRP],
-          [Currency::XRP, Currency::KRW_P]
+          [Currency::XRP, Currency::KRW_P],
+          [Currency::XRP, Currency::BTC_P],
+          [Currency::XRP, Currency::BTC_BSR],
+          [Currency::KRW_P, Currency::XRP]
         ].each do |base,counter|
           mod.proc_market[[base, counter]] = mod.method(:market_logged)
         end

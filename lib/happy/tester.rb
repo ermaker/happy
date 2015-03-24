@@ -93,7 +93,6 @@ module Happy
       worker.extend(XCoin::Information)
       worker.extend(XRP::Information)
       worker.extend(BitStamp::Information)
-      worker.extend(PaxMoneta::Information)
       worker.extend(Worker::Balance)
       # worker.extend(Logged::Balance) # TODO
       # worker.extend(XCoin::Balance)
@@ -101,9 +100,9 @@ module Happy
       # worker.extend(XRP::Balance)
       worker.extend(Simulator::Balance)
       worker.extend(Worker::Market)
-      # worker.extend(Logged::Market)
+      worker.extend(Logged::Market)
       # worker.extend(XCoin::Market)
-      worker.extend(XRP::Market)
+      # worker.extend(XRP::Market)
       worker.extend(Worker::Exchange)
       worker.extend(Real::SimulatedExchange)
       # worker.extend(XCoin::Exchange)
@@ -113,10 +112,11 @@ module Happy
       worker.extend(BitStamp::SimulatedExchange)
       # worker.extend(XRP::Exchange)
       worker.extend(XRP::SimulatedExchange)
-      # worker.extend(PaxMoneta::Exchange)
-      worker.extend(PaxMoneta::SimulatedExchange)
+      # worker.extend(XRPSend::Exchange)
+      worker.extend(XRPSend::SimulatedExchange)
 
-      initial_balance = Amount.new('285500', 'KRW_R')
+      initial_balance = Amount.new('100000', 'KRW_R')
+      # initial_balance = Amount.new('1000', 'KRW_R')
       worker.initial_balance = initial_balance
       # worker.local_balances.apply(-initial_balance)
       # worker.local_balances.apply(initial_balance['value'].currency('KRW_P') * '0.995')
@@ -128,19 +128,15 @@ module Happy
       [
         Currency::KRW_R,
         Currency::KRW_P,
+        Currency::KRW_P,
         Currency::XRP,
-        Currency::BTC_BSR
-        # Currency::KRW_R,
-        # Currency::KRW_X,
-        # Currency::KRW_X,
-        # Currency::BTC_X,
-        # Currency::BTC_BS,
-        # Currency::BTC_BS,
-        # Currency::BTC_BSR,
-        # Currency::BTC_BSR,
-        # Currency::XRP,
-        # Currency::KRW_P,
-        # Currency::KRW_R
+        Currency::BTC_BSR,
+        Currency::BTC_BS,
+        Currency::BTC_BS,
+        Currency::BTC_X,
+        Currency::BTC_X,
+        Currency::KRW_X,
+        Currency::KRW_R
       ].each_cons(2) do |base,counter|
         result = worker.exchange(worker.local_balances[base], counter)
         Happy.logger.debug { "result: #{result}" }

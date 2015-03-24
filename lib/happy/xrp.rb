@@ -86,6 +86,11 @@ module Happy
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xrp)
         end
+        [
+          [Currency::KRW_P, Currency::KRW_P]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:wait_xrp_limited)
+        end
       end
 
       def place_order(amount, counter_amount)
@@ -116,17 +121,17 @@ module Happy
         response
       end
 
-      FEE_RATIO = Hash.new(BigDecimal.new('0'))
-      FEE_RATIO[[Currency::BTC_P, Currency::XRP]] =
+      EXCHAGE_XRP_FEE_RATIO = Hash.new(BigDecimal.new('0'))
+      EXCHAGE_XRP_FEE_RATIO[[Currency::BTC_P, Currency::XRP]] =
         Amount::B2R_RIPPLE_FEE_RATIO
-      FEE_RATIO[[Currency::BTC_BSR, Currency::XRP]] =
+      EXCHAGE_XRP_FEE_RATIO[[Currency::BTC_BSR, Currency::XRP]] =
         Amount::BITSTAMP_RIPPLE_FEE_RATIO
-      FEE_RATIO[[Currency::XRP, Currency::BTC_P]] =
+      EXCHAGE_XRP_FEE_RATIO[[Currency::XRP, Currency::BTC_P]] =
         Amount::B2R_RIPPLE_FEE_RATIO
-      FEE_RATIO[[Currency::XRP, Currency::BTC_BSR]] =
+      EXCHAGE_XRP_FEE_RATIO[[Currency::XRP, Currency::BTC_BSR]] =
         Amount::BITSTAMP_RIPPLE_FEE_RATIO
 
-      PRICE = {
+      EXCHAGE_XRP_PRICE = {
         [Currency::BTC_P, Currency::XRP] =>
         Amount.new('10000.0', 'XRP'),
         [Currency::BTC_BSR, Currency::XRP] =>
@@ -142,10 +147,10 @@ module Happy
       }
 
       def exchange_xrp(amount, counter)
-        fee_ratio = FEE_RATIO[[amount.currency, counter.currency]]
+        fee_ratio = EXCHAGE_XRP_FEE_RATIO[[amount.currency, counter.currency]]
         amount /= (1 + fee_ratio)
 
-        counter_amount = PRICE[[amount.currency, counter]] * amount
+        counter_amount = EXCHAGE_XRP_PRICE[[amount.currency, counter]] * amount
         hash = place_order(amount, counter_amount)['hash']
         AmountHash.new.apply(
           order_transaction(hash)['balance_changes']
@@ -155,6 +160,24 @@ module Happy
       def wait_xrp(amount, _counter)
         wait(amount)
         AmountHash.new
+      end
+
+      def wait_xrp_limited(amount, _counter)
+        return AmountHash.new if wait(amount, time: 30)
+
+        message_detail = "#{amount.to_human}, but #{balance(amount.currency)[amount.currency].to_human(round: 2)}"
+        message_brief = 'Not enough KRW_P'
+        Happy.logger.error do
+          "#{message_brief}: #{message_detail}"
+        end
+        MShard::MShard.new.set(
+          pushbullet: true,
+          channel_tag: 'morder_process',
+          type: 'note',
+          title: message_brief,
+          body: message_detail
+        )
+        fail message_brief
       end
     end
 
@@ -172,24 +195,25 @@ module Happy
         end
         [
           [Currency::BTC_P, Currency::BTC_P],
-          [Currency::BTC_BSR, Currency::BTC_BSR]
+          [Currency::BTC_BSR, Currency::BTC_BSR],
+          [Currency::KRW_P, Currency::KRW_P]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xrp_simulated)
         end
       end
 
-      FEE_RATIO = Hash.new(BigDecimal.new('0'))
-      FEE_RATIO[[Currency::BTC_P, Currency::XRP]] =
+      EXCHAGE_XRP_FEE_RATIO = Hash.new(BigDecimal.new('0'))
+      EXCHAGE_XRP_FEE_RATIO[[Currency::BTC_P, Currency::XRP]] =
         Amount::B2R_RIPPLE_FEE_RATIO
-      FEE_RATIO[[Currency::BTC_BSR, Currency::XRP]] =
+      EXCHAGE_XRP_FEE_RATIO[[Currency::BTC_BSR, Currency::XRP]] =
         Amount::BITSTAMP_RIPPLE_FEE_RATIO
-      FEE_RATIO[[Currency::XRP, Currency::BTC_P]] =
+      EXCHAGE_XRP_FEE_RATIO[[Currency::XRP, Currency::BTC_P]] =
         Amount::B2R_RIPPLE_FEE_RATIO
-      FEE_RATIO[[Currency::XRP, Currency::BTC_BSR]] =
+      EXCHAGE_XRP_FEE_RATIO[[Currency::XRP, Currency::BTC_BSR]] =
         Amount::BITSTAMP_RIPPLE_FEE_RATIO
 
       def exchange_xrp_simulated(amount, counter)
-        fee_ratio = FEE_RATIO[[amount.currency, counter.currency]]
+        fee_ratio = EXCHAGE_XRP_FEE_RATIO[[amount.currency, counter.currency]]
 
         AmountHash.new.apply(
           -amount,

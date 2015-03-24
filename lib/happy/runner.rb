@@ -22,7 +22,6 @@ module Happy
       worker.extend(XCoin::Information)
       worker.extend(XRP::Information)
       worker.extend(BitStamp::Information)
-      worker.extend(PaxMoneta::Information)
       worker.extend(Worker::Balance)
       # worker.extend(Logged::Balance) # TODO
       worker.extend(XCoin::Balance)
@@ -38,11 +37,11 @@ module Happy
       worker.extend(XCoin::Exchange)
       # worker.extend(XCoin::SimulatedExchange)
       # worker.extend(B2R::SimulatedExchange)
-      worker.extend(BitStamp::SimulatedExchange)
+      worker.extend(BitStamp::Exchange)
       worker.extend(XRP::Exchange)
       # worker.extend(XRP::SimulatedExchange)
-      # worker.extend(PaxMoneta::Exchange)
-      worker.extend(PaxMoneta::SimulatedExchange)
+      # worker.extend(XRPSend::Exchange)
+      worker.extend(XRPSend::SimulatedExchange)
 
       Happy.logger.info { "Order Start: #{krw_r}" }
       worker.initial_balance = krw_r

@@ -60,7 +60,12 @@ module Happy
         [
           [Currency::BTC_BS, Currency::BTC_BSR]
         ].each do |base,counter|
-          mod.proc_exchange[[base, counter]] = mod.method(:send_bitstamp)
+          mod.proc_exchange[[base, counter]] = mod.method(:send_bitstamp_xrp)
+        end
+        [
+          [Currency::BTC_BS, Currency::BTC_X]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:send_bitstamp_btc)
         end
         [
           [Currency::BTC_BS, Currency::BTC_BS]
@@ -69,7 +74,7 @@ module Happy
         end
       end
 
-      def send_bitstamp(amount, counter)
+      def send_bitstamp_xrp(amount, counter)
         # XXX: Assumes amount is BTC_BS
         # XXX: Assumes counter is BTC_BSR
         address = xrp_address
@@ -90,6 +95,27 @@ module Happy
         )
       end
 
+      def send_bitstamp_btc(amount, counter)
+        # XXX: Assumes amount is BTC_BS
+        # XXX: Assumes counter is BTC_X
+        address = ENV['XCOIN_ADDRESS']
+
+        amount['value'] = amount['value'].floor(8)
+        body = signature_hash.merge(
+          amount: amount['value'].to_s('F'),
+          address: address
+        )
+        response = HTTParty.post(
+          'https://www.bitstamp.net/api/bitcoin_withdrawal/',
+          body: body
+        ).parsed_response
+        Happy.logger.debug { "response: #{response}" }
+        AmountHash.new.apply(
+          -amount,
+          counter.with(amount) - Amount::BTC_FEE
+        )
+      end
+
       def wait_bitstamp(amount, _counter)
         wait(amount)
         AmountHash.new
@@ -101,7 +127,12 @@ module Happy
         [
           [Currency::BTC_BS, Currency::BTC_BSR]
         ].each do |base,counter|
-          mod.proc_exchange[[base, counter]] = mod.method(:send_bitstamp_simulated)
+          mod.proc_exchange[[base, counter]] = mod.method(:send_bitstamp_xrp_simulated)
+        end
+        [
+          [Currency::BTC_BS, Currency::BTC_X]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:send_bitstamp_btc_simulated)
         end
         [
           [Currency::BTC_BS, Currency::BTC_BS]
@@ -110,10 +141,17 @@ module Happy
         end
       end
 
-      def send_bitstamp_simulated(amount, counter)
+      def send_bitstamp_xrp_simulated(amount, counter)
         AmountHash.new.apply(
           -amount,
           counter.with(amount)
+        )
+      end
+
+      def send_bitstamp_btc_simulated(amount, counter)
+        AmountHash.new.apply(
+          -amount,
+          counter.with(amount) - Amount::BTC_FEE
         )
       end
 

@@ -98,6 +98,11 @@ module Happy
         ].each do |base,counter|
           mod.proc_market[[base, counter]] = mod.method(:market_xcoin)
         end
+        [
+          [Currency::BTC_X, Currency::KRW_X]
+        ].each do |base,counter|
+          mod.proc_market[[base, counter]] = mod.method(:market_xcoin_reverse)
+        end
       end
 
       include Capybara::DSL
@@ -122,6 +127,27 @@ module Happy
         sleep 0.3
         retry
       end
+
+      def market_xcoin_reverse(_base, _counter)
+        # TODO: ensure base and counter
+        visit 'http://www.xcoin.co.kr'
+        Nokogiri.HTML(page.body).xpath("//tr[@class='buying']")
+          .map do |tr|
+          [
+            tr.xpath('./td[2]').text.currency('KRW_X'),
+            tr.xpath('./td[3]').text.currency('BTC_X')
+          ]
+        end.map do |price,amount|
+          {
+            'price' => 1.currency('BTC_X') / price,
+            'taker_gets_funded' => price * amount,
+            'taker_pays_funded' => amount
+          }
+        end
+      rescue
+        sleep 0.3
+        retry
+      end
     end
 
     module Exchange
@@ -132,13 +158,24 @@ module Happy
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xcoin)
         end
         [
+          [Currency::BTC_X, Currency::KRW_X]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:exchange_xcoin_reverse)
+        end
+        [
           [Currency::BTC_X, Currency::BTC_B2R],
           [Currency::BTC_X, Currency::BTC_BS]
         ].each do |base,counter|
-          mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin)
+          mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin_btc)
         end
         [
-          [Currency::KRW_X, Currency::KRW_X]
+          [Currency::KRW_X, Currency::KRW_R]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin_krw)
+        end
+        [
+          [Currency::KRW_X, Currency::KRW_X],
+          [Currency::BTC_X, Currency::BTC_X]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin)
         end
@@ -263,14 +300,18 @@ module Happy
         end
       end
 
-      DESTINATION_ADDRESS = {
+      def exchange_xcoin_reverse(_amount, _counter)
+        fail
+      end
+
+      SEND_XCOIN_DESTINATION_ADDRESS = {
         Currency::BTC_B2R => ENV['BTC2RIPPLE_ADDRESS'],
         Currency::BTC_BS => ENV['BITSTAMP_ADDRESS']
       }
 
-      def send_xcoin_impl(amount, counter)
-        Happy.logger.debug { 'send_xcoin' }
-        destination_address =  DESTINATION_ADDRESS[counter.currency]
+      def send_xcoin_btc_impl(amount, counter)
+        Happy.logger.debug { 'send_xcoin_btc_impl' }
+        destination_address =  SEND_XCOIN_DESTINATION_ADDRESS[counter.currency]
         fail counter.to_s if destination_address.nil?
         visit 'https://www.xcoin.co.kr/u3/US302'
         btc_value = amount['value'].to_s('F')
@@ -287,7 +328,7 @@ module Happy
         Happy.logger.debug { 'xcoin_sms_validation_code loop start' }
         sms =
           catch(:sms_done) do
-            (30 / 1).times do
+            (60 / 1).times do
               sleep 1
               begin
                 Happy.logger.debug { 'xcoin_sms_validation_code get' }
@@ -312,7 +353,7 @@ module Happy
         fill_in 'smsKeyTmp', with: sms
         find(:xpath, '//p[@class="btn_org"]').click
         find(:css, '._wModal_btn_yes').click
-        Happy.logger.debug { 'send_xcoin finished' }
+        Happy.logger.debug { 'send_xcoin_btc_impl finished' }
       rescue => e
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
@@ -321,12 +362,12 @@ module Happy
         retry
       end
 
-      def send_xcoin(amount, counter)
+      def send_xcoin_btc(amount, counter)
         xcoin_ensure_login
         history_ = catch(:history) do
           history_pivot_time = exchange_xcoin_history[0][0]
           loop do
-            send_xcoin_impl(amount, counter)
+            send_xcoin_btc_impl(amount, counter)
             (60 / 2).times do
               history_ = exchange_xcoin_history
                 .take_while do |record|
@@ -368,6 +409,10 @@ module Happy
         end
       end
 
+      def send_xcoin_krw(_amount, _counter)
+        fail
+      end
+
       def wait_xcoin(amount, _counter)
         return AmountHash.new if wait(amount, time: 30)
 
@@ -390,7 +435,8 @@ module Happy
     module SimulatedExchange
       def self.extended(mod)
         [
-          [Currency::KRW_X, Currency::BTC_X]
+          [Currency::KRW_X, Currency::BTC_X],
+          [Currency::BTC_X, Currency::KRW_X]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xcoin_simulated)
         end
@@ -398,10 +444,16 @@ module Happy
           [Currency::BTC_X, Currency::BTC_B2R],
           [Currency::BTC_X, Currency::BTC_BS]
         ].each do |base,counter|
-          mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin_simulated)
+          mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin_btc_simulated)
         end
         [
-          [Currency::KRW_X, Currency::KRW_X]
+          [Currency::KRW_X, Currency::KRW_R]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin_krw_simulated)
+        end
+        [
+          [Currency::KRW_X, Currency::KRW_X],
+          [Currency::BTC_X, Currency::BTC_X]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin_simulated)
         end
@@ -415,11 +467,20 @@ module Happy
         )
       end
 
-      def send_xcoin_simulated(amount, counter)
+      def send_xcoin_btc_simulated(amount, counter)
         AmountHash.new.apply(
           -amount,
           counter.with(amount),
           -counter.with(Amount::BTC_FEE)
+        )
+      end
+
+      def send_xcoin_krw_simulated(amount, counter)
+        # TODO: ensure amount and counter
+        AmountHash.new.apply(
+          -amount,
+          counter.with(amount),
+          -Amount::XCOIN_WITHDRAWAL_FEE
         )
       end
 
