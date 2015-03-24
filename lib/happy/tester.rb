@@ -105,6 +105,7 @@ module Happy
       # worker.extend(XCoin::Market)
       worker.extend(XRP::Market)
       worker.extend(Worker::Exchange)
+      worker.extend(Real::SimulatedExchange)
       # worker.extend(XCoin::Exchange)
       worker.extend(XCoin::SimulatedExchange)
       worker.extend(B2R::SimulatedExchange)
@@ -117,14 +118,15 @@ module Happy
 
       initial_balance = Amount.new('285500', 'KRW_R')
       worker.initial_balance = initial_balance
-      worker.local_balances.apply(-initial_balance)
-      worker.local_balances.apply(initial_balance['value'].currency('KRW_P') * '0.995')
+      # worker.local_balances.apply(-initial_balance)
+      # worker.local_balances.apply(initial_balance['value'].currency('KRW_P') * '0.995')
       # worker.local_balances.apply('0.001'.currency('BTC_BS'))
       # worker.local_balances.apply('0.30738461'.currency('BTC_P'))
       worker.local_balances.apply(-Amount::XRP_FEE)
       worker.local_balances.apply(-Amount::XRP_FEE)
       Happy.logger.info { "local_balances: #{worker.local_balances}" }
       [
+        Currency::KRW_R,
         Currency::KRW_P,
         Currency::XRP,
         Currency::BTC_BSR

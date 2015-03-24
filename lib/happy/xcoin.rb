@@ -142,11 +142,6 @@ module Happy
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin)
         end
-        [
-          [Currency::KRW_R, Currency::KRW_X]
-        ].each do |base,counter|
-          mod.proc_exchange[[base, counter]] = mod.method(:move_xcoin)
-        end
       end
 
       include Capybara::DSL
@@ -390,13 +385,6 @@ module Happy
         )
         fail message_brief
       end
-
-      def move_xcoin(amount, counter)
-        AmountHash.new.apply(
-          -amount,
-          counter.with(amount)
-        )
-      end
     end
 
     module SimulatedExchange
@@ -416,11 +404,6 @@ module Happy
           [Currency::KRW_X, Currency::KRW_X]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin_simulated)
-        end
-        [
-          [Currency::KRW_R, Currency::KRW_X]
-        ].each do |base,counter|
-          mod.proc_exchange[[base, counter]] = mod.method(:move_xcoin_simulated)
         end
       end
 
@@ -442,13 +425,6 @@ module Happy
 
       def wait_xcoin_simulated(_amount, _counter)
         AmountHash.new
-      end
-
-      def move_xcoin_simulated(amount, counter)
-        AmountHash.new.apply(
-          -amount,
-          counter.with(amount)
-        )
       end
     end
   end

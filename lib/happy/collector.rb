@@ -38,7 +38,10 @@ module Happy
       [
         [Currency::BTC_P, Currency::XRP],
         [Currency::BTC_BSR, Currency::XRP],
-        [Currency::XRP, Currency::KRW_P]
+        [Currency::XRP, Currency::KRW_P],
+        [Currency::XRP, Currency::BTC_P],
+        [Currency::XRP, Currency::BTC_BSR],
+        [Currency::KRW_P, Currency::XRP]
       ].each { |base,counter| log_market_impl(base, counter) }
     end
 
@@ -89,6 +92,7 @@ module Happy
         worker.extend(Worker::Market)
         worker.extend(Logged::Market)
         worker.extend(Worker::Exchange)
+        worker.extend(Real::SimulatedExchange)
         worker.extend(XCoin::SimulatedExchange)
         worker.extend(B2R::SimulatedExchange)
         worker.extend(BitStamp::SimulatedExchange)

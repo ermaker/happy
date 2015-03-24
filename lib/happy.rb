@@ -21,6 +21,7 @@ module Happy
   autoload :B2R, 'happy/b2r'
   autoload :BitStamp, 'happy/bitstamp'
   autoload :PaxMoneta, 'happy/paxmoneta'
+  autoload :Real, 'happy/real'
   autoload :Worker, 'happy/worker'
   autoload :Simulator, 'happy/simulator'
   autoload :Logged, 'happy/logged'

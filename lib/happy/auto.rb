@@ -77,6 +77,7 @@ module Happy
       # worker.extend(XCoin::Market)
       # worker.extend(XRP::Market)
       worker.extend(Worker::Exchange)
+      worker.extend(Real::SimulatedExchange)
       # worker.extend(XCoin::Exchange)
       worker.extend(XCoin::SimulatedExchange)
       # worker.extend(B2R::SimulatedExchange)
