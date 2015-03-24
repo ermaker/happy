@@ -115,14 +115,10 @@ module Happy
       # worker.extend(PaxMoneta::Exchange)
       worker.extend(PaxMoneta::SimulatedExchange)
 
-      Happy.logger.debug { "balance: #{worker.balance(Currency::BTC_BS)}" }
-
-      exit
-
       initial_balance = Amount.new('3000', 'KRW_R')
       worker.initial_balance = initial_balance
       worker.local_balances.apply(-initial_balance)
-      worker.local_balances.apply('0.01'.currency('BTC_BSR'))
+      worker.local_balances.apply('0.001'.currency('BTC_BS'))
       # worker.local_balances.apply('0.30738461'.currency('BTC_P'))
       worker.local_balances.apply(-Amount::XRP_FEE)
       worker.local_balances.apply(-Amount::XRP_FEE)
@@ -132,9 +128,9 @@ module Happy
         # Currency::KRW_X,
         # Currency::KRW_X,
         # Currency::BTC_X,
+        # Currency::BTC_BS,
         Currency::BTC_BS,
-        Currency::BTC_BS,
-        # Currency::BTC_BSR,
+        Currency::BTC_BSR,
         # Currency::BTC_BSR,
         # Currency::XRP,
         # Currency::KRW_P,

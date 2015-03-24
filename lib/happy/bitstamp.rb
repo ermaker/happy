@@ -37,7 +37,7 @@ module Happy
 
       def balance_bitstamp_impl
         response = HTTParty.post(
-          "https://www.bitstamp.net/api/balance/",
+          'https://www.bitstamp.net/api/balance/',
           body: signature_hash
         ).parsed_response
         response['btc_available'].currency('BTC_BS')
@@ -63,7 +63,20 @@ module Happy
       end
 
       def send_bitstamp(amount, counter)
-        fail
+        # XXX: Assumes amount is BTC_BS
+        # XXX: Assumes counter is BTC_BSR
+        address = xrp_address
+
+        body = signature_hash.merge(
+          amount: amount['value'].to_s('F'),
+          address: address,
+          currency: amount['currency']
+        )
+        response = HTTParty.post(
+          'https://www.bitstamp.net/api/ripple_withdrawal/',
+          body: body
+        ).parsed_response
+        fail response.to_s unless response == true
         AmountHash.new.apply(
           -amount,
           counter.with(amount)
