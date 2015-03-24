@@ -21,10 +21,12 @@ module Happy
       worker = Worker.new
       worker.extend(XCoin::Information)
       worker.extend(XRP::Information)
+      worker.extend(BitStamp::Information)
       worker.extend(PaxMoneta::Information)
       worker.extend(Worker::Balance)
       # worker.extend(Logged::Balance) # TODO
       worker.extend(XCoin::Balance)
+      worker.extend(BitStamp::Balance)
       worker.extend(XRP::Balance)
       # worker.extend(Simulator::Balance)
       worker.extend(Worker::Market)
@@ -34,7 +36,8 @@ module Happy
       worker.extend(Worker::Exchange)
       worker.extend(XCoin::Exchange)
       # worker.extend(XCoin::SimulatedExchange)
-      worker.extend(B2R::SimulatedExchange)
+      # worker.extend(B2R::SimulatedExchange)
+      worker.extend(BitStamp::SimulatedExchange)
       worker.extend(XRP::Exchange)
       # worker.extend(XRP::SimulatedExchange)
       # worker.extend(PaxMoneta::Exchange)
@@ -50,9 +53,10 @@ module Happy
         Currency::KRW_X,
         Currency::KRW_X,
         Currency::BTC_X,
-        Currency::BTC_B2R,
-        Currency::BTC_P,
-        Currency::BTC_P,
+        Currency::BTC_BS,
+        Currency::BTC_BS,
+        Currency::BTC_BSR,
+        Currency::BTC_BSR,
         Currency::XRP,
         Currency::KRW_P,
         Currency::KRW_R
