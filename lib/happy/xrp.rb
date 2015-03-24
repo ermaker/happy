@@ -40,7 +40,10 @@ module Happy
         [
           [Currency::BTC_P, Currency::XRP],
           [Currency::BTC_BSR, Currency::XRP],
-          [Currency::XRP, Currency::KRW_P]
+          [Currency::XRP, Currency::KRW_P],
+          [Currency::XRP, Currency::BTC_P],
+          [Currency::XRP, Currency::BTC_BSR],
+          [Currency::KRW_P, Currency::XRP]
         ].each do |base,counter|
           mod.proc_market[[base, counter]] = mod.method(:market_xrp)
         end
@@ -70,7 +73,10 @@ module Happy
         [
           [Currency::BTC_P, Currency::XRP],
           [Currency::BTC_BSR, Currency::XRP],
-          [Currency::XRP, Currency::KRW_P]
+          [Currency::XRP, Currency::KRW_P],
+          [Currency::XRP, Currency::BTC_P],
+          [Currency::XRP, Currency::BTC_BSR],
+          [Currency::KRW_P, Currency::XRP]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp)
         end
@@ -115,6 +121,10 @@ module Happy
         Amount::B2R_RIPPLE_FEE_RATIO
       FEE_RATIO[[Currency::BTC_BSR, Currency::XRP]] =
         Amount::BITSTAMP_RIPPLE_FEE_RATIO
+      FEE_RATIO[[Currency::XRP, Currency::BTC_P]] =
+        Amount::B2R_RIPPLE_FEE_RATIO
+      FEE_RATIO[[Currency::XRP, Currency::BTC_BSR]] =
+        Amount::BITSTAMP_RIPPLE_FEE_RATIO
 
       PRICE = {
         [Currency::BTC_P, Currency::XRP] =>
@@ -122,7 +132,13 @@ module Happy
         [Currency::BTC_BSR, Currency::XRP] =>
         Amount.new('10000.0', 'XRP'),
         [Currency::XRP, Currency::KRW_P] =>
-        Amount.new('5.0', 'KRW_P')
+        Amount.new('5.0', 'KRW_P'),
+        [Currency::XRP, Currency::BTC_P] =>
+        Amount.new('0.00001', 'BTC_P'),
+        [Currency::XRP, Currency::BTC_BSR] =>
+        Amount.new('0.00001', 'BTC_BSR'),
+        [Currency::KRW_P, Currency::XRP] =>
+        Amount.new('0.03', 'XRP')
       }
 
       def exchange_xrp(amount, counter)
@@ -147,7 +163,10 @@ module Happy
         [
           [Currency::BTC_P, Currency::XRP],
           [Currency::BTC_BSR, Currency::XRP],
-          [Currency::XRP, Currency::KRW_P]
+          [Currency::XRP, Currency::KRW_P],
+          [Currency::XRP, Currency::BTC_P],
+          [Currency::XRP, Currency::BTC_BSR],
+          [Currency::KRW_P, Currency::XRP]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp_simulated)
         end
@@ -163,6 +182,10 @@ module Happy
       FEE_RATIO[[Currency::BTC_P, Currency::XRP]] =
         Amount::B2R_RIPPLE_FEE_RATIO
       FEE_RATIO[[Currency::BTC_BSR, Currency::XRP]] =
+        Amount::BITSTAMP_RIPPLE_FEE_RATIO
+      FEE_RATIO[[Currency::XRP, Currency::BTC_P]] =
+        Amount::B2R_RIPPLE_FEE_RATIO
+      FEE_RATIO[[Currency::XRP, Currency::BTC_BSR]] =
         Amount::BITSTAMP_RIPPLE_FEE_RATIO
 
       def exchange_xrp_simulated(amount, counter)
