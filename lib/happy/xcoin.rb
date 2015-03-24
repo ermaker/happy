@@ -58,6 +58,7 @@ module Happy
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
         Happy.logger.warn { e.backtrace.join("\n") }
+        sleep 0.3
         retry
       end
     end
@@ -81,6 +82,12 @@ module Happy
           data[1].currency('BTC_X'),
           data[2].currency('KRW_X')
         )
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        sleep 0.3
+        retry
       end
     end
 
@@ -112,6 +119,7 @@ module Happy
           }
         end
       rescue
+        sleep 0.3
         retry
       end
     end
@@ -164,6 +172,7 @@ module Happy
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
         Happy.logger.warn { e.backtrace.join("\n") }
+        sleep 0.3
         retry
       end
 
@@ -185,6 +194,7 @@ module Happy
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
         Happy.logger.warn { e.backtrace.join("\n") }
+        sleep 0.3
         retry
       end
 
@@ -207,6 +217,7 @@ module Happy
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
         Happy.logger.warn { e.backtrace.join("\n") }
+        sleep 0.3
         retry
       end
 
@@ -311,6 +322,7 @@ module Happy
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
         Happy.logger.warn { e.backtrace.join("\n") }
+        sleep 0.3
         retry
       end
 

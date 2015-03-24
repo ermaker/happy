@@ -37,6 +37,7 @@ module Happy
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
         Happy.logger.warn { e.backtrace.join("\n") }
+        sleep 0.3
         retry
       end
     rescue => e

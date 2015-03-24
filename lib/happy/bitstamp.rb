@@ -40,7 +40,14 @@ module Happy
           'https://www.bitstamp.net/api/balance/',
           body: signature_hash
         ).parsed_response
+        fail if response.nil?
         response['btc_available'].currency('BTC_BS')
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        sleep 0.3
+        retry
       end
 
       def balance_bitstamp
