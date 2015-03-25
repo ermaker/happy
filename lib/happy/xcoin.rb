@@ -328,7 +328,7 @@ module Happy
         Happy.logger.debug { 'xcoin_sms_validation_code loop start' }
         sms =
           catch(:sms_done) do
-            (60 / 1).times do
+            (180 / 1).times do
               sleep 1
               begin
                 Happy.logger.debug { 'xcoin_sms_validation_code get' }
