@@ -115,13 +115,14 @@ module Happy
       worker.extend(XRPSend::Exchange)
       # worker.extend(XRPSend::SimulatedExchange)
 
-      initial_balance = Amount.new('5000', 'KRW_R')
+      initial_balance = Amount.new('50000', 'KRW_R')
       # initial_balance = Amount.new('1000', 'KRW_R')
       worker.initial_balance = initial_balance
 
       # Use inner amount
       worker.local_balances.apply(-initial_balance)
-      worker.local_balances.apply(initial_balance['value'].currency('KRW_P'))
+      # worker.local_balances.apply(initial_balance['value'].currency('KRW_P'))
+      worker.local_balances.apply('0.185'.currency('BTC_BSR'))
 
       # worker.local_balances.apply('0.001'.currency('BTC_X'))
       # worker.local_balances.apply('0.001'.currency('BTC_BS'))
@@ -131,9 +132,9 @@ module Happy
       Happy.logger.info { "local_balances: #{worker.local_balances}" }
       [
         # Currency::KRW_R,
-        Currency::KRW_P,
-        Currency::KRW_P,
-        Currency::XRP,
+        # Currency::KRW_P,
+        # Currency::KRW_P,
+        # Currency::XRP,
         Currency::BTC_BSR,
         Currency::BTC_BS,
         Currency::BTC_BS,

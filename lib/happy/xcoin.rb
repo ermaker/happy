@@ -1,4 +1,5 @@
 require 'phantomjs/poltergeist'
+require 'httparty'
 require 'time'
 
 module Happy
@@ -105,16 +106,17 @@ module Happy
         end
       end
 
-      include Capybara::DSL
+      def market_xcoin_json
+        JSON.parse(HTTParty.get('https://www.xcoin.co.kr/json/marketStatJson', headers: {'X-Requested-With' => 'XMLHttpRequest'}))
+      end
 
       def market_xcoin(_base, _counter)
         # TODO: ensure base and counter
-        visit 'http://www.xcoin.co.kr'
-        Nokogiri.HTML(page.body).xpath("//tr[@class='sell']")
-          .map do |tr|
+        market = market_xcoin_json
+        market[0, market.size/2].map do |m|
           [
-            tr.xpath('./td[2]').text.currency('KRW_X'),
-            tr.xpath('./td[3]').text.currency('BTC_X')
+            m['BUY_KRW'].currency('KRW_X'),
+            m['BUY_BTC'].currency('BTC_X')
           ]
         end.reverse.map do |price,amount|
           {
@@ -130,12 +132,11 @@ module Happy
 
       def market_xcoin_reverse(_base, _counter)
         # TODO: ensure base and counter
-        visit 'http://www.xcoin.co.kr'
-        Nokogiri.HTML(page.body).xpath("//tr[@class='buying']")
-          .map do |tr|
+        market = market_xcoin_json
+        market[market.size/2, market.size/2].map do |m|
           [
-            tr.xpath('./td[2]').text.currency('KRW_X'),
-            tr.xpath('./td[3]').text.currency('BTC_X')
+            m['BUY_KRW'].currency('KRW_X'),
+            m['BUY_BTC'].currency('BTC_X')
           ]
         end.map do |price,amount|
           {
