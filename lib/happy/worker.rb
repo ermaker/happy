@@ -24,13 +24,13 @@ module Happy
         if time.nil?
           method(:loop)
         else
-          (time/5).method(:times)
+          (time/60).method(:times)
         end.call do
           begin
             return true if amount <= balance(currency)[currency]
           rescue
           end
-          sleep 5
+          sleep 60
         end
         false
       end

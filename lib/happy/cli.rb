@@ -49,6 +49,11 @@ module Happy
       Tester.new.test
     end
 
+    desc 'test2', 'Test2'
+    def test2
+      Tester.new.test2
+    end
+
     desc 'order', 'Order'
     def order
       Runner.new.main

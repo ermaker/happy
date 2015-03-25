@@ -102,6 +102,16 @@ module Happy
       end
     end
 
+    def benefit_result worker, **default
+      default.merge(
+        benefit: worker.benefit['value'].round(2).to_f,
+        percent:
+          (worker.benefit / worker.initial_balance * 100)['value']
+            .round(2).to_f,
+        base: worker.initial_balance['value'].to_i
+      )
+    end
+
     def simple_estimated_benefit(base_worker, krw_r_value)
       worker = simulated_worker
       worker.time = base_worker.time
@@ -128,15 +138,11 @@ module Happy
 
       base_worker.cached_market_logged = worker.cached_market_logged
 
-      {
+      benefit_result(
+        worker,
         algo: 'simple',
-        path: 'KRW/XCOIN/BS/XRP/PAX/KRW',
-        benefit: worker.benefit['value'].round(2).to_f,
-        percent:
-          (worker.benefit / worker.initial_balance * 100)['value']
-            .round(2).to_f,
-        base: worker.initial_balance['value'].to_i
-      }
+        path: 'KRW/XCOIN/BS/XRP/PAX/KRW'
+      )
     end
 
     def log_simple_estimated_benefit
@@ -175,21 +181,70 @@ module Happy
 
       base_worker.cached_market_logged = worker.cached_market_logged
 
-      {
+      benefit_result(
+        worker,
         algo: 'simple',
-        path: 'KRW/PAX/XRP/BS/XCOIN/KRW',
-        benefit: worker.benefit['value'].round(2).to_f,
-        percent:
-          (worker.benefit / worker.initial_balance * 100)['value']
-            .round(2).to_f,
-        base: worker.initial_balance['value'].to_i
-      }
+        path: 'KRW/PAX/XRP/BS/XCOIN/KRW'
+      )
     end
 
     def log_simple_estimated_benefit_reversed
       base_worker = simulated_worker
       seb = LOG_RANGE.map do |krw_r_value|
         simple_estimated_benefit_reversed(base_worker, krw_r_value)
+      end
+      taint_best_benefit(seb)
+      Happy.logstash.with(type: 'estimated_benefit')
+        .at_once.stash_all(seb)
+    end
+
+    def simple_estimated_benefit_recycled(base_worker, krw_r_value)
+      worker = simulated_worker
+      worker.time = base_worker.time
+      worker.cached_market_logged = base_worker.cached_market_logged
+
+      initial_balance = krw_r_value.currency('KRW_R')
+      worker.initial_balance = initial_balance
+
+      # Use inner amount
+      worker.local_balances.apply(-initial_balance)
+      worker.local_balances.apply(initial_balance['value'].currency('KRW_P'))
+
+      worker.local_balances.apply(-Amount::XRP_FEE)
+      worker.local_balances.apply(-Amount::XRP_FEE)
+      [
+        Currency::KRW_P,
+        Currency::KRW_P,
+        Currency::XRP,
+        Currency::BTC_BSR,
+        Currency::BTC_BS,
+        Currency::BTC_BS,
+        Currency::BTC_X,
+        Currency::BTC_X,
+        Currency::KRW_X
+      ].each_cons(2) do |base,counter|
+        worker.exchange(worker.local_balances[base], counter)
+      end
+
+      # Do not withdrawal
+      worker.local_balances.apply(
+        -worker.local_balances[Currency::KRW_X],
+        worker.local_balances[Currency::KRW_X]['value'].currency(Currency::KRW_R)
+      )
+
+      base_worker.cached_market_logged = worker.cached_market_logged
+
+      benefit_result(
+        worker,
+        algo: 'simple',
+        path: 'PAX/XRP/BS/XCOIN'
+      )
+    end
+
+    def log_simple_estimated_benefit_recycled
+      base_worker = simulated_worker
+      seb = LOG_RANGE.map do |krw_r_value|
+        simple_estimated_benefit_recycled(base_worker, krw_r_value)
       end
       taint_best_benefit(seb)
       Happy.logstash.with(type: 'estimated_benefit')
@@ -233,16 +288,11 @@ module Happy
 
       base_worker.cached_market_logged = worker.cached_market_logged
 
-      {
+      benefit_result(
+        worker,
         algo: 'delayed',
-        path: 'KRW/XCOIN/BS/XRP/PAX/KRW',
-        delay: delay,
-        benefit: worker.benefit['value'].round(2).to_f,
-        percent:
-          (worker.benefit / worker.initial_balance * 100)['value']
-            .round(2).to_f,
-        base: worker.initial_balance['value'].to_i
-      }
+        path: 'KRW/XCOIN/BS/XRP/PAX/KRW'
+      )
     end
 
     def log_delayed_estimated_benefit

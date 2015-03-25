@@ -174,7 +174,11 @@ module Happy
           mod.proc_exchange[[base, counter]] = mod.method(:send_xcoin_krw)
         end
         [
-          [Currency::KRW_X, Currency::KRW_X],
+          [Currency::KRW_X, Currency::KRW_X]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin_limited)
+        end
+        [
           [Currency::BTC_X, Currency::BTC_X]
         ].each do |base,counter|
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin)
@@ -232,7 +236,7 @@ module Happy
 
       def exchange_xcoin_impl(amount, counter)
         # TODO: assert amount and counter
-        Happy.logger.debug { 'exchange_xcoin' }
+        Happy.logger.debug { 'exchange_xcoin_impl' }
         btc_x = value_shift(amount, counter)
         Happy.logger.debug { "btc_x: #{btc_x}" }
         visit 'https://www.xcoin.co.kr/u2/US202'
@@ -244,7 +248,7 @@ module Happy
         fill_in 'btcAmtComma', with: high_btc
         find(:xpath, '//p[@class="btn_org"]').click
         find(:css, '._wModal_btn_yes').click
-        Happy.logger.debug { 'exchange_xcoin finished' }
+        Happy.logger.debug { 'exchange_xcoin_impl finished' }
       rescue => e
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
@@ -253,55 +257,159 @@ module Happy
         retry
       end
 
-      def exchange_xcoin(amount, counter)
-        # TODO: assert amount and counter
+      def exchange_xcoin_history_diff filter
         xcoin_ensure_login
-        history_pivot_time = exchange_xcoin_history[0][0]
-        status_ah = catch(:status) do
-          status = xcoin_order_status[0]
-          loop do
-            exchange_xcoin_impl(amount, counter)
-            (60 / 2).times do
-              status_ = xcoin_order_status.take_while do |record|
-                record != status
-              end
-              throw(:status, status_[0][2]) if
-                status_.one? && status_[0][1] == '완료'
-              Happy.logger.debug { "No correct order status: #{status_}" }
-              sleep 2
-            end
-            Happy.logger.warn { 'No correct order status. Exchange XCoin again.' }
-            MShard::MShard.new.set(
-              pushbullet: true,
-              channel_tag: 'morder_process',
-              type: 'note',
-              title: 'Exchange XCoin again',
-              body: 'No correct order status'
-            )
-          end
-        end
-        AmountHash.new.tap do |ah|
-          balances = exchange_xcoin_history.take_while do |record|
-            record[0] > history_pivot_time
-          end.select do |record|
-            record[1] == '구매완료'
-          end
-          ah.apply(balances)
-          unless ah[Currency::BTC_X] == status_ah[Currency::BTC_X]
-            Happy.logger.warn { "Order Status != History: #{status_ah} #{ah}" }
-            MShard::MShard.new.set(
-              pushbullet: true,
-              channel_tag: 'morder_process',
-              type: 'note',
-              title: 'Order Status != History',
-              body: "Order Status: #{status_ah}\nHistory: #{ah}"
-            )
-          end
-        end
+        pivot_time = exchange_xcoin_history[0][0]
+        retval = yield
+        ah = AmountHash.new.apply(
+          exchange_xcoin_history.take_while do |record|
+            record[0] > pivot_time
+          end.select(&filter)
+        )
+        [ah, retval]
       end
 
-      def exchange_xcoin_reverse(_amount, _counter)
-        fail
+      def exchange_xcoin_order(order_status)
+        status_pivot = order_status.call[0]
+        Happy.logger.debug { "Status Pivot: #{status_pivot}" }
+        try_total = 30
+        try_total.times do
+          yield
+          (180 / 2).times do
+            # status_now = order_status.call.take_while do |record|
+            order_status_ = order_status.call
+            Happy.logger.debug { "Order Status: #{order_status_}" }
+            status_now = order_status_.take_while do |record|
+              record != status_pivot
+            end
+            return status_now[0][2] if
+              status_now.one? && status_now[0][1] == '완료'
+            Happy.logger.debug { "No correct order status: #{status_now}" }
+            if status_now.size > 1
+              MShard::MShard.new.set_safe(
+                pushbullet: true,
+                channel_tag: 'morder_process',
+                type: 'note',
+                title: 'Fail: Too many order status',
+                body: "#{status_now}"
+              )
+              fail "Too many order status: #{status_now}"
+            end
+            sleep 2
+          end
+          Happy.logger.warn { 'No correct order status. Exchange XCoin again.' }
+          MShard::MShard.new.set(
+            pushbullet: true,
+            channel_tag: 'morder_process',
+            type: 'note',
+            title: 'Exchange XCoin again',
+            body: 'No correct order status'
+          )
+        end
+        MShard::MShard.new.set_safe(
+          pushbullet: true,
+          channel_tag: 'morder_process',
+          type: 'note',
+          title: 'Fail: Exchange XCoin',
+          body: "#{try_total} tried, but failed"
+        )
+        fail "#{try_total} tried, but exchange XCoin failed."
+      end
+
+      def exchange_xcoin(amount, counter)
+        # TODO: assert amount and counter
+        ah, status_ah =
+          exchange_xcoin_history_diff(
+            ->(record) { record[1] == '구매완료' }
+          ) do
+            exchange_xcoin_order(-> { xcoin_order_status }) do
+              exchange_xcoin_impl(amount, counter)
+            end
+          end
+
+        unless ah[Currency::BTC_X] == status_ah[Currency::BTC_X]
+          Happy.logger.warn { "Order Status != History: #{status_ah} #{ah}" }
+          MShard::MShard.new.set(
+            pushbullet: true,
+            channel_tag: 'morder_process',
+            type: 'note',
+            title: 'Order Status != History',
+            body: "Order Status: #{status_ah}\nHistory: #{ah}"
+          )
+        end
+        ah
+      end
+
+      def xcoin_order_status_reverse
+        visit 'https://www.xcoin.co.kr/u2/US203'
+        all(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr')[1..-1]
+          .reverse
+          .map { |tr| tr.all(:xpath, './/td') }
+          .select { |tr| tr.size == 8 }
+          .map do |tr|
+            [
+              tr[0].text,
+              tr[6].text,
+              AmountHash.new.apply(
+                tr[3].text.currency('KRW_X'),
+                tr[4].text.currency('BTC_X'),
+                -tr[5].text.currency('KRW_X')
+              )
+            ]
+        end
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        sleep 0.3
+        retry
+      end
+
+      def exchange_xcoin_impl_reverse amount, counter
+        # TODO: assert amount and counter
+        Happy.logger.debug { 'exchange_xcoin_impl_reverse' }
+        btc_x = amount
+        Happy.logger.debug { "btc_x: #{btc_x}" }
+        visit 'https://www.xcoin.co.kr/u2/US203'
+        Happy.logger.debug { 'Fill' }
+        fill_in 'traPwNo', with: xcoin_password2
+        check 'gen'
+        fill_in 'btcQty', with: btc_x['value'].floor(8).to_s('F')
+        low_btc = find(:xpath, '//tr[@class="buying"][last()]/td[2]').text
+        fill_in 'btcAmtComma', with: low_btc
+        find(:xpath, '//p[@class="btn_green"]').click
+        find(:css, '._wModal_btn_yes').click
+        Happy.logger.debug { 'exchange_xcoin_impl_reverse finished' }
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        sleep 0.3
+        retry
+      end
+
+      def exchange_xcoin_reverse(amount, counter)
+        # TODO: assert amount and counter
+        ah, status_ah =
+          exchange_xcoin_history_diff(
+            ->(record) { record[1] == '판매완료' }
+          ) do
+            exchange_xcoin_order(-> { xcoin_order_status_reverse }) do
+              exchange_xcoin_impl_reverse(amount, counter)
+            end
+          end
+
+        unless -ah[Currency::BTC_X] == status_ah[Currency::BTC_X]
+          Happy.logger.warn { "Order Status != History: #{status_ah} #{ah}" }
+          MShard::MShard.new.set(
+            pushbullet: true,
+            channel_tag: 'morder_process',
+            type: 'note',
+            title: 'Order Status != History',
+            body: "Order Status: #{status_ah}\nHistory: #{ah}"
+          )
+        end
+        ah
       end
 
       SEND_XCOIN_DESTINATION_ADDRESS = {
@@ -328,7 +436,7 @@ module Happy
         Happy.logger.debug { 'xcoin_sms_validation_code loop start' }
         sms =
           catch(:sms_done) do
-            (180 / 1).times do
+            (300 / 1).times do
               sleep 1
               begin
                 Happy.logger.debug { 'xcoin_sms_validation_code get' }
@@ -409,12 +517,17 @@ module Happy
         end
       end
 
-      def send_xcoin_krw(_amount, _counter)
-        fail
+      def send_xcoin_krw(amount, counter)
+        # xXX: This is just simulated value
+        AmountHash.new.apply(
+          -amount,
+          counter.with(amount),
+          -Amount::XCOIN_WITHDRAWAL_FEE
+        )
       end
 
-      def wait_xcoin(amount, _counter)
-        return AmountHash.new if wait(amount, time: 30)
+      def wait_xcoin_limited(amount, _counter)
+        return AmountHash.new if wait(amount, time: 120)
 
         message_detail = "#{amount.to_human}, but #{balance(amount.currency)[amount.currency].to_human(round: 2)}"
         message_brief = 'Not enough KRW_X'
@@ -429,6 +542,11 @@ module Happy
           body: message_detail
         )
         fail message_brief
+      end
+
+      def wait_xcoin(amount, _counter)
+        wait(amount)
+        AmountHash.new
       end
     end
 

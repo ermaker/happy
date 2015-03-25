@@ -73,12 +73,16 @@ module Happy
         [
           [Currency::BTC_P, Currency::XRP],
           [Currency::BTC_BSR, Currency::XRP],
-          [Currency::XRP, Currency::KRW_P],
-          [Currency::XRP, Currency::BTC_P],
-          [Currency::XRP, Currency::BTC_BSR],
           [Currency::KRW_P, Currency::XRP]
         ].each do |base,counter|
-          mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp)
+          mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp_other_to_xrp)
+        end
+        [
+          [Currency::XRP, Currency::KRW_P],
+          [Currency::XRP, Currency::BTC_P],
+          [Currency::XRP, Currency::BTC_BSR]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp_xrp_to_other)
         end
         [
           [Currency::BTC_P, Currency::BTC_P],
@@ -146,15 +150,22 @@ module Happy
         Amount.new('0.03', 'XRP')
       }
 
-      def exchange_xrp(amount, counter)
-        fee_ratio = EXCHAGE_XRP_FEE_RATIO[[amount.currency, counter.currency]]
-        amount /= (1 + fee_ratio)
-
+      def exchange_xrp_impl(amount, counter)
         counter_amount = EXCHAGE_XRP_PRICE[[amount.currency, counter]] * amount
         hash = place_order(amount, counter_amount)['hash']
         AmountHash.new.apply(
           order_transaction(hash)['balance_changes']
         )
+      end
+
+      def exchange_xrp_other_to_xrp(amount, counter)
+        fee_ratio = EXCHAGE_XRP_FEE_RATIO[[amount.currency, counter.currency]]
+        amount /= (1 + fee_ratio)
+        exchange_xrp_impl(amount, counter)
+      end
+
+      def exchange_xrp_xrp_to_other(amount, counter)
+        exchange_xrp_impl(amount, counter)
       end
 
       def wait_xrp(amount, _counter)
@@ -163,7 +174,7 @@ module Happy
       end
 
       def wait_xrp_limited(amount, _counter)
-        return AmountHash.new if wait(amount, time: 30)
+        return AmountHash.new if wait(amount, time: 120)
 
         message_detail = "#{amount.to_human}, but #{balance(amount.currency)[amount.currency].to_human(round: 2)}"
         message_brief = 'Not enough KRW_P'
@@ -186,12 +197,16 @@ module Happy
         [
           [Currency::BTC_P, Currency::XRP],
           [Currency::BTC_BSR, Currency::XRP],
-          [Currency::XRP, Currency::KRW_P],
-          [Currency::XRP, Currency::BTC_P],
-          [Currency::XRP, Currency::BTC_BSR],
           [Currency::KRW_P, Currency::XRP]
         ].each do |base,counter|
-          mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp_simulated)
+          mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp_other_to_xrp_simulated)
+        end
+        [
+          [Currency::XRP, Currency::KRW_P],
+          [Currency::XRP, Currency::BTC_P],
+          [Currency::XRP, Currency::BTC_BSR]
+        ].each do |base,counter|
+          mod.proc_exchange[[base, counter]] = mod.method(:exchange_xrp_xrp_to_other_simulated)
         end
         [
           [Currency::BTC_P, Currency::BTC_P],
@@ -212,12 +227,22 @@ module Happy
       EXCHAGE_XRP_FEE_RATIO[[Currency::XRP, Currency::BTC_BSR]] =
         Amount::BITSTAMP_RIPPLE_FEE_RATIO
 
-      def exchange_xrp_simulated(amount, counter)
+      def exchange_xrp_other_to_xrp_simulated(amount, counter)
         fee_ratio = EXCHAGE_XRP_FEE_RATIO[[amount.currency, counter.currency]]
 
         AmountHash.new.apply(
           -amount,
           value_shift(amount / (1 + fee_ratio), counter),
+          -Amount::XRP_FEE
+        )
+      end
+
+      def exchange_xrp_xrp_to_other_simulated(amount, counter)
+        fee_ratio = EXCHAGE_XRP_FEE_RATIO[[amount.currency, counter.currency]]
+
+        AmountHash.new.apply(
+          -amount,
+          value_shift(amount, counter) * (1 - fee_ratio),
           -Amount::XRP_FEE
         )
       end
