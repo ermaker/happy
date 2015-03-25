@@ -18,6 +18,19 @@ module Happy
         fail response.inspect unless response['success']
         fail response.inspect unless response['payments'].one?
         response
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        MShard::MShard.new.set_safe(
+          pushbullet: true,
+          channel_tag: 'morder_process',
+          type: 'note',
+          title: 'Retry: exchange_xrpsend_prepare_payment',
+          body: "#{e.message}"
+        )
+        sleep 0.3
+        retry
       end
 
       def exchange_xrpsend_uuid
@@ -25,6 +38,19 @@ module Happy
                    .parsed_response
         fail response.inspect unless response['success']
         response
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        MShard::MShard.new.set_safe(
+          pushbullet: true,
+          channel_tag: 'morder_process',
+          type: 'note',
+          title: 'Retry: exchange_xrpsend_uuid',
+          body: "#{e.message}"
+        )
+        sleep 0.3
+        retry
       end
 
       def exchange_xrpsend_submit_payment(payment)
@@ -41,6 +67,19 @@ module Happy
                    .parsed_response
         fail response.inspect unless response['success']
         response
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        MShard::MShard.new.set_safe(
+          pushbullet: true,
+          channel_tag: 'morder_process',
+          type: 'note',
+          title: 'Retry: exchange_xrpsend_submit_payment',
+          body: "#{e.message}"
+        )
+        sleep 0.3
+        retry
       end
 
       SEND_XRPSEND_DESTINATION_TAG = {

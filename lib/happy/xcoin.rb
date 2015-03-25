@@ -107,7 +107,7 @@ module Happy
       end
 
       def market_xcoin_json
-        JSON.parse(HTTParty.get('https://www.xcoin.co.kr/json/marketStatJson', headers: {'X-Requested-With' => 'XMLHttpRequest'}))
+        JSON.parse(HTTParty.get('https://www.xcoin.co.kr/json/marketStatJson', headers: { 'X-Requested-With' => 'XMLHttpRequest' }))
       end
 
       def market_xcoin(_base, _counter)
@@ -366,7 +366,7 @@ module Happy
         retry
       end
 
-      def exchange_xcoin_impl_reverse amount, counter
+      def exchange_xcoin_impl_reverse(amount, _counter)
         # TODO: assert amount and counter
         Happy.logger.debug { 'exchange_xcoin_impl_reverse' }
         btc_x = amount

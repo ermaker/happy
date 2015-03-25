@@ -114,6 +114,19 @@ module Happy
                    .parsed_response
         fail response.inspect unless response['success']
         response
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        MShard::MShard.new.set_safe(
+          pushbullet: true,
+          channel_tag: 'morder_process',
+          type: 'note',
+          title: 'Retry: place_order',
+          body: "#{e.message}"
+        )
+        sleep 0.3
+        retry
       end
 
       def order_transaction(hash)
@@ -123,6 +136,19 @@ module Happy
         fail response.inspect unless response['success']
         fail response.inspect unless response['order_changes'].empty?
         response
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        MShard::MShard.new.set_safe(
+          pushbullet: true,
+          channel_tag: 'morder_process',
+          type: 'note',
+          title: 'Retry: order_transaction',
+          body: "#{e.message}"
+        )
+        sleep 0.3
+        retry
       end
 
       EXCHAGE_XRP_FEE_RATIO = Hash.new(BigDecimal.new('0'))
