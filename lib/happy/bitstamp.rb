@@ -93,6 +93,12 @@ module Happy
           -amount,
           counter.with(amount)
         )
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        sleep 0.3
+        retry
       end
 
       def send_bitstamp_btc(amount, counter)
@@ -109,11 +115,18 @@ module Happy
           'https://www.bitstamp.net/api/bitcoin_withdrawal/',
           body: body
         ).parsed_response
+        fail response.to_s unless response.is_a?(Hash) && response['id'].is_a?(Numeric)
         Happy.logger.debug { "response: #{response}" }
         AmountHash.new.apply(
           -amount,
           counter.with(amount) - Amount::BTC_FEE
         )
+      rescue => e
+        Happy.logger.warn { e.class }
+        Happy.logger.warn { e }
+        Happy.logger.warn { e.backtrace.join("\n") }
+        sleep 0.3
+        retry
       end
 
       def wait_bitstamp(amount, _counter)

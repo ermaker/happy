@@ -64,6 +64,11 @@ module Happy
       Runner.new.main
     end
 
+    desc 'recycle', 'Recycle'
+    def recycle
+      Recycle.new.main
+    end
+
     desc 'auto', 'Auto'
     def auto
       Auto.new.main

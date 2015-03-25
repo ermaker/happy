@@ -28,6 +28,7 @@ module Happy
   autoload :Collector, 'happy/collector'
   autoload :MailWorker, 'happy/mail_worker'
   autoload :Runner, 'happy/runner'
+  autoload :Recycle, 'happy/recycle'
   autoload :Auto, 'happy/auto'
 
   module Util
