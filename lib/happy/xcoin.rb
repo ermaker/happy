@@ -374,7 +374,8 @@ module Happy
         visit 'https://www.xcoin.co.kr/u2/US203'
         Happy.logger.debug { 'Fill' }
         fill_in 'traPwNo', with: xcoin_password2
-        check 'gen'
+        # check 'gen'
+        check 'misuYnTmp'
         fill_in 'btcQty', with: btc_x['value'].floor(8).to_s('F')
         low_btc = find(:xpath, '//tr[@class="buying"][last()]/td[2]').text
         fill_in 'btcAmtComma', with: low_btc

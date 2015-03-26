@@ -62,7 +62,6 @@ module Happy
         Currency::BTC_BS,
         Currency::BTC_BS,
         Currency::BTC_X,
-        Currency::BTC_X,
         Currency::KRW_X # ,
         # Currency::KRW_R
       ].each_cons(2) do |base,counter|

@@ -173,11 +173,16 @@ module Happy
         Currency::BTC_BS,
         Currency::BTC_X,
         Currency::BTC_X,
-        Currency::KRW_X,
-        Currency::KRW_R
+        Currency::KRW_X
       ].each_cons(2) do |base,counter|
         worker.exchange(worker.local_balances[base], counter)
       end
+
+      # Do not withdrawal
+      worker.local_balances.apply(
+        -worker.local_balances[Currency::KRW_X],
+        worker.local_balances[Currency::KRW_X]['value'].currency(Currency::KRW_R)
+      )
 
       base_worker.cached_market_logged = worker.cached_market_logged
 
