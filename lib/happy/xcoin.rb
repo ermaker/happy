@@ -366,7 +366,7 @@ module Happy
         retry
       end
 
-      def exchange_xcoin_impl_reverse(amount, _counter)
+      def exchange_xcoin_impl_reverse_impl(amount, _counter)
         # TODO: assert amount and counter
         Happy.logger.debug { 'exchange_xcoin_impl_reverse' }
         btc_x = amount
@@ -374,8 +374,7 @@ module Happy
         visit 'https://www.xcoin.co.kr/u2/US203'
         Happy.logger.debug { 'Fill' }
         fill_in 'traPwNo', with: xcoin_password2
-        # check 'gen'
-        check 'misuYnTmp'
+        yield
         fill_in 'btcQty', with: btc_x['value'].floor(8).to_s('F')
         low_btc = find(:xpath, '//tr[@class="buying"][last()]/td[2]').text
         fill_in 'btcAmtComma', with: low_btc
@@ -388,6 +387,35 @@ module Happy
         Happy.logger.warn { e.backtrace.join("\n") }
         sleep 0.3
         retry
+      end
+
+      def exchange_xcoin_impl_reverse(amount, _counter)
+        currency = amount.currency
+        loop do
+          begin
+            return exchange_xcoin_impl_reverse_impl(amount, _counter) do
+              check 'misuYnTmp'
+            end
+          rescue => e
+            Happy.logger.warn { e.class }
+            Happy.logger.warn { e }
+            Happy.logger.warn { e.backtrace.join("\n") }
+            sleep 0.3
+          end
+          if amount <= balance(currency)[currency]
+            begin
+              return exchange_xcoin_impl_reverse_impl(amount, _counter) do
+                check 'gen'
+              end
+            rescue => e
+              Happy.logger.warn { e.class }
+              Happy.logger.warn { e }
+              Happy.logger.warn { e.backtrace.join("\n") }
+              sleep 0.3
+            end
+          end
+          sleep 10
+        end
       end
 
       def exchange_xcoin_reverse(amount, counter)
