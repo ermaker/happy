@@ -1,4 +1,5 @@
 require 'openssl'
+require 'securerandom'
 
 module Happy
   module BitStamp
@@ -74,9 +75,20 @@ module Happy
         end
       end
 
+      def random_btc(amount)
+        amount.dup.tap do |btc|
+          btc['value'] =
+            btc['value'].floor(6) +
+            BigDecimal.new('1E-8') *
+            SecureRandom.random_number(100)
+        end
+      end
+
       def send_bitstamp_xrp(amount, counter)
         # XXX: Assumes amount is BTC_BS
         # XXX: Assumes counter is BTC_BSR
+        amount = random_btc(amount)
+
         address = xrp_address
 
         body = signature_hash.merge(
@@ -104,6 +116,8 @@ module Happy
       def send_bitstamp_btc(amount, counter)
         # XXX: Assumes amount is BTC_BS
         # XXX: Assumes counter is BTC_X
+        amount = random_btc(amount)
+
         address = ENV['XCOIN_ADDRESS']
 
         amount['value'] = amount['value'].floor(8)
