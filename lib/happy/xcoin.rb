@@ -381,12 +381,6 @@ module Happy
         find(:xpath, '//p[@class="btn_green"]').click
         find(:css, '._wModal_btn_yes').click
         Happy.logger.debug { 'exchange_xcoin_impl_reverse finished' }
-      rescue => e
-        Happy.logger.warn { e.class }
-        Happy.logger.warn { e }
-        Happy.logger.warn { e.backtrace.join("\n") }
-        sleep 0.3
-        retry
       end
 
       def exchange_xcoin_impl_reverse(amount, counter)
