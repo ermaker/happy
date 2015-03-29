@@ -75,22 +75,14 @@ module Happy
         end
       end
 
-      def random_btc(amount)
-        amount.dup.tap do |btc|
-          btc['value'] =
-            btc['value'].floor(6) +
-            BigDecimal.new('1E-8') *
-            SecureRandom.random_number(100)
-        end
-      end
-
       def send_bitstamp_xrp(amount, counter)
         # XXX: Assumes amount is BTC_BS
         # XXX: Assumes counter is BTC_BSR
-        amount = random_btc(amount)
+        amount = amount.randomify(6)
 
         address = xrp_address
 
+        amount['value'] = amount['value'].floor(8)
         body = signature_hash.merge(
           amount: amount['value'].to_s('F'),
           address: address,
@@ -116,7 +108,7 @@ module Happy
       def send_bitstamp_btc(amount, counter)
         # XXX: Assumes amount is BTC_BS
         # XXX: Assumes counter is BTC_X
-        amount = random_btc(amount)
+        amount = amount.randomify(6)
 
         address = ENV['XCOIN_ADDRESS']
 

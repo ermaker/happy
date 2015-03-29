@@ -42,6 +42,17 @@ module Happy
       "#{value.to_s('F')}#{self['currency']}"
     end
 
+    def randomify(digits)
+      with(
+        self['value'].floor(digits) +
+        BigDecimal.new("1E-#{digits}") * SecureRandom.random_number
+      )
+    end
+
+    def floor(digits)
+      with(self['value'].floor(digits))
+    end
+
     def coerce(rhs)
       [with(rhs), self]
     end

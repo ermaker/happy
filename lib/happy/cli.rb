@@ -65,6 +65,11 @@ module Happy
       Runner.new.main
     end
 
+    desc 'order_b2r', 'Order B2R'
+    def order_b2r
+      OrderB2R.new.main
+    end
+
     desc 'recycle', 'Recycle'
     def recycle
       Recycle.new.main

@@ -501,6 +501,7 @@ module Happy
       end
 
       def send_xcoin_btc(amount, counter)
+        amount = amount.randomify(6).floor(8)
         xcoin_ensure_login
         history_ = catch(:history) do
           history_pivot_time = exchange_xcoin_history[0][0]
