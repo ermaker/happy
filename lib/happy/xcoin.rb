@@ -389,11 +389,11 @@ module Happy
         retry
       end
 
-      def exchange_xcoin_impl_reverse(amount, _counter)
+      def exchange_xcoin_impl_reverse(amount, counter)
         currency = amount.currency
         loop do
           begin
-            return exchange_xcoin_impl_reverse_impl(amount, _counter) do
+            return exchange_xcoin_impl_reverse_impl(amount, counter) do
               check 'misuYnTmp'
             end
           rescue => e
@@ -404,7 +404,7 @@ module Happy
           end
           if amount <= balance(currency)[currency]
             begin
-              return exchange_xcoin_impl_reverse_impl(amount, _counter) do
+              return exchange_xcoin_impl_reverse_impl(amount, counter) do
                 check 'gen'
               end
             rescue => e
