@@ -1,6 +1,6 @@
 module Happy
   class Auto
-    def min_of_avg(from, to, base)
+    def min_of_avg(from, to, base, path)
       worker = Worker.new
       worker.extend(Worker::Market)
       worker.extend(Logged::Market)
@@ -9,7 +9,7 @@ module Happy
       query[:index] = 'logstash-estimated_benefit-*'
       query[:type] = 'estimated_benefit'
       query.match(algo: 'simple')
-      query.match(path: 'KRW/XCOIN/BS/XRP/PAX/KRW')
+      query.match(path: path)
       query.match(base: base)
       query.range('@timestamp': { gt: from, lte: to }.to_jsonify)
       query[:body][:size] = 0
@@ -32,19 +32,56 @@ module Happy
         .map { |bucket| bucket['benefit']['value'] }.min
     end
 
-    def main
+    def best(path)
       now = Time.now
       base_amount = 100000
-      value = (base_amount..5 * base_amount).step(base_amount).select do |amount|
-        min_of_avg(now - 10 * 60, now, amount) / amount >= 0.01 &&
-          min_of_avg(now - 30 * 60, now, amount) / amount >= 0.003 &&
-          min_of_avg(now - 50 * 60, now, amount) / amount >= -0.005 &&
-          min_of_avg(now - 70 * 60, now, amount) / amount >= -0.01
+
+      (base_amount..5 * base_amount).step(base_amount).select do |amount|
+        min_of_avg(now - 10 * 60, now, amount, path) / amount >= 0
       end.max
-      return if value.nil?
-      krw_r_value = value
-      krw_r = Amount.new(krw_r_value, 'KRW_R')
-      run(krw_r)
+    end
+
+    def main
+      value = best('KRW/PAX/XRP/BS/XCOIN/KRW')
+      if value
+        krw_r_value = value
+        krw_r = Amount.new(krw_r_value, 'KRW_R')
+        MShard::MShard.new.set_safe(
+          pushbullet: true,
+          channel_tag: 'morder_status',
+          type: 'note',
+          title: 'R] Checked maximum benefit',
+          body: "#{krw_r.to_human}"
+        )
+      end
+
+      value = best('KRW/XCOIN/BS/XRP/PAX/KRW')
+      if value
+        krw_r_value = value
+        krw_r = Amount.new(krw_r_value, 'KRW_R')
+        MShard::MShard.new.set_safe(
+          pushbullet: true,
+          channel_tag: 'morder_status',
+          type: 'note',
+          title: 'Checked maximum benefit',
+          body: "#{krw_r.to_human}"
+        )
+      end
+
+      now = Time.now
+      base_amount = 100000
+      path = 'KRW/XCOIN/BS/XRP/PAX/KRW'
+      value = (base_amount..5 * base_amount).step(base_amount).select do |amount|
+        min_of_avg(now - 10 * 60, now, amount, path) / amount >= 0.005 &&
+          min_of_avg(now - 30 * 60, now, amount, path) / amount >= 0.001 &&
+          min_of_avg(now - 50 * 60, now, amount, path) / amount >= -0.005 &&
+          min_of_avg(now - 70 * 60, now, amount, path) / amount >= -0.01
+      end.max
+      if value
+        krw_r_value = value
+        krw_r = Amount.new(krw_r_value, 'KRW_R')
+        run(krw_r)
+      end
     end
 
     def run(krw_r)
@@ -52,7 +89,7 @@ module Happy
         "Order Start: #{krw_r.to_human}"
       end
 
-      MShard::MShard.new.set(
+      MShard::MShard.new.set_safe(
         pushbullet: true,
         channel_tag: 'morder_process',
         type: 'note',
@@ -130,7 +167,7 @@ module Happy
       Happy.logger.info('SIMULATED') do
         "benefit: #{worker.benefit.to_human(round: 2)}, #{percent}"
       end
-      MShard::MShard.new.set(
+      MShard::MShard.new.set_safe(
         pushbullet: true,
         channel_tag: 'morder_process',
         type: 'note',
