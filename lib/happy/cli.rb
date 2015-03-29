@@ -27,6 +27,7 @@ module Happy
     desc 'log_seb', 'Log SEB'
     def log_seb
       Collector.new.log_simple_estimated_benefit
+      Collector.new.log_simple_estimated_benefit_b2r
     end
 
     desc 'log_sebr', 'Log SEBR'

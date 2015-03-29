@@ -155,6 +155,48 @@ module Happy
         .at_once.stash_all(seb)
     end
 
+    def simple_estimated_benefit_b2r(base_worker, krw_r_value)
+      worker = simulated_worker
+      worker.time = base_worker.time
+      worker.cached_market_logged = base_worker.cached_market_logged
+
+      worker.initial_balance = krw_r_value.currency('KRW_R')
+      worker.local_balances.apply(-Amount::XRP_FEE)
+      worker.local_balances.apply(-Amount::XRP_FEE)
+      [
+        Currency::KRW_R,
+        Currency::KRW_X,
+        Currency::KRW_X,
+        Currency::BTC_X,
+        Currency::BTC_B2R,
+        Currency::BTC_P,
+        Currency::BTC_P,
+        Currency::XRP,
+        Currency::KRW_P,
+        Currency::KRW_R
+      ].each_cons(2) do |base,counter|
+        worker.exchange(worker.local_balances[base], counter)
+      end
+
+      base_worker.cached_market_logged = worker.cached_market_logged
+
+      benefit_result(
+        worker,
+        algo: 'simple',
+        path: 'KRW/XCOIN/B2R/XRP/PAX/KRW'
+      )
+    end
+
+    def log_simple_estimated_benefit_b2r
+      base_worker = simulated_worker
+      seb = LOG_RANGE.map do |krw_r_value|
+        simple_estimated_benefit_b2r(base_worker, krw_r_value)
+      end
+      taint_best_benefit(seb)
+      Happy.logstash.with(type: 'estimated_benefit')
+        .at_once.stash_all(seb)
+    end
+
     def simple_estimated_benefit_reversed(base_worker, krw_r_value)
       worker = simulated_worker
       worker.time = base_worker.time
