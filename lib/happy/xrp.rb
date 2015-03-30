@@ -200,7 +200,7 @@ module Happy
       end
 
       def wait_xrp_limited(amount, _counter)
-        return AmountHash.new if wait(amount, time: 120)
+        return AmountHash.new if wait(amount, time: 1 * 60 * 60 + 30 * 60)
 
         message_detail = "#{amount.to_human}, but #{balance(amount.currency)[amount.currency].to_human(round: 2)}"
         message_brief = 'Not enough KRW_P'
