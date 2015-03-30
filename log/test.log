@@ -1,0 +1,706 @@
+# Logfile created on 2015-03-30 20:26:39 +0900 by logger.rb/47272
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/cli.rb:245:in `require': cannot load such file -- lib/happy.rb (LoadError)
+	from /home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/cli.rb:245:in `boot_system'
+	from /home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/cli.rb:50:in `run'
+	from /home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/bin/sidekiq:8:in `<top (required)>'
+	from /home/m/.rvm/gems/ruby-2.2.0/bin/sidekiq:23:in `load'
+	from /home/m/.rvm/gems/ruby-2.2.0/bin/sidekiq:23:in `<main>'
+	from /home/m/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in `eval'
+	from /home/m/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in `<main>'
+2015-03-30T11:27:18.655Z 17477 TID-34v48 INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T11:27:18.655Z 17477 TID-34v48 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T11:27:18.655Z 17477 TID-34v48 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T11:27:18.655Z 17477 TID-34v48 INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T11:27:31.285Z 17529 TID-891uc INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T11:27:31.287Z 17529 TID-891uc INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T11:27:31.287Z 17529 TID-891uc INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T11:27:31.287Z 17529 TID-891uc INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T11:28:03.553Z 17477 TID-34v48 INFO: Shutting down
+2015-03-30T11:28:04.082Z 17477 TID-6j70s INFO: Terminating 1 quiet workers
+2015-03-30T11:28:06.002Z 17529 TID-891uc INFO: Shutting down
+2015-03-30T11:28:07.093Z 17529 TID-bnmrw INFO: Terminating 1 quiet workers
+2015-03-30T11:28:13.536Z 17653 TID-8mkk0 INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T11:28:13.536Z 17653 TID-8mkk0 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T11:28:13.536Z 17653 TID-8mkk0 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T11:28:13.536Z 17653 TID-8mkk0 INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T11:28:16.808Z 17653 TID-8mkk0 INFO: Shutting down
+2015-03-30T11:28:17.043Z 17653 TID-c37ps INFO: Terminating 1 quiet workers
+2015-03-30T11:28:17.329Z 17679 TID-aohp4 INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T11:28:17.330Z 17679 TID-aohp4 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T11:28:17.330Z 17679 TID-aohp4 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T11:28:17.330Z 17679 TID-aohp4 INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T11:29:32.196Z 17679 TID-aohp4 INFO: Shutting down
+2015-03-30T11:29:32.691Z 17949 TID-92748 INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T11:29:32.691Z 17949 TID-92748 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T11:29:32.691Z 17949 TID-92748 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T11:29:32.691Z 17949 TID-92748 INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T11:29:33.097Z 17679 TID-e2pe0 INFO: Terminating 1 quiet workers
+2015-03-30T11:32:17.051Z 17949 TID-92748 INFO: Shutting down
+2015-03-30T11:32:17.805Z 18366 TID-ayhzo INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T11:32:17.805Z 18366 TID-ayhzo INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T11:32:17.805Z 18366 TID-ayhzo INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T11:32:17.805Z 18366 TID-ayhzo INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T11:32:18.064Z 17949 TID-cgki4 INFO: Terminating 1 quiet workers
+2015-03-30T11:33:01.558Z 18366 TID-ayhzo INFO: Shutting down
+2015-03-30T11:33:02.497Z 18510 TID-8y5qw INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T11:33:02.501Z 18510 TID-8y5qw INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T11:33:02.501Z 18510 TID-8y5qw INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T11:33:02.501Z 18510 TID-8y5qw INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T11:33:02.524Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-59575f6567e7b8355a0a9b5a INFO: start
+2015-03-30T11:33:02.524Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-59575f6567e7b8355a0a9b5a INFO: START
+2015-03-30T11:33:03.024Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-59575f6567e7b8355a0a9b5a INFO: END
+2015-03-30T11:33:03.025Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-59575f6567e7b8355a0a9b5a INFO: done: 0.5 sec
+2015-03-30T11:33:03.027Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-87169a0be709483237163200 INFO: start
+2015-03-30T11:33:03.027Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-87169a0be709483237163200 INFO: START
+2015-03-30T11:33:03.077Z 18366 TID-ease4 INFO: Terminating 1 quiet workers
+2015-03-30T11:33:03.527Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-87169a0be709483237163200 INFO: END
+2015-03-30T11:33:03.528Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-87169a0be709483237163200 INFO: done: 0.5 sec
+2015-03-30T11:33:03.533Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-e2ea666a9a0dc613a227ac2c INFO: start
+2015-03-30T11:33:03.534Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-e2ea666a9a0dc613a227ac2c INFO: START
+2015-03-30T11:33:04.034Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-e2ea666a9a0dc613a227ac2c INFO: END
+2015-03-30T11:33:04.035Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-e2ea666a9a0dc613a227ac2c INFO: done: 0.501 sec
+2015-03-30T11:33:16.261Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-59ef8c107a03368ad7078432 INFO: start
+2015-03-30T11:33:16.261Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-59ef8c107a03368ad7078432 INFO: START
+2015-03-30T11:33:16.761Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-59ef8c107a03368ad7078432 INFO: END
+2015-03-30T11:33:16.762Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-59ef8c107a03368ad7078432 INFO: done: 0.5 sec
+2015-03-30T11:33:22.253Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-58fc86be34636ab1925b26c0 INFO: start
+2015-03-30T11:33:22.253Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-58fc86be34636ab1925b26c0 INFO: START
+2015-03-30T11:33:22.754Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-58fc86be34636ab1925b26c0 INFO: END
+2015-03-30T11:33:22.754Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-58fc86be34636ab1925b26c0 INFO: done: 0.501 sec
+2015-03-30T11:33:26.689Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-7275053af26a4f761400cf4d INFO: start
+2015-03-30T11:33:26.689Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-7275053af26a4f761400cf4d INFO: START
+2015-03-30T11:33:27.190Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-7275053af26a4f761400cf4d INFO: END
+2015-03-30T11:33:27.190Z 18510 TID-cabuc Happy::Worker::WorkerTest JID-7275053af26a4f761400cf4d INFO: done: 0.501 sec
+2015-03-30T11:58:27.318Z 18510 TID-8y5qw INFO: Shutting down
+2015-03-30T11:58:28.029Z 22568 TID-5js08 INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T11:58:28.029Z 22568 TID-5js08 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T11:58:28.030Z 22568 TID-5js08 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T11:58:28.030Z 22568 TID-5js08 INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T11:58:29.047Z 18510 TID-capqc INFO: Terminating 1 quiet workers
+2015-03-30T11:59:29.597Z 22568 TID-8vtbg WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[0.5], "jid"=>"e8e7e72f0e8f30e5174d77e0", "enqueued_at"=>1427716769.5831869}
+2015-03-30T11:59:29.597Z 22568 TID-8vtbg WARN: uninitialized constant Happy::Worker::Base
+2015-03-30T11:59:29.597Z 22568 TID-8vtbg WARN: /home/m/proj/happy_dev/lib/happy/worker/worker_test.rb:3:in `<class:Worker>'
+/home/m/proj/happy_dev/lib/happy/worker/worker_test.rb:2:in `<module:Happy>'
+/home/m/proj/happy_dev/lib/happy/worker/worker_test.rb:1:in `<top (required)>'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/core_ext.rb:98:in `const_defined?'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/core_ext.rb:98:in `block in constantize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/core_ext.rb:97:in `each'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/core_ext.rb:97:in `constantize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:46:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T11:59:38.946Z 22568 TID-5js08 INFO: Shutting down
+2015-03-30T11:59:39.097Z 22568 TID-8w76c INFO: Terminating 1 quiet workers
+2015-03-30T11:59:39.792Z 22782 TID-3mrvc INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T11:59:39.792Z 22782 TID-3mrvc INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T11:59:39.792Z 22782 TID-3mrvc INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T11:59:39.792Z 22782 TID-3mrvc INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T11:59:42.202Z 22782 TID-6yigg Happy::Worker::WorkerTest JID-289ff260f59da825ca823c3e INFO: start
+2015-03-30T11:59:42.202Z 22782 TID-6yigg Happy::Worker::WorkerTest JID-289ff260f59da825ca823c3e INFO: START
+2015-03-30T11:59:42.703Z 22782 TID-6yigg Happy::Worker::WorkerTest JID-289ff260f59da825ca823c3e INFO: END
+2015-03-30T11:59:42.704Z 22782 TID-6yigg Happy::Worker::WorkerTest JID-289ff260f59da825ca823c3e INFO: done: 0.501 sec
+2015-03-30T11:59:44.823Z 22782 TID-6yigg Happy::Worker::WorkerTest JID-be2c417cc4ca5c828d94dbf6 INFO: start
+2015-03-30T11:59:44.823Z 22782 TID-6yigg Happy::Worker::WorkerTest JID-be2c417cc4ca5c828d94dbf6 INFO: START
+2015-03-30T11:59:45.323Z 22782 TID-6yigg Happy::Worker::WorkerTest JID-be2c417cc4ca5c828d94dbf6 INFO: END
+2015-03-30T11:59:45.323Z 22782 TID-6yigg Happy::Worker::WorkerTest JID-be2c417cc4ca5c828d94dbf6 INFO: done: 0.5 sec
+2015-03-30T12:00:44.630Z 22782 TID-6yigg Happy::Worker::WorkerTest JID-4226f38a848e84acde3ac6e9 INFO: start
+2015-03-30T12:00:44.631Z 22782 TID-6yigg Happy::Worker::WorkerTest JID-4226f38a848e84acde3ac6e9 INFO: fail: 0.0 sec
+2015-03-30T12:00:44.632Z 22782 TID-6yigg WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"class"=>"Happy::Worker::WorkerTest", "args"=>[1]}, {"class"=>"Happy::Worker::WorkerTest", "args"=>[2]}]}, 0.5], "jid"=>"4226f38a848e84acde3ac6e9", "enqueued_at"=>1427716844.6258886}
+2015-03-30T12:00:44.632Z 22782 TID-6yigg WARN: wrong number of arguments (2 for 1)
+2015-03-30T12:00:44.633Z 22782 TID-6yigg WARN: /home/m/proj/happy_dev/lib/happy/worker/worker_test.rb:6:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:01:02.723Z 22782 TID-3mrvc INFO: Shutting down
+2015-03-30T12:01:03.252Z 23014 TID-3jfrg INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:01:03.252Z 23014 TID-3jfrg INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:01:03.253Z 23014 TID-3jfrg INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:01:03.253Z 23014 TID-3jfrg INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:01:04.010Z 22782 TID-6yujg INFO: Terminating 1 quiet workers
+2015-03-30T12:01:05.867Z 23014 TID-6uga8 Happy::Worker::WorkerTest JID-5bd530b25e3cc51e833d312d INFO: start
+2015-03-30T12:01:05.868Z 23014 TID-6uga8 Happy::Worker::WorkerTest JID-5bd530b25e3cc51e833d312d INFO: fail: 0.001 sec
+2015-03-30T12:01:05.869Z 23014 TID-6uga8 WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"class"=>"Happy::Worker::WorkerTest", "args"=>[1]}, {"class"=>"Happy::Worker::WorkerTest", "args"=>[2]}]}, 0.5], "jid"=>"5bd530b25e3cc51e833d312d", "enqueued_at"=>1427716865.8645763}
+2015-03-30T12:01:05.870Z 23014 TID-6uga8 WARN: wrong number of arguments (0 for 1)
+2015-03-30T12:01:05.871Z 23014 TID-6uga8 WARN: /home/m/proj/happy_dev/lib/happy/job.rb:32:in `from_jsonify'
+/home/m/proj/happy_dev/lib/happy/worker/base.rb:8:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:01:33.458Z 23014 TID-3jfrg INFO: Shutting down
+2015-03-30T12:01:33.988Z 23121 TID-9hh20 INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:01:33.988Z 23121 TID-9hh20 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:01:33.989Z 23121 TID-9hh20 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:01:33.989Z 23121 TID-9hh20 INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:01:35.079Z 23014 TID-6v5lc INFO: Terminating 1 quiet workers
+2015-03-30T12:01:35.665Z 23121 TID-csftg Happy::Worker::WorkerTest JID-def07b502277ae925f6254d3 INFO: start
+2015-03-30T12:01:35.665Z 23121 TID-csftg Happy::Worker::WorkerTest JID-def07b502277ae925f6254d3 INFO: START
+2015-03-30T12:01:36.167Z 23121 TID-csftg Happy::Worker::WorkerTest JID-def07b502277ae925f6254d3 INFO: END
+2015-03-30T12:01:36.167Z 23121 TID-csftg Happy::Worker::WorkerTest JID-def07b502277ae925f6254d3 INFO: fail: 0.502 sec
+2015-03-30T12:01:36.174Z 23121 TID-csftg WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"class"=>"Happy::Worker::WorkerTest", "args"=>[1]}, {"class"=>"Happy::Worker::WorkerTest", "args"=>[2]}]}, 0.5], "jid"=>"def07b502277ae925f6254d3", "enqueued_at"=>1427716895.661764}
+2015-03-30T12:01:36.174Z 23121 TID-csftg WARN: undefined method `work' for #<Hash:0x00000002877628>
+2015-03-30T12:01:36.175Z 23121 TID-csftg WARN: /home/m/proj/happy_dev/lib/happy/worker/base.rb:10:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:02:15.908Z 23121 TID-9hh20 INFO: Shutting down
+2015-03-30T12:02:16.083Z 23121 TID-ct2zc INFO: Terminating 1 quiet workers
+2015-03-30T12:02:16.433Z 23249 TID-4yvtc INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:02:16.433Z 23249 TID-4yvtc INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:02:16.433Z 23249 TID-4yvtc INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:02:16.433Z 23249 TID-4yvtc INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:02:19.646Z 23249 TID-89wco Happy::Worker::WorkerTest JID-80eee95c352de506cf1e186f INFO: start
+2015-03-30T12:02:19.647Z 23249 TID-89wco Happy::Worker::WorkerTest JID-80eee95c352de506cf1e186f INFO: START
+2015-03-30T12:02:20.147Z 23249 TID-89wco Happy::Worker::WorkerTest JID-80eee95c352de506cf1e186f INFO: END
+2015-03-30T12:02:20.149Z 23249 TID-89wco Happy::Worker::WorkerTest JID-80eee95c352de506cf1e186f INFO: done: 0.502 sec
+2015-03-30T12:02:20.150Z 23249 TID-89wco Happy::Worker::WorkerTest JID-1f292abd71b6596513953746 INFO: start
+2015-03-30T12:02:20.151Z 23249 TID-89wco Happy::Worker::WorkerTest JID-1f292abd71b6596513953746 INFO: START
+2015-03-30T12:02:21.151Z 23249 TID-89wco Happy::Worker::WorkerTest JID-1f292abd71b6596513953746 INFO: END
+2015-03-30T12:02:21.153Z 23249 TID-89wco Happy::Worker::WorkerTest JID-1f292abd71b6596513953746 INFO: done: 1.003 sec
+2015-03-30T12:02:21.162Z 23249 TID-89wco Happy::Worker::WorkerTest JID-41617f063cd81f645adab359 INFO: start
+2015-03-30T12:02:21.162Z 23249 TID-89wco Happy::Worker::WorkerTest JID-41617f063cd81f645adab359 INFO: START
+2015-03-30T12:02:23.163Z 23249 TID-89wco Happy::Worker::WorkerTest JID-41617f063cd81f645adab359 INFO: END
+2015-03-30T12:02:23.164Z 23249 TID-89wco Happy::Worker::WorkerTest JID-41617f063cd81f645adab359 INFO: done: 2.002 sec
+2015-03-30T12:04:58.760Z 23249 TID-89wco Happy::Worker::WorkerTest JID-2807386356ab80337bdf90f2 INFO: start
+2015-03-30T12:04:58.760Z 23249 TID-89wco Happy::Worker::WorkerTest JID-2807386356ab80337bdf90f2 INFO: START
+2015-03-30T12:04:59.260Z 23249 TID-89wco Happy::Worker::WorkerTest JID-2807386356ab80337bdf90f2 INFO: END
+2015-03-30T12:04:59.261Z 23249 TID-89wco Happy::Worker::WorkerTest JID-2807386356ab80337bdf90f2 INFO: done: 0.501 sec
+2015-03-30T12:04:59.263Z 23249 TID-89wco Happy::Worker::WorkerTest JID-8d0e5fe017b793fdfc8de5bb INFO: start
+2015-03-30T12:04:59.263Z 23249 TID-89wco Happy::Worker::WorkerTest JID-8d0e5fe017b793fdfc8de5bb INFO: START
+2015-03-30T12:05:00.264Z 23249 TID-89wco Happy::Worker::WorkerTest JID-8d0e5fe017b793fdfc8de5bb INFO: END
+2015-03-30T12:05:00.265Z 23249 TID-89wco Happy::Worker::WorkerTest JID-8d0e5fe017b793fdfc8de5bb INFO: done: 1.002 sec
+2015-03-30T12:05:00.267Z 23249 TID-89wco Happy::Worker::WorkerTest JID-8577911aabef9e9b2e770cb2 INFO: start
+2015-03-30T12:05:00.268Z 23249 TID-89wco Happy::Worker::WorkerTest JID-8577911aabef9e9b2e770cb2 INFO: START
+2015-03-30T12:05:02.268Z 23249 TID-89wco Happy::Worker::WorkerTest JID-8577911aabef9e9b2e770cb2 INFO: END
+2015-03-30T12:05:02.268Z 23249 TID-89wco Happy::Worker::WorkerTest JID-8577911aabef9e9b2e770cb2 INFO: done: 2.001 sec
+2015-03-30T12:09:42.070Z 23249 TID-4yvtc INFO: Shutting down
+2015-03-30T12:09:42.086Z 23249 TID-8ajx0 INFO: Terminating 1 quiet workers
+2015-03-30T12:09:42.593Z 24317 TID-apdaw INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:09:42.593Z 24317 TID-apdaw INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:09:42.593Z 24317 TID-apdaw INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:09:42.593Z 24317 TID-apdaw INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:09:44.534Z 24317 TID-dznwc Happy::Worker::WorkerTest JID-0ad1fe320b45d412c3b54ad5 INFO: start
+2015-03-30T12:09:44.536Z 24317 TID-dznwc Happy::Worker::WorkerTest JID-0ad1fe320b45d412c3b54ad5 INFO: START
+2015-03-30T12:09:45.036Z 24317 TID-dznwc Happy::Worker::WorkerTest JID-0ad1fe320b45d412c3b54ad5 INFO: END
+2015-03-30T12:09:45.036Z 24317 TID-dznwc Happy::Worker::WorkerTest JID-0ad1fe320b45d412c3b54ad5 INFO: fail: 0.503 sec
+2015-03-30T12:09:45.038Z 24317 TID-dznwc WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"class"=>"Happy::Worker::WorkerTest", "args"=>[1]}, {"class"=>"Happy::Worker::WorkerTest", "args"=>[2]}]}, 0.5], "jid"=>"0ad1fe320b45d412c3b54ad5", "enqueued_at"=>1427717384.5309167}
+2015-03-30T12:09:45.038Z 24317 TID-dznwc WARN: undefined method `get_sidekiq_options' for nil:NilClass
+2015-03-30T12:09:45.038Z 24317 TID-dznwc WARN: /home/m/proj/happy_dev/lib/happy/job_base.rb:19:in `work'
+/home/m/proj/happy_dev/lib/happy/worker/base.rb:10:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:10:21.320Z 24317 TID-apdaw INFO: Shutting down
+2015-03-30T12:10:22.086Z 24317 TID-e0bxc INFO: Terminating 1 quiet workers
+2015-03-30T12:10:22.727Z 24435 TID-46ftg INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:10:22.732Z 24435 TID-46ftg INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:10:22.732Z 24435 TID-46ftg INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:10:22.732Z 24435 TID-46ftg INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:10:26.003Z 24435 TID-7hink Happy::Worker::WorkerTest JID-8d3bbd0e60c593e2577c1db6 INFO: start
+2015-03-30T12:10:26.004Z 24435 TID-7hink Happy::Worker::WorkerTest JID-8d3bbd0e60c593e2577c1db6 INFO: START
+2015-03-30T12:10:26.505Z 24435 TID-7hink Happy::Worker::WorkerTest JID-8d3bbd0e60c593e2577c1db6 INFO: END
+2015-03-30T12:10:26.505Z 24435 TID-7hink Happy::Worker::WorkerTest JID-8d3bbd0e60c593e2577c1db6 INFO: fail: 0.502 sec
+2015-03-30T12:10:26.507Z 24435 TID-7hink WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"class"=>"Happy::Worker::WorkerTest", "args"=>[1]}, {"class"=>"Happy::Worker::WorkerTest", "args"=>[2]}]}, 0.5], "jid"=>"8d3bbd0e60c593e2577c1db6", "enqueued_at"=>1427717425.99115}
+2015-03-30T12:10:26.507Z 24435 TID-7hink WARN: undefined method `klass_of' for #<Happy::Job:0x00000001774448>
+2015-03-30T12:10:26.507Z 24435 TID-7hink WARN: /home/m/proj/happy_dev/lib/happy/job_base.rb:15:in `work'
+/home/m/proj/happy_dev/lib/happy/worker/base.rb:10:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:14:45.079Z 24435 TID-46ftg INFO: Shutting down
+2015-03-30T12:14:45.596Z 25072 TID-apjm4 INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:14:45.596Z 25072 TID-apjm4 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:14:45.597Z 25072 TID-apjm4 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:14:45.597Z 25072 TID-apjm4 INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:14:46.030Z 24435 TID-7ikxw INFO: Terminating 1 quiet workers
+2015-03-30T12:14:48.789Z 25072 TID-e18ys Happy::Worker::WorkerTest JID-f1eed632529b3047076715cb INFO: start
+2015-03-30T12:14:48.790Z 25072 TID-e18ys Happy::Worker::WorkerTest JID-f1eed632529b3047076715cb INFO: fail: 0.001 sec
+2015-03-30T12:14:48.795Z 25072 TID-e18ys WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"class"=>"Happy::Worker::WorkerTest", "args"=>[1]}, {"class"=>"Happy::Worker::WorkerTest", "args"=>[2]}]}, 0.5], "jid"=>"f1eed632529b3047076715cb", "enqueued_at"=>1427717688.7855625}
+2015-03-30T12:14:48.796Z 25072 TID-e18ys WARN: undefined method `constantize' for nil:NilClass
+2015-03-30T12:14:48.796Z 25072 TID-e18ys WARN: /home/m/proj/happy_dev/lib/happy/job_base.rb:38:in `from_jsonify'
+/home/m/proj/happy_dev/lib/happy/worker/base.rb:8:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:15:16.217Z 25072 TID-apjm4 INFO: Shutting down
+2015-03-30T12:15:17.382Z 25155 TID-4ceq4 INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:15:17.388Z 25155 TID-4ceq4 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:15:17.391Z 25155 TID-4ceq4 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:15:17.391Z 25155 TID-4ceq4 INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:15:18.090Z 25072 TID-e1lb8 INFO: Terminating 1 quiet workers
+2015-03-30T12:15:28.568Z 25155 TID-7o0wc Happy::Worker::WorkerTest JID-e51974a191cbca36573aefe3 INFO: start
+2015-03-30T12:15:28.569Z 25155 TID-7o0wc Happy::Worker::WorkerTest JID-e51974a191cbca36573aefe3 INFO: fail: 0.001 sec
+2015-03-30T12:15:28.573Z 25155 TID-7o0wc WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"class"=>"Happy::Worker::WorkerTest", "args"=>[1]}, {"class"=>"Happy::Worker::WorkerTest", "args"=>[2]}]}, 0.5], "jid"=>"e51974a191cbca36573aefe3", "enqueued_at"=>1427717728.5640876}
+2015-03-30T12:15:28.573Z 25155 TID-7o0wc WARN: undefined method `constantize' for nil:NilClass
+2015-03-30T12:15:28.573Z 25155 TID-7o0wc WARN: /home/m/proj/happy_dev/lib/happy/job_base.rb:38:in `from_jsonify'
+/home/m/proj/happy_dev/lib/happy/worker/base.rb:8:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:19:39.450Z 25155 TID-7o0wc Happy::Worker::WorkerTest JID-5d1cc2e375081690f9081c11 INFO: start
+2015-03-30T12:19:39.451Z 25155 TID-7o0wc Happy::Worker::WorkerTest JID-5d1cc2e375081690f9081c11 INFO: fail: 0.0 sec
+2015-03-30T12:19:39.452Z 25155 TID-7o0wc WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"class"=>"Happy::Worker::WorkerTest", "args"=>[1]}, {"class"=>"Happy::Worker::WorkerTest", "args"=>[2]}], "class"=>"Job"}, 0.5], "jid"=>"5d1cc2e375081690f9081c11", "enqueued_at"=>1427717979.4494636}
+2015-03-30T12:19:39.452Z 25155 TID-7o0wc WARN: uninitialized constant Job
+2015-03-30T12:19:39.452Z 25155 TID-7o0wc WARN: /home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/core_ext.rb:98:in `block in constantize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/core_ext.rb:97:in `each'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/core_ext.rb:97:in `constantize'
+/home/m/proj/happy_dev/lib/happy/job_base.rb:38:in `from_jsonify'
+/home/m/proj/happy_dev/lib/happy/worker/base.rb:8:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:19:44.131Z 25155 TID-4ceq4 INFO: Shutting down
+2015-03-30T12:19:44.636Z 25887 TID-auzkk INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:19:44.636Z 25887 TID-auzkk INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:19:44.636Z 25887 TID-auzkk INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:19:44.637Z 25887 TID-auzkk INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:19:45.027Z 25155 TID-7oebo INFO: Terminating 1 quiet workers
+2015-03-30T12:19:46.994Z 25887 TID-e60nw Happy::Worker::WorkerTest JID-4d1286080198ad319c4c85c0 INFO: start
+2015-03-30T12:19:46.996Z 25887 TID-e60nw Happy::Worker::WorkerTest JID-4d1286080198ad319c4c85c0 INFO: fail: 0.002 sec
+2015-03-30T12:19:47.000Z 25887 TID-e60nw WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"class"=>"Happy::Worker::WorkerTest", "args"=>[1]}, {"class"=>"Happy::Worker::WorkerTest", "args"=>[2]}], "class"=>"Job"}, 0.5], "jid"=>"4d1286080198ad319c4c85c0", "enqueued_at"=>1427717986.9896297}
+2015-03-30T12:19:47.000Z 25887 TID-e60nw WARN: uninitialized constant Job
+2015-03-30T12:19:47.001Z 25887 TID-e60nw WARN: /home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/core_ext.rb:98:in `block in constantize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/core_ext.rb:97:in `each'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/core_ext.rb:97:in `constantize'
+/home/m/proj/happy_dev/lib/happy/job_base.rb:37:in `from_jsonify'
+/home/m/proj/happy_dev/lib/happy/worker/base.rb:8:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:28:36.031Z 25887 TID-auzkk INFO: Shutting down
+2015-03-30T12:28:36.081Z 25887 TID-e6q7w INFO: Terminating 1 quiet workers
+2015-03-30T12:28:37.901Z 27234 TID-65jtg INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:28:37.902Z 27234 TID-65jtg INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:28:37.902Z 27234 TID-65jtg INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:28:37.902Z 27234 TID-65jtg INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:35:08.335Z 27234 TID-65jtg INFO: Shutting down
+2015-03-30T12:35:08.851Z 28186 TID-38djc INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:35:08.851Z 28186 TID-38djc INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:35:08.852Z 28186 TID-38djc INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:35:08.852Z 28186 TID-38djc INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:35:09.068Z 27234 TID-9hblw INFO: Terminating 1 quiet workers
+2015-03-30T12:35:10.209Z 28186 TID-6k11c Happy::Worker::WorkerTest JID-247be96699076e61161b5722 INFO: start
+2015-03-30T12:35:10.210Z 28186 TID-6k11c Happy::Worker::WorkerTest JID-247be96699076e61161b5722 INFO: START
+2015-03-30T12:35:10.712Z 28186 TID-6k11c Happy::Worker::WorkerTest JID-247be96699076e61161b5722 INFO: END
+2015-03-30T12:35:10.712Z 28186 TID-6k11c Happy::Worker::WorkerTest JID-247be96699076e61161b5722 INFO: fail: 0.503 sec
+2015-03-30T12:35:10.713Z 28186 TID-6k11c WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"args"=>[1]}, {"args"=>[2]}], "@local"=>{"class"=>{"[0.5]"=>"Happy::Worker::WorkerTest", "[1]"=>"Happy::Worker::WorkerTest", "[2]"=>"Happy::Worker::WorkerTest"}}, "class"=>"Happy::Job"}, 0.5], "jid"=>"247be96699076e61161b5722", "enqueued_at"=>1427718910.2063284}
+2015-03-30T12:35:10.713Z 28186 TID-6k11c WARN: undefined method `constantize' for nil:NilClass
+2015-03-30T12:35:10.713Z 28186 TID-6k11c WARN: /home/m/proj/happy_dev/lib/happy/job.rb:13:in `class_of'
+/home/m/proj/happy_dev/lib/happy/job_base.rb:16:in `work'
+/home/m/proj/happy_dev/lib/happy/worker/base.rb:10:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:35:37.785Z 28186 TID-38djc INFO: Shutting down
+2015-03-30T12:35:38.019Z 28186 TID-6kk54 INFO: Terminating 1 quiet workers
+2015-03-30T12:35:38.315Z 28283 TID-b9190 INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:35:38.315Z 28283 TID-b9190 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:35:38.316Z 28283 TID-b9190 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:35:38.316Z 28283 TID-b9190 INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:36:30.666Z 28283 TID-ek330 Happy::Worker::WorkerTest JID-5aba138a9f9d5c23eef396c2 INFO: start
+2015-03-30T12:36:30.668Z 28283 TID-ek330 Happy::Worker::WorkerTest JID-5aba138a9f9d5c23eef396c2 INFO: START
+2015-03-30T12:36:31.172Z 28283 TID-ek330 Happy::Worker::WorkerTest JID-5aba138a9f9d5c23eef396c2 INFO: END
+2015-03-30T12:36:31.173Z 28283 TID-ek330 Happy::Worker::WorkerTest JID-5aba138a9f9d5c23eef396c2 INFO: fail: 0.506 sec
+2015-03-30T12:36:31.180Z 28283 TID-ek330 WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"args"=>[1]}, {"args"=>[2]}], "@local"=>{"class"=>{"[0.5]"=>"Happy::Worker::WorkerTest", "[1]"=>"Happy::Worker::WorkerTest", "[2]"=>"Happy::Worker::WorkerTest"}}, "class"=>"Happy::Job"}, 0.5], "jid"=>"5aba138a9f9d5c23eef396c2", "enqueued_at"=>1427718990.652598}
+2015-03-30T12:36:31.180Z 28283 TID-ek330 WARN: undefined method `pry' for #<Binding:0x00000002a17848>
+2015-03-30T12:36:31.181Z 28283 TID-ek330 WARN: /home/m/proj/happy_dev/lib/happy/job.rb:13:in `class_of'
+/home/m/proj/happy_dev/lib/happy/job_base.rb:16:in `work'
+/home/m/proj/happy_dev/lib/happy/worker/base.rb:10:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:36:53.322Z 28283 TID-b9190 INFO: Shutting down
+2015-03-30T12:36:53.827Z 28489 TID-7cqrs INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:36:53.828Z 28489 TID-7cqrs INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:36:53.828Z 28489 TID-7cqrs INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:36:53.828Z 28489 TID-7cqrs INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:36:55.092Z 28283 TID-el0bo INFO: Terminating 1 quiet workers
+2015-03-30T12:36:56.191Z 28489 TID-ao71s Happy::Worker::WorkerTest JID-f80bfc457d8ac3a432ac8c49 INFO: start
+2015-03-30T12:36:56.200Z 28489 TID-ao71s Happy::Worker::WorkerTest JID-f80bfc457d8ac3a432ac8c49 INFO: START
+2015-03-30T12:36:56.702Z 28489 TID-ao71s Happy::Worker::WorkerTest JID-f80bfc457d8ac3a432ac8c49 INFO: END
+{"args"=>[1]}
+{"class"=>{"[0.5]"=>"Happy::Worker::WorkerTest", "[1]"=>"Happy::Worker::WorkerTest", "[2]"=>"Happy::Worker::WorkerTest"}}
+2015-03-30T12:36:56.702Z 28489 TID-ao71s Happy::Worker::WorkerTest JID-f80bfc457d8ac3a432ac8c49 INFO: fail: 0.511 sec
+2015-03-30T12:36:56.703Z 28489 TID-ao71s WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"args"=>[1]}, {"args"=>[2]}], "@local"=>{"class"=>{"[0.5]"=>"Happy::Worker::WorkerTest", "[1]"=>"Happy::Worker::WorkerTest", "[2]"=>"Happy::Worker::WorkerTest"}}, "class"=>"Happy::Job"}, 0.5], "jid"=>"f80bfc457d8ac3a432ac8c49", "enqueued_at"=>1427719016.1870177}
+2015-03-30T12:36:56.703Z 28489 TID-ao71s WARN: undefined method `constantize' for nil:NilClass
+2015-03-30T12:36:56.703Z 28489 TID-ao71s WARN: /home/m/proj/happy_dev/lib/happy/job.rb:15:in `class_of'
+/home/m/proj/happy_dev/lib/happy/job_base.rb:16:in `work'
+/home/m/proj/happy_dev/lib/happy/worker/base.rb:10:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:39:27.348Z 28489 TID-7cqrs INFO: Shutting down
+2015-03-30T12:39:28.038Z 28489 TID-aoqnc INFO: Terminating 1 quiet workers
+2015-03-30T12:39:28.615Z 28878 TID-3sx3s INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:39:28.620Z 28878 TID-3sx3s INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:39:28.620Z 28878 TID-3sx3s INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:39:28.620Z 28878 TID-3sx3s INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:40:05.233Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-be7856232d147785a8fe0340 INFO: start
+2015-03-30T12:40:05.234Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-be7856232d147785a8fe0340 INFO: START
+2015-03-30T12:40:05.736Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-be7856232d147785a8fe0340 INFO: END
+{"args"=>[1]}
+{"class"=>{"[0.5]"=>"Happy::Worker::WorkerTest", "[1]"=>"Happy::Worker::WorkerTest", "[2]"=>"Happy::Worker::WorkerTest"}}
+2015-03-30T12:40:05.738Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-be7856232d147785a8fe0340 INFO: done: 0.505 sec
+2015-03-30T12:40:05.740Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-76dcc6b86a0e82f1c2da7acb INFO: start
+2015-03-30T12:40:05.740Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-76dcc6b86a0e82f1c2da7acb INFO: START
+2015-03-30T12:40:06.741Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-76dcc6b86a0e82f1c2da7acb INFO: END
+{"args"=>[2]}
+{"class"=>{"[0.5]"=>"Happy::Worker::WorkerTest", "[1]"=>"Happy::Worker::WorkerTest", "[2]"=>"Happy::Worker::WorkerTest"}}
+2015-03-30T12:40:06.741Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-76dcc6b86a0e82f1c2da7acb INFO: done: 1.001 sec
+2015-03-30T12:40:06.744Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-3a909cd3b79ab863215b731a INFO: start
+2015-03-30T12:40:06.744Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-3a909cd3b79ab863215b731a INFO: START
+2015-03-30T12:40:08.745Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-3a909cd3b79ab863215b731a INFO: END
+2015-03-30T12:40:08.745Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-3a909cd3b79ab863215b731a INFO: done: 2.001 sec
+2015-03-30T12:41:46.551Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-4632d374f383a1d3141f9e14 INFO: start
+2015-03-30T12:41:46.552Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-4632d374f383a1d3141f9e14 INFO: START
+2015-03-30T12:41:47.052Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-4632d374f383a1d3141f9e14 INFO: END
+{"args"=>[1]}
+{"class"=>[[[0.5], "Happy::Worker::WorkerTest"], [[1], "Happy::Worker::WorkerTest"], [[2], "Happy::Worker::WorkerTest"]]}
+2015-03-30T12:41:47.053Z 28878 TID-74cuc Happy::Worker::WorkerTest JID-4632d374f383a1d3141f9e14 INFO: fail: 0.502 sec
+2015-03-30T12:41:47.059Z 28878 TID-74cuc WARN: {"retry"=>false, "queue"=>"test", "class"=>"Happy::Worker::WorkerTest", "args"=>[{"@jobs"=>[{"args"=>[1]}, {"args"=>[2]}], "@local"=>{"class"=>[[[0.5], "Happy::Worker::WorkerTest"], [[1], "Happy::Worker::WorkerTest"], [[2], "Happy::Worker::WorkerTest"]]}, "class"=>"Happy::Job"}, 0.5], "jid"=>"4632d374f383a1d3141f9e14", "enqueued_at"=>1427719306.5497918}
+2015-03-30T12:41:47.059Z 28878 TID-74cuc WARN: no implicit conversion of String into Integer
+2015-03-30T12:41:47.060Z 28878 TID-74cuc WARN: /home/m/proj/happy_dev/lib/happy/job.rb:15:in `[]'
+/home/m/proj/happy_dev/lib/happy/job.rb:15:in `class_of'
+/home/m/proj/happy_dev/lib/happy/job_base.rb:16:in `work'
+/home/m/proj/happy_dev/lib/happy/worker/base.rb:10:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T12:41:49.570Z 28878 TID-3sx3s INFO: Shutting down
+2015-03-30T12:41:50.091Z 29260 TID-4cl1w INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:41:50.092Z 29260 TID-4cl1w INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:41:50.092Z 29260 TID-4cl1w INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:41:50.092Z 29260 TID-4cl1w INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:41:51.037Z 28878 TID-74wkc INFO: Terminating 1 quiet workers
+2015-03-30T12:41:51.946Z 29260 TID-7nn84 Happy::Worker::WorkerTest JID-49217b533465e78b57e46bdf INFO: start
+2015-03-30T12:41:51.951Z 29260 TID-7nn84 Happy::Worker::WorkerTest JID-49217b533465e78b57e46bdf INFO: START
+2015-03-30T12:41:52.452Z 29260 TID-7nn84 Happy::Worker::WorkerTest JID-49217b533465e78b57e46bdf INFO: END
+2015-03-30T12:41:52.453Z 29260 TID-7nn84 Happy::Worker::WorkerTest JID-49217b533465e78b57e46bdf INFO: done: 0.506 sec
+2015-03-30T12:41:52.455Z 29260 TID-7nn84 Happy::Worker::WorkerTest JID-f073fe315ee5aa3ac2e71825 INFO: start
+2015-03-30T12:41:52.455Z 29260 TID-7nn84 Happy::Worker::WorkerTest JID-f073fe315ee5aa3ac2e71825 INFO: START
+2015-03-30T12:41:53.456Z 29260 TID-7nn84 Happy::Worker::WorkerTest JID-f073fe315ee5aa3ac2e71825 INFO: END
+2015-03-30T12:41:53.456Z 29260 TID-7nn84 Happy::Worker::WorkerTest JID-f073fe315ee5aa3ac2e71825 INFO: done: 1.001 sec
+2015-03-30T12:41:53.459Z 29260 TID-7nn84 Happy::Worker::WorkerTest JID-2f708a598682c1ad2d5a2019 INFO: start
+2015-03-30T12:41:53.459Z 29260 TID-7nn84 Happy::Worker::WorkerTest JID-2f708a598682c1ad2d5a2019 INFO: START
+2015-03-30T12:41:55.459Z 29260 TID-7nn84 Happy::Worker::WorkerTest JID-2f708a598682c1ad2d5a2019 INFO: END
+2015-03-30T12:41:55.459Z 29260 TID-7nn84 Happy::Worker::WorkerTest JID-2f708a598682c1ad2d5a2019 INFO: done: 2.001 sec
+2015-03-30T12:49:26.853Z 29260 TID-4cl1w INFO: Shutting down
+2015-03-30T12:49:27.053Z 29260 TID-7ojpk INFO: Terminating 1 quiet workers
+2015-03-30T12:49:27.392Z 30461 TID-5ckus INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:49:27.393Z 30461 TID-5ckus INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:49:27.393Z 30461 TID-5ckus INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:49:27.393Z 30461 TID-5ckus INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:49:31.511Z 30461 TID-5ckus INFO: Shutting down
+2015-03-30T12:49:33.012Z 30494 TID-b5ci4 INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:49:33.012Z 30494 TID-b5ci4 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:49:33.012Z 30494 TID-b5ci4 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:49:33.012Z 30494 TID-b5ci4 INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:49:33.084Z 30461 TID-8nj28 INFO: Terminating 1 quiet workers
+2015-03-30T12:49:45.954Z 30494 TID-een04 Happy::Worker::WorkerTest JID-9ef72c9445f38968867eeabe INFO: start
+2015-03-30T12:49:45.956Z 30494 TID-een04 Happy::Worker::WorkerTest JID-9ef72c9445f38968867eeabe INFO: START
+2015-03-30T12:49:46.463Z 30494 TID-een04 Happy::Worker::WorkerTest JID-9ef72c9445f38968867eeabe INFO: END
+2015-03-30T12:49:46.467Z 30494 TID-een04 Happy::Worker::WorkerTest JID-9ef72c9445f38968867eeabe INFO: done: 0.512 sec
+2015-03-30T12:50:33.483Z 30494 TID-een04 Happy::Worker::WorkerTest JID-084ce26fc880f855b4c2de04 INFO: start
+2015-03-30T12:50:33.483Z 30494 TID-een04 Happy::Worker::WorkerTest JID-084ce26fc880f855b4c2de04 INFO: START
+2015-03-30T12:50:33.983Z 30494 TID-een04 Happy::Worker::WorkerTest JID-084ce26fc880f855b4c2de04 INFO: END
+2015-03-30T12:50:33.989Z 30494 TID-een04 Happy::Worker::WorkerTest JID-084ce26fc880f855b4c2de04 INFO: done: 0.507 sec
+2015-03-30T12:50:53.351Z 30494 TID-een04 Happy::Worker::WorkerTest JID-fed5e4293e3e525ca6f773bf INFO: start
+2015-03-30T12:50:53.351Z 30494 TID-een04 Happy::Worker::WorkerTest JID-fed5e4293e3e525ca6f773bf INFO: START
+2015-03-30T12:50:53.853Z 30494 TID-een04 Happy::Worker::WorkerTest JID-fed5e4293e3e525ca6f773bf INFO: END
+2015-03-30T12:50:53.856Z 30494 TID-een04 Happy::Worker::WorkerTest JID-fed5e4293e3e525ca6f773bf INFO: done: 0.505 sec
+2015-03-30T12:51:09.178Z 30494 TID-een04 Happy::Worker::WorkerTest JID-dd6508810221b5ba68d8a99b INFO: start
+2015-03-30T12:51:09.178Z 30494 TID-een04 Happy::Worker::WorkerTest JID-dd6508810221b5ba68d8a99b INFO: START
+2015-03-30T12:51:09.678Z 30494 TID-een04 Happy::Worker::WorkerTest JID-dd6508810221b5ba68d8a99b INFO: END
+2015-03-30T12:51:09.678Z 30494 TID-een04 Happy::Worker::WorkerTest JID-dd6508810221b5ba68d8a99b INFO: done: 0.501 sec
+2015-03-30T12:51:30.452Z 30494 TID-een04 Happy::Worker::WorkerTest JID-a9e049f83f8f0615cf0301f7 INFO: start
+2015-03-30T12:51:30.452Z 30494 TID-een04 Happy::Worker::WorkerTest JID-a9e049f83f8f0615cf0301f7 INFO: START
+2015-03-30T12:51:30.952Z 30494 TID-een04 Happy::Worker::WorkerTest JID-a9e049f83f8f0615cf0301f7 INFO: END
+2015-03-30T12:51:30.953Z 30494 TID-een04 Happy::Worker::WorkerTest JID-a9e049f83f8f0615cf0301f7 INFO: done: 0.501 sec
+2015-03-30T12:59:01.695Z 30494 TID-een04 Happy::Worker::WorkerTest JID-6c70c6c9abd71fdd64a4b285 INFO: start
+2015-03-30T12:59:01.695Z 30494 TID-een04 Happy::Worker::WorkerTest JID-6c70c6c9abd71fdd64a4b285 INFO: START
+2015-03-30T12:59:02.196Z 30494 TID-een04 Happy::Worker::WorkerTest JID-6c70c6c9abd71fdd64a4b285 INFO: END
+2015-03-30T12:59:02.199Z 30494 TID-een04 Happy::Worker::WorkerTest JID-6c70c6c9abd71fdd64a4b285 INFO: done: 0.504 sec
+2015-03-30T12:59:09.646Z 30494 TID-een04 Happy::Worker::WorkerTest JID-1c9c2f587f7bb420dae69f6f INFO: start
+2015-03-30T12:59:09.646Z 30494 TID-een04 Happy::Worker::WorkerTest JID-1c9c2f587f7bb420dae69f6f INFO: START
+2015-03-30T12:59:10.147Z 30494 TID-een04 Happy::Worker::WorkerTest JID-1c9c2f587f7bb420dae69f6f INFO: END
+2015-03-30T12:59:10.150Z 30494 TID-een04 Happy::Worker::WorkerTest JID-1c9c2f587f7bb420dae69f6f INFO: done: 0.504 sec
+2015-03-30T13:01:07.027Z 30494 TID-een04 Happy::Worker::WorkerTest JID-f1091d165f63e2a5119b5a05 INFO: start
+2015-03-30T13:01:07.028Z 30494 TID-een04 Happy::Worker::WorkerTest JID-f1091d165f63e2a5119b5a05 INFO: START
+2015-03-30T13:01:07.528Z 30494 TID-een04 Happy::Worker::WorkerTest JID-f1091d165f63e2a5119b5a05 INFO: END
+2015-03-30T13:01:07.531Z 30494 TID-een04 Happy::Worker::WorkerTest JID-f1091d165f63e2a5119b5a05 INFO: done: 0.504 sec
+2015-03-30T13:02:45.612Z 30494 TID-een04 Happy::Worker::WorkerTest JID-8a253c806e4f76a8a76bbf00 INFO: start
+2015-03-30T13:02:45.612Z 30494 TID-een04 Happy::Worker::WorkerTest JID-8a253c806e4f76a8a76bbf00 INFO: START
+2015-03-30T13:02:46.113Z 30494 TID-een04 Happy::Worker::WorkerTest JID-8a253c806e4f76a8a76bbf00 INFO: END
+2015-03-30T13:02:46.118Z 30494 TID-een04 Happy::Worker::WorkerTest JID-8a253c806e4f76a8a76bbf00 INFO: done: 0.506 sec
+2015-03-30T13:05:19.242Z 30494 TID-een04 Happy::Worker::WorkerTest JID-9e53c43e601f44e072de2623 INFO: start
+2015-03-30T13:05:19.242Z 30494 TID-een04 Happy::Worker::WorkerTest JID-9e53c43e601f44e072de2623 INFO: START
+2015-03-30T13:05:19.743Z 30494 TID-een04 Happy::Worker::WorkerTest JID-9e53c43e601f44e072de2623 INFO: END
+2015-03-30T13:05:19.745Z 30494 TID-een04 Happy::Worker::WorkerTest JID-9e53c43e601f44e072de2623 INFO: done: 0.503 sec
+2015-03-30T13:05:41.955Z 30494 TID-een04 Happy::Worker::WorkerTest JID-58004ab8b0d0533de4253925 INFO: start
+2015-03-30T13:05:41.955Z 30494 TID-een04 Happy::Worker::WorkerTest JID-58004ab8b0d0533de4253925 INFO: START
+2015-03-30T13:05:42.455Z 30494 TID-een04 Happy::Worker::WorkerTest JID-58004ab8b0d0533de4253925 INFO: END
+2015-03-30T13:05:42.458Z 30494 TID-een04 Happy::Worker::WorkerTest JID-58004ab8b0d0533de4253925 INFO: done: 0.503 sec
+2015-03-30T13:07:19.424Z 30494 TID-b5ci4 INFO: Shutting down
+2015-03-30T13:07:19.930Z 826 TID-727ig INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T13:07:19.930Z 826 TID-727ig INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T13:07:19.930Z 826 TID-727ig INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T13:07:19.930Z 826 TID-727ig INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T13:07:20.039Z 30494 TID-efpag INFO: Terminating 1 quiet workers
+2015-03-30T13:07:29.142Z 826 TID-ad8g8 Happy::Worker::WorkerTest JID-a47022d3f6e9929831d8ed15 INFO: start
+2015-03-30T13:07:29.148Z 826 TID-ad8g8 Happy::Worker::WorkerTest JID-a47022d3f6e9929831d8ed15 INFO: START
+2015-03-30T13:07:29.648Z 826 TID-ad8g8 Happy::Worker::WorkerTest JID-a47022d3f6e9929831d8ed15 INFO: END
+2015-03-30T13:07:29.659Z 826 TID-ad8g8 Happy::Worker::WorkerTest JID-a47022d3f6e9929831d8ed15 INFO: done: 0.518 sec
+2015-03-30T13:09:10.685Z 826 TID-727ig INFO: Shutting down
+2015-03-30T13:09:11.084Z 826 TID-adx90 INFO: Terminating 1 quiet workers

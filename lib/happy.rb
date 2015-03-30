@@ -1,16 +1,21 @@
 require 'happy/version'
 
-# require 'pretty_backtrace/enable'
 require 'ext/jsonify'
 require 'ext/objectify'
 require 'ext/hash_filter'
 require 'ext/deep_dup'
 require 'ext/currency'
+require 'ext/constantize'
 require 'happy/util/logstash'
 require 'logger'
 require 'dotenv'
 Dotenv.load
 require 'mshard/mshard'
+
+require 'sidekiq'
+Sidekiq.configure_client do |config|
+  config.redis = { size: 1 }
+end
 
 module Happy
   autoload :Currency, 'happy/currency'
@@ -22,7 +27,6 @@ module Happy
   autoload :B2R, 'happy/b2r'
   autoload :BitStamp, 'happy/bitstamp'
   autoload :Real, 'happy/real'
-  autoload :Worker, 'happy/worker'
   autoload :Simulator, 'happy/simulator'
   autoload :Logged, 'happy/logged'
   autoload :Collector, 'happy/collector'
@@ -31,9 +35,19 @@ module Happy
   autoload :OrderB2R, 'happy/order_b2r'
   autoload :Recycle, 'happy/recycle'
   autoload :Auto, 'happy/auto'
+  autoload :Job, 'happy/job'
+  autoload :JobBase, 'happy/job_base'
 
   module Util
     autoload :Query, 'happy/util/query'
+  end
+
+  # autoload :Worker, 'happy/worker'
+  require 'happy/worker'
+  class Worker
+    autoload :Base, 'happy/worker/base'
+    autoload :WorkerTest, 'happy/worker/worker_test'
+    autoload :XRP, 'happy/worker/xrp'
   end
 
   module_function

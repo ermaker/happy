@@ -1,0 +1,83 @@
+# Logfile created on 2015-03-30 21:49:37 +0900 by logger.rb/47272
+2015-03-30T12:49:38.200Z 30526 TID-4t37w INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:49:38.200Z 30526 TID-4t37w INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:49:38.200Z 30526 TID-4t37w INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:49:38.200Z 30526 TID-4t37w INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:49:40.482Z 30526 TID-4t37w INFO: Shutting down
+2015-03-30T12:49:41.353Z 30553 TID-7ipp0 INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:49:41.354Z 30553 TID-7ipp0 INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:49:41.354Z 30553 TID-7ipp0 INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:49:41.354Z 30553 TID-7ipp0 INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:49:42.030Z 30526 TID-84sl4 INFO: Terminating 1 quiet workers
+2015-03-30T12:49:46.468Z 30553 TID-atqpk Happy::Worker::XRPWait JID-967d15073f3b288b629af021 INFO: start
+2015-03-30T12:49:46.469Z 30553 TID-atqpk Happy::Worker::XRPWait JID-967d15073f3b288b629af021 INFO: {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}
+2015-03-30T12:49:46.469Z 30553 TID-atqpk Happy::Worker::XRPWait JID-967d15073f3b288b629af021 INFO: done: 0.001 sec
+2015-03-30T12:50:33.990Z 30553 TID-atqpk Happy::Worker::XRPWait JID-8cff5a396d1f808bfe392bf0 INFO: start
+2015-03-30T12:50:33.993Z 30553 TID-atqpk Happy::Worker::XRPWait JID-8cff5a396d1f808bfe392bf0 INFO: {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}
+2015-03-30T12:50:33.993Z 30553 TID-atqpk Happy::Worker::XRPWait JID-8cff5a396d1f808bfe392bf0 INFO: done: 0.003 sec
+2015-03-30T12:50:53.860Z 30553 TID-atqpk Happy::Worker::XRPWait JID-8f2ae6e6cb87279f5670a83f INFO: start
+2015-03-30T12:50:53.860Z 30553 TID-atqpk Happy::Worker::XRPWait JID-8f2ae6e6cb87279f5670a83f INFO: {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}
+2015-03-30T12:50:53.860Z 30553 TID-atqpk Happy::Worker::XRPWait JID-8f2ae6e6cb87279f5670a83f INFO: done: 0.0 sec
+2015-03-30T12:51:09.165Z 30553 TID-atqpk Happy::Worker::XRPWait JID-2922dc7fc3d3fcb8dae768cc INFO: start
+2015-03-30T12:51:09.165Z 30553 TID-atqpk Happy::Worker::XRPWait JID-2922dc7fc3d3fcb8dae768cc INFO: {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}
+2015-03-30T12:51:09.167Z 30553 TID-atqpk Happy::Worker::XRPWait JID-2922dc7fc3d3fcb8dae768cc INFO: done: 0.002 sec
+2015-03-30T12:51:19.499Z 30553 TID-atqpk Happy::Worker::XRPWait JID-92ac733a2c253fd7a5fa3337 INFO: start
+2015-03-30T12:51:19.499Z 30553 TID-atqpk Happy::Worker::XRPWait JID-92ac733a2c253fd7a5fa3337 INFO: {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}
+2015-03-30T12:51:19.499Z 30553 TID-atqpk Happy::Worker::XRPWait JID-92ac733a2c253fd7a5fa3337 INFO: done: 0.0 sec
+2015-03-30T12:51:30.449Z 30553 TID-atqpk Happy::Worker::XRPWait JID-327cf2de4b2027e47f3a9331 INFO: start
+2015-03-30T12:51:30.449Z 30553 TID-atqpk Happy::Worker::XRPWait JID-327cf2de4b2027e47f3a9331 INFO: {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}
+2015-03-30T12:51:30.451Z 30553 TID-atqpk Happy::Worker::XRPWait JID-327cf2de4b2027e47f3a9331 INFO: done: 0.002 sec
+2015-03-30T12:59:02.202Z 30553 TID-atqpk Happy::Worker::XRPWait JID-1cba6a106ebf68e4539d3745 INFO: start
+2015-03-30T12:59:02.203Z 30553 TID-atqpk Happy::Worker::XRPWait JID-1cba6a106ebf68e4539d3745 INFO: {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}
+2015-03-30T12:59:02.206Z 30553 TID-atqpk Happy::Worker::XRPWait JID-1cba6a106ebf68e4539d3745 INFO: done: 0.004 sec
+2015-03-30T12:59:07.602Z 30553 TID-7ipp0 INFO: Shutting down
+2015-03-30T12:59:08.065Z 30553 TID-aug8g INFO: Terminating 1 quiet workers
+2015-03-30T12:59:08.183Z 31942 TID-46ftg INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T12:59:08.184Z 31942 TID-46ftg INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T12:59:08.184Z 31942 TID-46ftg INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T12:59:08.184Z 31942 TID-46ftg INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T12:59:10.151Z 31942 TID-7hxcg Happy::Worker::XRPWait JID-4f363fc193a9f4b20c01dacf INFO: start
+2015-03-30T12:59:10.153Z 31942 TID-7hxcg Happy::Worker::XRPWait JID-4f363fc193a9f4b20c01dacf INFO: {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}
+2015-03-30T12:59:10.159Z 31942 TID-7hxcg Happy::Worker::XRPWait JID-4f363fc193a9f4b20c01dacf INFO: fail: 0.008 sec
+2015-03-30T12:59:10.165Z 31942 TID-7hxcg WARN: {"retry"=>false, "queue"=>"xrp_wait", "class"=>"Happy::Worker::XRPWait", "args"=>[{"@jobs"=>[], "@local"=>{"class"=>[[[0.5], "Happy::Worker::WorkerTest"], [[1], "Happy::Worker::WorkerTest"], [[{"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}], "Happy::Worker::XRPWait"]]}, "class"=>"Happy::Job"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}], "jid"=>"4f363fc193a9f4b20c01dacf", "enqueued_at"=>1427720350.1472301}
+2015-03-30T12:59:10.165Z 31942 TID-7hxcg WARN: undefined method `[]' for #<Happy::Job:0x000000017559a8>
+2015-03-30T12:59:10.166Z 31942 TID-7hxcg WARN: /home/m/proj/happy_dev/lib/happy/worker/xrp_wait.rb:12:in `perform_'
+/home/m/proj/happy_dev/lib/happy/worker/base.rb:9:in `perform'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:75:in `execute_job'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:52:in `block (2 levels) in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:127:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/retry_jobs.rb:74:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:11:in `block in call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/logging.rb:24:in `with_context'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/server/logging.rb:7:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:129:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `call'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/middleware/chain.rb:132:in `invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:51:in `block in process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:98:in `stats'
+/home/m/.rvm/gems/ruby-2.2.0/gems/sidekiq-3.3.3/lib/sidekiq/processor.rb:50:in `process'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `public_send'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:26:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/calls.rb:122:in `dispatch'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:60:in `block in invoke'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/cell.rb:71:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/actor.rb:357:in `block in task'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks.rb:57:in `block in initialize'
+/home/m/.rvm/gems/ruby-2.2.0/gems/celluloid-0.16.0/lib/celluloid/tasks/task_fiber.rb:15:in `block in create'
+2015-03-30T13:00:53.139Z 31942 TID-46ftg INFO: Shutting down
+2015-03-30T13:00:53.648Z 32226 TID-9qyds INFO: Running in ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-linux]
+2015-03-30T13:00:53.648Z 32226 TID-9qyds INFO: See LICENSE and the LGPL-3.0 for licensing details.
+2015-03-30T13:00:53.648Z 32226 TID-9qyds INFO: Upgrade to Sidekiq Pro for more features and support: http://sidekiq.org/pro
+2015-03-30T13:00:53.648Z 32226 TID-9qyds INFO: Booting Sidekiq 3.3.3 with redis options {}
+2015-03-30T13:00:54.054Z 31942 TID-7iejw INFO: Terminating 1 quiet workers
+2015-03-30T13:01:07.534Z 32226 TID-d20ws Happy::Worker::XRPWait JID-cc349008dd4db89e8e8e3f6f INFO: start
+2015-03-30T13:01:07.541Z 32226 TID-d20ws Happy::Worker::XRPWait JID-cc349008dd4db89e8e8e3f6f INFO: {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}
+2015-03-30T13:01:07.543Z 32226 TID-d20ws Happy::Worker::XRPWait JID-cc349008dd4db89e8e8e3f6f INFO: balance: 1.0+BTC+rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B
+2015-03-30T13:02:08.524Z 32226 TID-d20ws Happy::Worker::XRPWait JID-cc349008dd4db89e8e8e3f6f INFO: done: 60.99 sec
+2015-03-30T13:02:46.121Z 32226 TID-d20ws Happy::Worker::XRPWait JID-2ed8efe80b8c51a4da758d57 INFO: start
+2015-03-30T13:02:46.122Z 32226 TID-d20ws Happy::Worker::XRPWait JID-2ed8efe80b8c51a4da758d57 INFO: {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}, {"currency"=>"BTC", "counterparty"=>"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"}
+2015-03-30T13:02:46.125Z 32226 TID-d20ws Happy::Worker::XRPWait JID-2ed8efe80b8c51a4da758d57 INFO: balance: 0.001+BTC+rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B
+2015-03-30T13:02:47.059Z 32226 TID-d20ws Happy::Worker::XRPWait JID-2ed8efe80b8c51a4da758d57 INFO: done: 0.938 sec
+2015-03-30T13:04:14.660Z 32226 TID-9qyds INFO: Shutting down
+2015-03-30T13:04:15.077Z 32226 TID-d33ew INFO: Terminating 1 quiet workers

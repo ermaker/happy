@@ -1,0 +1,8 @@
+:pidfile: tmp/pids/xrp.pid
+:logfile: log/xrp.log
+:queues:
+- xrp
+:concurrency: 1
+:require: ./lib/happy.rb
+:daemon: true
+:environment: :production
