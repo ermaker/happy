@@ -3,3 +3,4 @@
 :require: ./lib/happy.rb
 :daemon: true
 :environment: :production
+:timeout: 1

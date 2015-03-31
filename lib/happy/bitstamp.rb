@@ -114,7 +114,7 @@ module Happy
 
         amount['value'] = amount['value'].floor(8)
         body = signature_hash.merge(
-          amount: amount['value'].to_s('F'),
+          amount: (amount - Amount::BTC_FEE)['value'].to_s('F'),
           address: address
         )
         response = HTTParty.post(

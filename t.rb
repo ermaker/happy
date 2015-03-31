@@ -17,7 +17,7 @@ job = Happy::Job.new
 =begin
 job.jobs = [
   [
-    { 'queue' => 'krw_r', 'class' => C, 'args' => [KRW_R, KRW_X] }
+    { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_X] }
   ],
   { 'queue' => 'simulate', 'class' => SE, 'args' => [KRW_R, KRW_X] },
   { 'queue' => 'krw_x', 'class' => C, 'args' => [KRW_X, BTC_X] },
@@ -31,13 +31,17 @@ job.jobs = [
   { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_BS, BTC_BSR] },
   { 'queue' => 'btc_bsr', 'class' => C, 'args' => [BTC_BSR, XRP] },
   { 'queue' => 'xrp', 'class' => C, 'args' => [XRP, KRW_P] },
-  { 'queue' => 'krw_p', 'class' => C, 'args' => [KRW_P, KRW_R] }
+  { 'queue' => 'krw_p', 'class' => SE, 'args' => [KRW_P, KRW_R] }
 ]
+
+job.local['balances'].apply('5000'.currency('KRW_R'))
+=begin
 =end
 
+#=begin
 job.jobs = [
   [
-    { 'queue' => 'krw_r', 'class' => C, 'args' => [KRW_R, KRW_P] }
+    { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_P] }
   ],
   { 'queue' => 'simulate', 'class' => SE, 'args' => [KRW_R, KRW_P] },
   { 'queue' => 'krw_p', 'class' => C, 'args' => [KRW_P, XRP] },
@@ -51,9 +55,12 @@ job.jobs = [
   ],
   { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_BS, BTC_X] },
   { 'queue' => 'btc_x', 'class' => C, 'args' => [BTC_X, KRW_X] },
-  { 'queue' => 'krw_x', 'class' => C, 'args' => [KRW_X, KRW_R] }
+  { 'queue' => 'krw_x', 'class' => SE, 'args' => [KRW_X, KRW_R] }
 ]
 
 job.local['balances'].apply('3000'.currency('KRW_R'))
+=begin
+=end
+
 
 job.work
