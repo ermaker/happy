@@ -11,7 +11,7 @@ module Happy
       ENV['XCOIN_PROXY'].nil? || ENV['XCOIN_PROXY'].empty?
     PHANTOMJS_OPTIONS.push("--proxy-auth=#{ENV['XCOIN_PROXY_AUTH']}") unless
       ENV['XCOIN_PROXY_AUTH'].nil? || ENV['XCOIN_PROXY_AUTH'].empty?
-    Capybara.register_driver(:poltergeist_proxy) do |app|
+    Capybara.register_driver(:poltergeist) do |app|
       Capybara::Poltergeist::Driver.new(
         app,
         phantomjs: Phantomjs.path,
@@ -20,21 +20,22 @@ module Happy
         phantomjs_options: PHANTOMJS_OPTIONS
       )
     end
-    Capybara.current_driver = :poltergeist_proxy
 
     module Information
       attr_accessor :xcoin_user, :xcoin_password, :xcoin_password2
+      attr_accessor :xcoin_session
 
       def self.extended(mod)
         mod.xcoin_user = ENV['XCOIN_USER']
         mod.xcoin_password = ENV['XCOIN_PASSWORD']
         mod.xcoin_password2 = ENV['XCOIN_PASSWORD2']
+        mod.xcoin_session = Capybara::Session.new(:poltergeist)
       end
 
       include Capybara::DSL
 
       def xcoin_not_found(*args)
-        find(*args)
+        xcoin_session.find(*args)
         return false
       rescue Capybara::ElementNotFound
         return true
@@ -44,16 +45,16 @@ module Happy
 
       def xcoin_ensure_login
         Happy.logger.debug { 'xcoin_ensure_login' }
-        visit 'https://www.xcoin.co.kr/u1/US101'
-        if xcoin_not_found(:css, '.gnb_s1') && find(:css, '.gnb')
+        xcoin_session.visit 'https://www.xcoin.co.kr/u1/US101'
+        if xcoin_not_found(:css, '.gnb_s1') && xcoin_session.find(:css, '.gnb')
           Happy.logger.debug { 'already logged in' }
           return
         end
         Happy.logger.debug { 'Fill username and password' }
-        fill_in 'j_username', with: xcoin_user
-        fill_in 'j_password', with: xcoin_password
+        xcoin_session.fill_in 'j_username', with: xcoin_user
+        xcoin_session.fill_in 'j_password', with: xcoin_password
         Happy.logger.debug { 'Submit' }
-        find(:xpath, '//p[@class="btn_org"]').click
+        xcoin_session.find(:xpath, '//p[@class="btn_org"]').click
         Happy.logger.debug { 'xcoin_ensure_login finished' }
       rescue => e
         Happy.logger.warn { e.class }
@@ -78,7 +79,7 @@ module Happy
 
       def balance_xcoin
         xcoin_ensure_login
-        data = all(:xpath, '//div[@id="snb"]/ul/li').map(&:text)
+        data = xcoin_session.all(:xpath, '//div[@id="snb"]/ul/li').map(&:text)
         AmountHash.new.apply(
           data[1].currency('BTC_X'),
           data[2].currency('KRW_X')
@@ -189,8 +190,8 @@ module Happy
       include Capybara::DSL
 
       def xcoin_order_status
-        visit 'https://www.xcoin.co.kr/u2/US202'
-        all(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr')[1..-1]
+        xcoin_session.visit 'https://www.xcoin.co.kr/u2/US202'
+        xcoin_session.all(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr')[1..-1]
           .reverse
           .map { |tr| tr.all(:xpath, './/td') }
           .select { |tr| tr.size == 8 }
@@ -214,8 +215,8 @@ module Happy
       end
 
       def exchange_xcoin_history
-        visit 'https://www.xcoin.co.kr/u2/US204'
-        all(:xpath, '//table[@class="g_table_list"][2]//tr')[1..-1]
+        xcoin_session.visit 'https://www.xcoin.co.kr/u2/US204'
+        xcoin_session.all(:xpath, '//table[@class="g_table_list"][2]//tr')[1..-1]
           .map { |tr| tr.all(:xpath, './/td') }
           .map do |tr|
             [
@@ -240,15 +241,15 @@ module Happy
         Happy.logger.debug { 'exchange_xcoin_impl' }
         btc_x = value_shift(amount, counter)
         Happy.logger.debug { "btc_x: #{btc_x}" }
-        visit 'https://www.xcoin.co.kr/u2/US202'
+        xcoin_session.visit 'https://www.xcoin.co.kr/u2/US202'
         Happy.logger.debug { 'Fill' }
-        fill_in 'traPwNo', with: xcoin_password2
-        check 'gen'
-        fill_in 'btcQty', with: btc_x['value'].floor(8).to_s('F')
-        high_btc = find(:xpath, '//tr[@class="sell"][1]/td[2]').text
-        fill_in 'btcAmtComma', with: high_btc
-        find(:xpath, '//p[@class="btn_org"]').click
-        find(:css, '._wModal_btn_yes').click
+        xcoin_session.fill_in 'traPwNo', with: xcoin_password2
+        xcoin_session.check 'gen'
+        xcoin_session.fill_in 'btcQty', with: btc_x['value'].floor(8).to_s('F')
+        high_btc = xcoin_session.find(:xpath, '//tr[@class="sell"][1]/td[2]').text
+        xcoin_session.fill_in 'btcAmtComma', with: high_btc
+        xcoin_session.find(:xpath, '//p[@class="btn_org"]').click
+        xcoin_session.find(:css, '._wModal_btn_yes').click
         Happy.logger.debug { 'exchange_xcoin_impl finished' }
       rescue => e
         Happy.logger.warn { e.class }
@@ -342,8 +343,8 @@ module Happy
       end
 
       def xcoin_order_status_reverse
-        visit 'https://www.xcoin.co.kr/u2/US203'
-        all(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr')[1..-1]
+        xcoin_session.visit 'https://www.xcoin.co.kr/u2/US203'
+        xcoin_session.all(:xpath, '//table[@class="g_table_list g_table_list_s1"]//tr')[1..-1]
           .reverse
           .map { |tr| tr.all(:xpath, './/td') }
           .select { |tr| tr.size == 8 }
@@ -371,15 +372,15 @@ module Happy
         Happy.logger.debug { 'exchange_xcoin_impl_reverse' }
         btc_x = amount
         Happy.logger.debug { "btc_x: #{btc_x}" }
-        visit 'https://www.xcoin.co.kr/u2/US203'
+        xcoin_session.visit 'https://www.xcoin.co.kr/u2/US203'
         Happy.logger.debug { 'Fill' }
-        fill_in 'traPwNo', with: xcoin_password2
+        xcoin_session.fill_in 'traPwNo', with: xcoin_password2
         yield
-        fill_in 'btcQty', with: btc_x['value'].floor(8).to_s('F')
-        low_btc = find(:xpath, '//tr[@class="buying"][last()]/td[2]').text
-        fill_in 'btcAmtComma', with: low_btc
-        find(:xpath, '//p[@class="btn_green"]').click
-        find(:css, '._wModal_btn_yes').click
+        xcoin_session.fill_in 'btcQty', with: btc_x['value'].floor(8).to_s('F')
+        low_btc = xcoin_session.find(:xpath, '//tr[@class="buying"][last()]/td[2]').text
+        xcoin_session.fill_in 'btcAmtComma', with: low_btc
+        xcoin_session.find(:xpath, '//p[@class="btn_green"]').click
+        xcoin_session.find(:css, '._wModal_btn_yes').click
         Happy.logger.debug { 'exchange_xcoin_impl_reverse finished' }
       end
 
@@ -388,7 +389,7 @@ module Happy
         loop do
           begin
             return exchange_xcoin_impl_reverse_impl(amount, counter) do
-              check 'misuYnTmp'
+              xcoin_session.check 'misuYnTmp'
             end
           rescue => e
             Happy.logger.warn { e.class }
@@ -399,7 +400,7 @@ module Happy
           if amount <= balance(currency)[currency]
             begin
               return exchange_xcoin_impl_reverse_impl(amount, counter) do
-                check 'gen'
+                xcoin_session.check 'gen'
               end
             rescue => e
               Happy.logger.warn { e.class }
@@ -445,18 +446,18 @@ module Happy
         Happy.logger.debug { 'send_xcoin_btc_impl' }
         destination_address =  SEND_XCOIN_DESTINATION_ADDRESS[counter.currency]
         fail counter.to_s if destination_address.nil?
-        visit 'https://www.xcoin.co.kr/u3/US302'
+        xcoin_session.visit 'https://www.xcoin.co.kr/u3/US302'
         btc_value = amount['value'].to_s('F')
         Happy.logger.debug { "btc_value: #{btc_value}" }
-        fill_in 'btcOutAmt', with: btc_value
-        fill_in 'btcOutAdd', with: destination_address
-        fill_in 'traPwNo', with: xcoin_password2
+        xcoin_session.fill_in 'btcOutAmt', with: btc_value
+        xcoin_session.fill_in 'btcOutAdd', with: destination_address
+        xcoin_session.fill_in 'traPwNo', with: xcoin_password2
         Happy.logger.debug { 'xcoin_sms_validation_code set' }
         MShard::MShard.new.set_safe(
           id: 'xcoin_sms_validation_code',
           contents: '')
-        find(:xpath, '//div[text()="인증요청"]').click
-        find(:css, '._wModal_btn_yes').click
+        xcoin_session.find(:xpath, '//div[text()="인증요청"]').click
+        xcoin_session.find(:css, '._wModal_btn_yes').click
         Happy.logger.debug { 'xcoin_sms_validation_code loop start' }
         sms =
           catch(:sms_done) do
@@ -482,9 +483,9 @@ module Happy
             fail 'No SMS response'
           end
         Happy.logger.debug { "sms: #{sms}" }
-        fill_in 'smsKeyTmp', with: sms
-        find(:xpath, '//p[@class="btn_org"]').click
-        find(:css, '._wModal_btn_yes').click
+        xcoin_session.fill_in 'smsKeyTmp', with: sms
+        xcoin_session.find(:xpath, '//p[@class="btn_org"]').click
+        xcoin_session.find(:css, '._wModal_btn_yes').click
         Happy.logger.debug { 'send_xcoin_btc_impl finished' }
       rescue => e
         Happy.logger.warn { e.class }

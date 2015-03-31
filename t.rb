@@ -1,43 +1,37 @@
 require 'happy'
 
+KRW_R = Happy::Currency::KRW_R
+KRW_X = Happy::Currency::KRW_X
+BTC_X = Happy::Currency::BTC_X
+BTC_BS = Happy::Currency::BTC_BS
 BTC_BSR = Happy::Currency::BTC_BSR
 XRP = Happy::Currency::XRP
 KRW_P = Happy::Currency::KRW_P
-KRW_R = Happy::Currency::KRW_R
 
-XRP_SE = Happy::Worker::XRP::SimulatedExchange
-XRP_E = Happy::Worker::XRP::Exchange
+E = Happy::Worker::XRP::Exchange
+SE = Happy::Worker::XRP::SimulatedExchange
 
 job = Happy::Job.new
-# job.local['class'] = [
-#   [
-#     [BTC_BSR, XRP],
-#     XRP_E
-#   ],
-#   [
-#     [XRP, KRW_P],
-#     XRP_E
-#   ],
-#   [
-#     [KRW_P, KRW_R],
-#     XRP_SE
-#   ]
-# ]
-
-WT = Happy::Worker::WorkerTest
 
 job.jobs = [
-  { 'class' => WT, 'args' => [1] },
   [
-    { 'class' => WT, 'args' => [3] }
+    { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_X] }
   ],
-  { 'class' => WT, 'args' => [3] }
+  { 'queue' => 'simulate', 'class' => SE, 'args' => [KRW_R, KRW_X] },
+  { 'queue' => 'krw_x', 'class' => SE, 'args' => [KRW_X, BTC_X] },
+  [
+    { 'queue' => 'btc_x', 'class' => SE, 'args' => [BTC_X, BTC_BS] }
+  ],
+  { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_X, BTC_BS] },
+  [
+    { 'queue' => 'btc_bs', 'class' => SE, 'args' => [BTC_BS, BTC_BSR] }
+  ],
+  { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_BS, BTC_BSR] },
+  { 'queue' => 'btc_bsr', 'class' => SE, 'args' => [BTC_BSR, XRP] },
+  { 'queue' => 'xrp', 'class' => SE, 'args' => [XRP, KRW_P] },
+  { 'queue' => 'krw_p', 'class' => SE, 'args' => [KRW_P, KRW_R] }
 ]
 
-# job.push_detail('class' => XRP_E, 'args' => [BTC_BSR, XRP])
-# job.push_detail('class' => XRP_E, 'args' => [XRP, KRW_P])
-# job.push_detail('class' => XRP_SE, 'args' => [KRW_P, KRW_R])
-
-# job.local['balances'].apply('0.0001'.currency('BTC_BSR'))
+job.local['balances'].apply('100000'.currency('KRW_R'))
 
 job.work

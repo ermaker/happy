@@ -1,7 +1,4 @@
-:pidfile: tmp/pids/test.pid
-:logfile: log/test.log
-:queues:
-- test
+:logfile: log/worker.log
 :concurrency: 1
 :require: ./lib/happy.rb
 :daemon: true

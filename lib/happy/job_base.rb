@@ -30,6 +30,10 @@ module Happy
       work
     end
 
+    def deep_dup
+      self.class.from_jsonify(to_jsonify.deep_dup)
+    end
+
     def to_jsonify
       Hash[
         instance_variables.map do |k|

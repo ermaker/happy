@@ -32,7 +32,7 @@ module Happy
         worker = Worker.new
         worker.extend(XCoin::Information)
         worker.xcoin_ensure_login
-        worker.visit link
+        worker.xcoin_session.visit link
       rescue => e
         Happy.logger.warn { e.class }
         Happy.logger.warn { e }
