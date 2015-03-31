@@ -1,12 +1,11 @@
 module Happy
   class Worker
     class WorkerTest < Base
-      sidekiq_options queue: :test
+      sidekiq_options queue: :xrp
 
       def perform_(_job, weight)
-        Sidekiq.logger.info { 'START' }
+        Sidekiq.logger.info { "sleep(#{weight})" }
         sleep(weight)
-        Sidekiq.logger.info { 'END' }
       end
     end
   end

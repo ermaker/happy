@@ -1,6 +1,6 @@
 module Happy
   class JobBase
-    attr_accessor :local
+    attr_accessor :local, :jobs
 
     def initialize
       @jobs = []
@@ -10,16 +10,24 @@ module Happy
       @jobs.push(job)
     end
 
-    def work
-      return if @jobs.empty?
-      job = @jobs.shift
-      klass = class_of(job)
+    def work_impl(job)
+      klass = class_of(job).constantize
       job =
         { 'class' => klass }.merge(
           klass.get_sidekiq_options
         ).merge(job)
       job['args'].unshift(to_jsonify)
       Sidekiq::Client.push(job)
+    end
+
+    def work
+      return if @jobs.empty?
+      job = @jobs.shift
+      return work_impl(job) unless job.is_a?(Array)
+      deep_dup.tap do |j|
+        j.jobs = job
+      end.work
+      work
     end
 
     def to_jsonify

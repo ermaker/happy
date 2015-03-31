@@ -9,24 +9,35 @@ XRP_SE = Happy::Worker::XRP::SimulatedExchange
 XRP_E = Happy::Worker::XRP::Exchange
 
 job = Happy::Job.new
-job.local['class'] = [
-  [
-    [BTC_BSR, XRP],
-    XRP_E
-  ],
-  [
-    [XRP, KRW_P],
-    XRP_E
-  ],
-  [
-    [KRW_P, KRW_R],
-    XRP_SE
-  ]
-]
-job.local['balances'].apply('0.0001'.currency('BTC_BSR'))
+# job.local['class'] = [
+#   [
+#     [BTC_BSR, XRP],
+#     XRP_E
+#   ],
+#   [
+#     [XRP, KRW_P],
+#     XRP_E
+#   ],
+#   [
+#     [KRW_P, KRW_R],
+#     XRP_SE
+#   ]
+# ]
 
-job.push(BTC_BSR, XRP)
-job.push(XRP, KRW_P)
-job.push(KRW_P, KRW_R)
+WT = Happy::Worker::WorkerTest
+
+job.jobs = [
+  { 'class' => WT, 'args' => [1] },
+  [
+    { 'class' => WT, 'args' => [3] }
+  ],
+  { 'class' => WT, 'args' => [3] }
+]
+
+# job.push_detail('class' => XRP_E, 'args' => [BTC_BSR, XRP])
+# job.push_detail('class' => XRP_E, 'args' => [XRP, KRW_P])
+# job.push_detail('class' => XRP_SE, 'args' => [KRW_P, KRW_R])
+
+# job.local['balances'].apply('0.0001'.currency('BTC_BSR'))
 
 job.work

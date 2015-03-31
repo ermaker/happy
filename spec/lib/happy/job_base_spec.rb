@@ -9,7 +9,7 @@ class Job < Happy::JobBase
   end
 
   def class_of(job)
-    job['class'].constantize
+    job['class']
   end
 end
 
@@ -42,6 +42,62 @@ RSpec.describe Job do
       expect(Sidekiq::Client).to receive(:push)
       subject.push(WorkerTest.to_s)
       subject.work
+    end
+
+    describe 'with split' do
+      it 'works' do
+        expect(Sidekiq::Client).to receive(:push).twice
+        subject.jobs =[
+          [{ 'class' => WorkerTest, 'args' => [] }],
+          { 'class' => WorkerTest, 'args' => [] }
+        ]
+        subject.work
+      end
+
+      it 'works' do
+        expect(Sidekiq::Client).to receive(:push)
+        subject.jobs =[
+          [],
+          { 'class' => WorkerTest, 'args' => [] }
+        ]
+        subject.work
+      end
+
+      it 'works' do
+        expect(Sidekiq::Client).to receive(:push)
+        subject.jobs =[
+          [{ 'class' => WorkerTest, 'args' => [] }]
+        ]
+        subject.work
+      end
+
+      it 'works' do
+        expect(Sidekiq::Client).to receive(:push).twice
+        subject.jobs =[
+          [{ 'class' => WorkerTest, 'args' => [] }],
+          [{ 'class' => WorkerTest, 'args' => [] }]
+        ]
+        subject.work
+      end
+
+      it 'works' do
+        expect(Sidekiq::Client).to receive(:push).exactly(3).times
+        subject.jobs =[
+          [{ 'class' => WorkerTest, 'args' => [] }],
+          [{ 'class' => WorkerTest, 'args' => [] }],
+          { 'class' => WorkerTest, 'args' => [] }
+        ]
+        subject.work
+      end
+
+      it 'works' do
+        expect(Sidekiq::Client).to receive(:push)
+        subject.jobs =[
+          { 'class' => WorkerTest, 'args' => [] },
+          [{ 'class' => WorkerTest, 'args' => [] }]
+        ]
+        subject.work
+      end
     end
   end
 end
