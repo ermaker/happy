@@ -460,13 +460,13 @@ module Happy
         xcoin_session.find(:css, '._wModal_btn_yes').click
         Happy.logger.debug { 'xcoin_sms_validation_code loop start' }
         sms =
-          catch(:sms_done) do
+          catch do |sms_done|
             (300 / 1).times do
               sleep 1
               begin
                 Happy.logger.debug { 'xcoin_sms_validation_code get' }
                 result = MShard::MShard.new.get_safe('xcoin_sms_validation_code')
-                throw(:sms_done, result) unless result.nil? || result.empty?
+                throw(sms_done, result) unless result.nil? || result.empty?
               rescue => e
                 Happy.logger.warn { e.class }
                 Happy.logger.warn { e }
@@ -498,7 +498,7 @@ module Happy
       def send_xcoin_btc(amount, counter)
         amount = amount.randomify(6).floor(8)
         xcoin_ensure_login
-        history_ = catch(:history) do
+        history_ = catch do |history_done|
           history_pivot_time = exchange_xcoin_history[0][0]
           loop do
             send_xcoin_btc_impl(amount, counter)
@@ -509,7 +509,7 @@ module Happy
               end.select do |record|
                 record[1] == 'BTC출금중'
               end
-              throw(:history, history_) unless history_.empty?
+              throw(history_done, history_) unless history_.empty?
               Happy.logger.debug { 'No record found on send xcoin' }
               sleep 2
             end
@@ -623,9 +623,9 @@ module Happy
         # TODO: ensure amount and counter
         AmountHash.new.apply(
           -amount,
-          counter.with(amount),
-          -Amount::XCOIN_WITHDRAWAL_FEE
+          counter.with(amount)
         )
+        # -Amount::XCOIN_WITHDRAWAL_FEE # XXX: Unused value
       end
 
       def wait_xcoin_simulated(_amount, _counter)
