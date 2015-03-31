@@ -8,8 +8,8 @@ BTC_BSR = Happy::Currency::BTC_BSR
 XRP = Happy::Currency::XRP
 KRW_P = Happy::Currency::KRW_P
 
-E = Happy::Worker::XRP::Exchange
-SE = Happy::Worker::XRP::SimulatedExchange
+E = Happy::Worker::ExchangeWorker
+SE = Happy::Worker::ExchangeWorker::Simulated
 
 job = Happy::Job.new
 

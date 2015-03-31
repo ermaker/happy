@@ -42,12 +42,10 @@ module Happy
     autoload :Query, 'happy/util/query'
   end
 
-  # autoload :Worker, 'happy/worker'
   require 'happy/worker'
   class Worker
     autoload :Base, 'happy/worker/base'
-    autoload :WorkerTest, 'happy/worker/worker_test'
-    autoload :XRP, 'happy/worker/xrp'
+    autoload :ExchangeWorker, 'happy/worker/exchange_worker'
   end
 
   module_function
