@@ -8,9 +8,9 @@ BTC_BSR = Happy::Currency::BTC_BSR
 XRP = Happy::Currency::XRP
 KRW_P = Happy::Currency::KRW_P
 
-C = Happy::Worker::ExchangeWorker::Simulated
-# E = Happy::Worker::ExchangeWorker
+E = Happy::Worker::ExchangeWorker
 SE = Happy::Worker::ExchangeWorker::Simulated
+C = E
 
 job = Happy::Job.new
 
@@ -54,6 +54,6 @@ job.jobs = [
   { 'queue' => 'krw_x', 'class' => C, 'args' => [KRW_X, KRW_R] }
 ]
 
-job.local['balances'].apply('100000'.currency('KRW_R'))
+job.local['balances'].apply('3000'.currency('KRW_R'))
 
 job.work

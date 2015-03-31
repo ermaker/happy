@@ -26,7 +26,7 @@ module Happy
         begin
           yield worker
         ensure
-          worker.page.driver.quit
+          worker.xcoin_session.driver.quit
         end
       end
 

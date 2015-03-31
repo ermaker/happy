@@ -32,8 +32,6 @@ module Happy
         mod.xcoin_session = Capybara::Session.new(:poltergeist)
       end
 
-      include Capybara::DSL
-
       def xcoin_not_found(*args)
         xcoin_session.find(*args)
         return false
@@ -74,8 +72,6 @@ module Happy
           mod.proc_balance[currency] = mod.method(:balance_xcoin)
         end
       end
-
-      include Capybara::DSL
 
       def balance_xcoin
         xcoin_ensure_login
@@ -186,8 +182,6 @@ module Happy
           mod.proc_exchange[[base, counter]] = mod.method(:wait_xcoin)
         end
       end
-
-      include Capybara::DSL
 
       def xcoin_order_status
         xcoin_session.visit 'https://www.xcoin.co.kr/u2/US202'
@@ -544,12 +538,12 @@ module Happy
       end
 
       def send_xcoin_krw(amount, counter)
-        # xXX: This is just simulated value
+        # XXX: This is just simulated value
         AmountHash.new.apply(
           -amount,
-          counter.with(amount),
-          -Amount::XCOIN_WITHDRAWAL_FEE
+          counter.with(amount)
         )
+        # -Amount::XCOIN_WITHDRAWAL_FEE # XXX: Unused value
       end
 
       def wait_xcoin_limited(amount, _counter)
