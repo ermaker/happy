@@ -2,7 +2,7 @@ module Happy
   class Order
     METHOD = {
       'KRW/XCOIN/BS/XRP/PAX/KRW' => :krw_xcoin_bs_xrp_pax_krw,
-      # 'KRW/XCOIN/B2R/XRP/PAX/KRW' => :krw_xcoin_b2r_xrp_pax_krw,
+      'KRW/XCOIN/B2R/XRP/PAX/KRW' => :krw_xcoin_b2r_xrp_pax_krw,
       # 'PAX/XRP/BS/XCOIN' => :pax_xrp_bs_xcoin,
       'KRW/PAX/XRP/BS/XCOIN/KRW' => :krw_pax_xrp_bs_xcoin_krw
     }
@@ -62,6 +62,34 @@ module Happy
         ],
         { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_BS, BTC_BSR] },
         { 'queue' => 'btc_bsr', 'class' => C, 'args' => [BTC_BSR, XRP] },
+        { 'queue' => 'xrp', 'class' => C, 'args' => [XRP, KRW_P] },
+        { 'queue' => 'krw_p', 'class' => SE, 'args' => [KRW_P, KRW_R] },
+        { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] },
+      ]
+
+      job.work
+    end
+
+    def krw_xcoin_b2r_xrp_pax_krw(order)
+      job = Job.new
+      job.initial_balances = AmountHash.new.apply(
+        order['krw_r'].currency('KRW_R'),
+        -Amount::XRP_FEE * 2
+      )
+      job.path = order['path']
+      job.jobs = [
+        { 'queue' => 'simulate', 'class' => N, 'args' => [:start] },
+        [
+          { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_X] }
+        ],
+        { 'queue' => 'simulate', 'class' => SE, 'args' => [KRW_R, KRW_X] },
+        { 'queue' => 'krw_x', 'class' => C, 'args' => [KRW_X, BTC_X] },
+        [
+          { 'queue' => 'btc_x', 'class' => C, 'args' => [BTC_X, BTC_B2R] }
+        ],
+        { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_X, BTC_B2R] },
+        { 'queue' => 'btc_b2r', 'class' => SE, 'args' => [BTC_B2R, BTC_P] },
+        { 'queue' => 'btc_p', 'class' => C, 'args' => [BTC_P, XRP] },
         { 'queue' => 'xrp', 'class' => C, 'args' => [XRP, KRW_P] },
         { 'queue' => 'krw_p', 'class' => SE, 'args' => [KRW_P, KRW_R] },
         { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] },
