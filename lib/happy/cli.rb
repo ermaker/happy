@@ -62,7 +62,7 @@ module Happy
 
     desc 'order', 'Order'
     def order
-      Runner.new.main
+      Order.new.main
     end
 
     desc 'order_b2r', 'Order B2R'

@@ -14,7 +14,7 @@ C = E
 
 job = Happy::Job.new
 
-#=begin
+=begin
 job.jobs = [
   [
     { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_X] }
@@ -62,5 +62,18 @@ job.local['balances'].apply('3000'.currency('KRW_R'))
 =begin
 =end
 
+job.jobs = [
+  { 'queue' => 'simulate', 'class' => Happy::Worker::Notifier, 'args' => [:start] },
+  { 'queue' => 'simulate', 'class' => Happy::Worker::Notifier, 'args' => [:finish] }
+]
+
+job.initial_balances = Happy::AmountHash.new.apply(
+  '3000'.currency('KRW_R'),
+  -Happy::Amount::XRP_FEE * 2
+)
+job.balances.apply(
+  '100'.currency('KRW_R')
+)
+job.path = 'KRW/XCOIN/BS/XRP/PAX/KRW'
 
 job.work

@@ -31,6 +31,7 @@ module Happy
   autoload :Logged, 'happy/logged'
   autoload :Collector, 'happy/collector'
   autoload :MailWorker, 'happy/mail_worker'
+  autoload :Order, 'happy/order'
   autoload :Runner, 'happy/runner'
   autoload :OrderB2R, 'happy/order_b2r'
   autoload :Recycle, 'happy/recycle'
@@ -46,6 +47,7 @@ module Happy
   class Worker
     autoload :Base, 'happy/worker/base'
     autoload :ExchangeWorker, 'happy/worker/exchange_worker'
+    autoload :Notifier, 'happy/worker/notifier'
   end
 
   module_function

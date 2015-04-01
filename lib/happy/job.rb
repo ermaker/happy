@@ -3,28 +3,42 @@ module Happy
     def initialize
       super
       @local = {
-        'class' => {},
+        'initial_balances' => AmountHash.new,
         'balances' => AmountHash.new
       }
     end
 
-    def push(*args)
-      super('args' => args)
+    def initial_balances=(balances)
+      @local['initial_balances'] =
+        AmountHash.new.apply(balances)
+      @local['balances'] =
+        AmountHash.new.apply(balances)
     end
 
-    def push_detail(*)
-      super
+    def initial_balances
+      @local['initial_balances']
+    end
+
+    def balances
+      @local['balances']
+    end
+
+    def path=(path)
+      @local['path'] = path
+    end
+
+    def path
+      @local['path']
     end
 
     def class_of(job)
-      return job['class'] if job.key?('class')
-      @local['class']
-        .find { |k,_| k == job['args'] }
-        .last
+      job['class']
     end
 
     def from_jsonify(jsonify)
       super
+      @local['initial_balances'] =
+        AmountHash.new.apply(@local['initial_balances'])
       @local['balances'] = AmountHash.new.apply(@local['balances'])
       self
     end

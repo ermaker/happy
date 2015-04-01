@@ -10,6 +10,10 @@ module Happy
       @jobs.push(job)
     end
 
+    def class_of(job)
+      job['class']
+    end
+
     def work_impl(job)
       klass = class_of(job).constantize
       job =

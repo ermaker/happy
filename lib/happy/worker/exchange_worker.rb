@@ -22,7 +22,7 @@ module Happy
         worker.extend(XRP::Exchange)
         worker.extend(XRPSend::Exchange)
 
-        worker.local_balances = job.local['balances']
+        worker.local_balances = job.balances
         begin
           yield worker
         ensure
@@ -48,7 +48,7 @@ module Happy
           worker.extend(XRP::SimulatedExchange)
           worker.extend(XRPSend::SimulatedExchange)
 
-          worker.local_balances = job.local['balances']
+          worker.local_balances = job.balances
           yield worker
         end
       end
