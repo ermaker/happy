@@ -67,6 +67,7 @@ job.jobs = [
   { 'queue' => 'simulate', 'class' => Happy::Worker::Notifier, 'args' => [:finish] }
 ]
 
+job.local['start_time'] = Time.now - 6 * 60
 job.initial_balances = Happy::AmountHash.new.apply(
   '3000'.currency('KRW_R'),
   -Happy::Amount::XRP_FEE * 2
