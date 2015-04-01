@@ -9,7 +9,7 @@ module Happy
       query[:index] = 'logstash-estimated_benefit-*'
       query[:type] = 'estimated_benefit'
       query.match(algo: 'simple')
-      query.match(path: path)
+      query.match('path.raw': path)
       query.match(base: base)
       query.range('@timestamp': { gt: from, lte: to }.to_jsonify)
       query[:body][:size] = 0
@@ -41,32 +41,24 @@ module Happy
       end.max
     end
 
-    def main
-      value = best('KRW/PAX/XRP/BS/XCOIN/KRW')
-      if value
-        krw_r_value = value
-        krw_r = Amount.new(krw_r_value, 'KRW_R')
-        MShard::MShard.new.set_safe(
-          pushbullet: true,
-          channel_tag: 'morder_status',
-          type: 'note',
-          title: 'R] Checked maximum benefit',
-          body: "#{krw_r.to_human}"
-        )
-      end
+    def notify(path)
+      value = best(path)
+      return unless value
+      krw_r_value = value
+      krw_r = Amount.new(krw_r_value, 'KRW_R')
+      MShard::MShard.new.set_safe(
+        pushbullet: true,
+        channel_tag: 'morder_status',
+        type: 'note',
+        title: "Positive",
+        body: "path: #{path}\nbase: #{krw_r.to_human}"
+      )
+    end
 
-      value = best('KRW/XCOIN/BS/XRP/PAX/KRW')
-      if value
-        krw_r_value = value
-        krw_r = Amount.new(krw_r_value, 'KRW_R')
-        MShard::MShard.new.set_safe(
-          pushbullet: true,
-          channel_tag: 'morder_status',
-          type: 'note',
-          title: 'Checked maximum benefit',
-          body: "#{krw_r.to_human}"
-        )
-      end
+    def main
+      notify('KRW/PAX/XRP/BS/XCOIN/KRW')
+      notify('KRW/XCOIN/BS/XRP/PAX/KRW')
+      notify('KRW/XCOIN/B2R/XRP/PAX/KRW')
 
       now = Time.now
       base_amount = 100000
