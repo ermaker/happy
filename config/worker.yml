@@ -1,4 +1,3 @@
-:logfile: log/worker.log
 :concurrency: 1
 :require: ./lib/happy.rb
 :daemon: true

@@ -1,3 +1,5 @@
+require 'dotenv'
+Dotenv.load
 require 'bundler/gem_tasks'
 
 namespace :web do
@@ -28,7 +30,7 @@ QUEUE_LIST = [
 namespace :worker do
   task :up, :name do |_,args|
     Array(args.name || QUEUE_LIST).each do |name|
-      system("sidekiq -C config/worker.yml -P tmp/pids/worker_#{name}.pid -q #{name}")
+      system("sidekiq -C config/worker.yml -P tmp/pids/worker_#{name}.pid -q #{name} -L #{ENV['WORKER_LOGFILE']}")
     end
   end
 

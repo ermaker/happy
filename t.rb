@@ -14,7 +14,7 @@ C = E
 
 job = Happy::Job.new
 
-=begin
+#=begin
 job.jobs = [
   [
     { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_X] }
@@ -38,7 +38,7 @@ job.local['balances'].apply('5000'.currency('KRW_R'))
 =begin
 =end
 
-#=begin
+=begin
 job.jobs = [
   [
     { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_P] }
