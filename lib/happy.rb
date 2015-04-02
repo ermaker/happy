@@ -31,6 +31,7 @@ module Happy
   autoload :Logged, 'happy/logged'
   autoload :Collector, 'happy/collector'
   autoload :MailWorker, 'happy/mail_worker'
+  autoload :BitStampWorker, 'happy/bitstamp_worker'
   autoload :Order, 'happy/order'
   autoload :Auto, 'happy/auto'
   autoload :Job, 'happy/job'

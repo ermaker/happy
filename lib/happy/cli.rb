@@ -50,6 +50,11 @@ module Happy
       MailWorker.new.main
     end
 
+    desc 'bitstamp', 'BitStamp'
+    def bitstamp
+      BitStampWorker.new.main
+    end
+
     desc 'test', 'Test'
     def test
       Tester.new.test
