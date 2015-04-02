@@ -31,6 +31,8 @@ module Happy
     BTC_X = Currency::BTC_X
     BTC_BS = Currency::BTC_BS
     BTC_BSR = Currency::BTC_BSR
+    BTC_B2R = Currency::BTC_B2R
+    BTC_P = Currency::BTC_P
     XRP = Currency::XRP
     KRW_P = Currency::KRW_P
 
