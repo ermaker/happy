@@ -74,5 +74,10 @@ module Happy
     def auto
       Auto.new.main
     end
+
+    desc 'notify', 'Notify'
+    def notify
+      Notifier.new.main
+    end
   end
 end

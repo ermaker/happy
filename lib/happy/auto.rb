@@ -32,48 +32,38 @@ module Happy
         .map { |bucket| bucket['benefit']['value'] }.min
     end
 
-    def best(path)
+    def timing?(path)
       now = Time.now
       base_amount = 100000
-
-      (base_amount..5 * base_amount).step(base_amount).select do |amount|
-        min_of_avg(now - 10 * 60, now, amount, path) / amount >= 0
+      (base_amount..5 * base_amount).step(base_amount).map do |amount|
+        [
+          min_of_avg(now - 10 * 60, now, amount, path),
+          amount,
+          [
+            min_of_avg(now - 10 * 60, now, amount, path) / amount,
+            min_of_avg(now - 30 * 60, now, amount, path) / amount,
+            min_of_avg(now - 50 * 60, now, amount, path) / amount,
+            min_of_avg(now - 70 * 60, now, amount, path) / amount
+          ]
+        ]
+      end.select do |_,_,values|
+        values[0] >= 0.005 &&
+          values[1] >= -0.001 &&
+          values[2] >= -0.005 &&
+          values[3] >= -0.01
       end.max
     end
 
-    def notify(path)
-      value = best(path)
-      return unless value
-      krw_r_value = value
-      krw_r = Amount.new(krw_r_value, 'KRW_R')
-      MShard::MShard.new.set_safe(
-        pushbullet: true,
-        channel_tag: 'morder_status',
-        type: 'note',
-        title: "Positive",
-        body: "path: #{path}\nbase: #{krw_r.to_human}"
-      )
+    def simulate(path)
+      best = timing?(path)
+      return unless best
+      _, base, _ = best
+      krw_r = base.currency('KRW_R')
+      run(krw_r)
     end
 
     def main
-      notify('KRW/PAX/XRP/BS/XCOIN/KRW')
-      notify('KRW/XCOIN/BS/XRP/PAX/KRW')
-      notify('KRW/XCOIN/B2R/XRP/PAX/KRW')
-
-      now = Time.now
-      base_amount = 100000
-      path = 'KRW/XCOIN/BS/XRP/PAX/KRW'
-      value = (base_amount..5 * base_amount).step(base_amount).select do |amount|
-        min_of_avg(now - 10 * 60, now, amount, path) / amount >= 0.005 &&
-          min_of_avg(now - 30 * 60, now, amount, path) / amount >= 0.001 &&
-          min_of_avg(now - 50 * 60, now, amount, path) / amount >= -0.005 &&
-          min_of_avg(now - 70 * 60, now, amount, path) / amount >= -0.01
-      end.max
-      if value
-        krw_r_value = value
-        krw_r = Amount.new(krw_r_value, 'KRW_R')
-        run(krw_r)
-      end
+      simulate('KRW/XCOIN/BS/XRP/PAX/KRW')
     end
 
     def run(krw_r)
@@ -132,7 +122,7 @@ module Happy
       end
 
       Happy.logger.level = Logger::DEBUG
-      delay = 1 * 60 * 60 + 10 * 60
+      delay = 45 * 60
       Happy.logger.debug('SIMULATED') do
         "Sleep #{delay} to simulate"
       end

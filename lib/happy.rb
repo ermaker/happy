@@ -34,6 +34,7 @@ module Happy
   autoload :BitStampWorker, 'happy/bitstamp_worker'
   autoload :Order, 'happy/order'
   autoload :Auto, 'happy/auto'
+  autoload :Notifier, 'happy/notifier'
   autoload :Job, 'happy/job'
   autoload :JobBase, 'happy/job_base'
 
