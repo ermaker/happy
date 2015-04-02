@@ -25,7 +25,9 @@ module Happy
       HTTParty.post(
         'https://www.bitstamp.net/api/withdrawal_requests/',
         body: worker.signature_hash
-      ).parsed_response.select {|item| item['status'] == '4' }
+      ).parsed_response.tap do |response|
+        fail response.to_s unless response.is_a?(Array)
+      end.select {|item| item['status'] == '4' }
     rescue => e
       Happy.logger.warn { e.class }
       Happy.logger.warn { e }
