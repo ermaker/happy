@@ -7,7 +7,12 @@ module Happy
       'KRW/PAX/XRP/BS/XCOIN/KRW' => :krw_pax_xrp_bs_xcoin_krw
     }
     def main
-      order = JSON.parse(MShard::MShard.new.get_safe('order_detail')) rescue {}
+      order =
+        begin
+          JSON.parse(MShard::MShard.new.get_safe('order_detail'))
+        rescue
+          {}
+        end
       return if order.empty?
       MShard::MShard.new.set_safe(
         id: 'order_detail',
@@ -66,7 +71,7 @@ module Happy
         { 'queue' => 'btc_bsr', 'class' => C, 'args' => [BTC_BSR, XRP] },
         { 'queue' => 'xrp', 'class' => C, 'args' => [XRP, KRW_P] },
         { 'queue' => 'krw_p', 'class' => SE, 'args' => [KRW_P, KRW_R] },
-        { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] },
+        { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] }
       ]
 
       job.work
@@ -94,7 +99,7 @@ module Happy
         { 'queue' => 'btc_p', 'class' => C, 'args' => [BTC_P, XRP] },
         { 'queue' => 'xrp', 'class' => C, 'args' => [XRP, KRW_P] },
         { 'queue' => 'krw_p', 'class' => SE, 'args' => [KRW_P, KRW_R] },
-        { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] },
+        { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] }
       ]
 
       job.work
@@ -125,7 +130,7 @@ module Happy
         { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_BS, BTC_X] },
         { 'queue' => 'btc_x', 'class' => C, 'args' => [BTC_X, KRW_X] },
         { 'queue' => 'krw_x', 'class' => SE, 'args' => [KRW_X, KRW_R] },
-        { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] },
+        { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] }
       ]
 
       job.work

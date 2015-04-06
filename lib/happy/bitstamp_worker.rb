@@ -1,6 +1,5 @@
 module Happy
   class BitStampWorker
-
     def main
       prev = fetch_fails
       loop do
@@ -27,7 +26,7 @@ module Happy
         body: worker.signature_hash
       ).parsed_response.tap do |response|
         fail response.to_s unless response.is_a?(Array)
-      end.select {|item| item['status'] == '4' }
+      end.select { |item| item['status'] == '4' }
     rescue => e
       Happy.logger.warn { e.class }
       Happy.logger.warn { e }
@@ -65,7 +64,6 @@ module Happy
           }
         ]
         path = 'BS/XRP'
-      else
       end
 
       Happy.logger.debug { "Retry: BitStamp failover: #{time}, #{path}, #{amount.to_human}, #{id}, #{order_time}" }
