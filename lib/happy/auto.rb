@@ -16,9 +16,9 @@ module Happy
     end
 
     def main
-      run_if_timing('KRW/XCOIN/B2R/XRP/PAX/KRW')
-      # run_if_timing('KRW/XCOIN/BS/XRP/PAX/KRW')
       run_if_timing('KRW/PAX/XRP/BS/XCOIN/KRW')
+      run_if_timing('KRW/XCOIN/B2R/XRP/PAX/KRW')
+      run_if_timing('KRW/XCOIN/BS/XRP/PAX/KRW')
     end
 
     KRW_R = Currency::KRW_R
