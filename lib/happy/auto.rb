@@ -1,61 +1,7 @@
 module Happy
   class Auto
-    def min_of_avg(from, to, base, path)
-      worker = Worker.new
-      worker.extend(Worker::Market)
-      worker.extend(Logged::Market)
-
-      query = Util::Query.new
-      query[:index] = 'logstash-estimated_benefit-*'
-      query[:type] = 'estimated_benefit'
-      query.match(algo: 'simple')
-      query.match('path.raw': path)
-      query.match(base: base)
-      query.range('@timestamp': { gt: from, lte: to }.to_jsonify)
-      query[:body][:size] = 0
-      query[:body][:aggs] = {
-        benefit: {
-          date_histogram: {
-            field: '@timestamp',
-            interval: '5m'
-          },
-          aggs: {
-            benefit: {
-              avg: {
-                field: 'benefit'
-              }
-            }
-          }
-        }
-      }
-      worker.es_client.search(query)['aggregations']['benefit']['buckets']
-        .map { |bucket| bucket['benefit']['value'] }.min
-    end
-
-    def timing?(path)
-      now = Time.now
-      base_amount = 100000
-      (base_amount..5 * base_amount).step(base_amount).map do |amount|
-        [
-          min_of_avg(now - 10 * 60, now, amount, path),
-          amount,
-          [
-            min_of_avg(now - 10 * 60, now, amount, path) / amount,
-            min_of_avg(now - 30 * 60, now, amount, path) / amount,
-            min_of_avg(now - 50 * 60, now, amount, path) / amount,
-            min_of_avg(now - 70 * 60, now, amount, path) / amount
-          ]
-        ]
-      end.select do |_,_,values|
-        values[0] >= 0.005 &&
-          values[1] >= -0.001 &&
-          values[2] >= -0.005 &&
-          values[3] >= -0.01
-      end.max
-    end
-
     def simulate(path)
-      best = timing?(path)
+      best = Grader.new.timing?(path)
       return unless best
       _, base, _ = best
       krw_r = base.currency('KRW_R')
@@ -63,7 +9,8 @@ module Happy
     end
 
     def main
-      simulate('KRW/XCOIN/BS/XRP/PAX/KRW')
+      simulate('KRW/XCOIN/B2R/XRP/PAX/KRW')
+      # simulate('KRW/XCOIN/BS/XRP/PAX/KRW')
     end
 
     def run(krw_r)
@@ -122,7 +69,7 @@ module Happy
       end
 
       Happy.logger.level = Logger::DEBUG
-      delay = 45 * 60
+      delay = 40 * 60
       Happy.logger.debug('SIMULATED') do
         "Sleep #{delay} to simulate"
       end

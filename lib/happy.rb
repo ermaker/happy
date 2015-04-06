@@ -33,6 +33,7 @@ module Happy
   autoload :MailWorker, 'happy/mail_worker'
   autoload :BitStampWorker, 'happy/bitstamp_worker'
   autoload :Order, 'happy/order'
+  autoload :Grader, 'happy/grader'
   autoload :Auto, 'happy/auto'
   autoload :Notifier, 'happy/notifier'
   autoload :Job, 'happy/job'
