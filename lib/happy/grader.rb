@@ -66,16 +66,12 @@ module Happy
             min_of_avg(now - 70 * 60, now, amount, path) / amount
           ]
         ]
-      end.tap do |v|
-        require 'pp'
-        pp v
       end.select do |_,_,values|
         values[0] >= 0.005 &&
           values[1] >= 0.005 &&
           values[2] >= -0.001 &&
           values[3] >= -0.005 &&
           values[4] >= -0.01
-          true
       end.max
     end
   end
