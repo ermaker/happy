@@ -4,11 +4,20 @@ module Happy
       include Sidekiq::Worker
       sidekiq_options retry: false
 
+      attr_accessor :stop_object
+
+      def stop
+        throw(@stop_object)
+      end
+
       def perform(job, *args)
-        job = Job.from_jsonify(job)
-        args = args.to_objectify
-        perform_(job, *args)
-        job.work
+        catch do |stop_object|
+          @stop_object = stop_object
+          job = Job.from_jsonify(job)
+          args = args.to_objectify
+          perform_(job, *args)
+          job.work
+        end
       end
 
       class Exchange < Base

@@ -1,5 +1,18 @@
 module Happy
   class Tester
+    def test
+      job = Job.new
+      job.jobs = [
+        { 'queue' => 'simulate', 'class' => Worker::Volume, 'args' => [:up, 'BTC/XRP'] },
+        { 'queue' => 'simulate', 'class' => Worker::Volume, 'args' => [:down, 'BTC/XRP'] },
+      ]
+      job.initial_balances = AmountHash.new.apply(
+        '100000'.currency('KRW_R'),
+        -Amount::XRP_FEE * 2
+      )
+      job.work
+    end
+
     def test_z
       worker = Worker.new
       worker.extend(Worker::Market)
@@ -86,7 +99,7 @@ module Happy
       end
     end
 
-    def test
+    def test_z
       # Happy.logger.level = Logger::INFO
 
       worker = Worker.new

@@ -48,6 +48,7 @@ module Happy
     autoload :Base, 'happy/worker/base'
     autoload :ExchangeWorker, 'happy/worker/exchange_worker'
     autoload :Notifier, 'happy/worker/notifier'
+    autoload :Volume, 'happy/worker/volume'
   end
 
   module_function
