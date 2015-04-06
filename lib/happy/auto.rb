@@ -1,108 +1,149 @@
 module Happy
   class Auto
-    def simulate(path)
+    METHOD = {
+      'KRW/XCOIN/BS/XRP/PAX/KRW' => :krw_xcoin_bs_xrp_pax_krw,
+      'KRW/XCOIN/B2R/XRP/PAX/KRW' => :krw_xcoin_b2r_xrp_pax_krw,
+      # 'PAX/XRP/BS/XCOIN' => :pax_xrp_bs_xcoin,
+      'KRW/PAX/XRP/BS/XCOIN/KRW' => :krw_pax_xrp_bs_xcoin_krw
+    }
+
+    def run_if_timing(path)
       best = Grader.new.timing?(path)
       return unless best
       _, base, _ = best
       krw_r = base.currency('KRW_R')
-      run(krw_r)
+      method(METHOD[path]).call('krw_r' => krw_r, 'path' => path)
     end
 
     def main
-      simulate('KRW/XCOIN/B2R/XRP/PAX/KRW')
-      # simulate('KRW/XCOIN/BS/XRP/PAX/KRW')
+      run_if_timing('KRW/XCOIN/B2R/XRP/PAX/KRW')
+      # run_if_timing('KRW/XCOIN/BS/XRP/PAX/KRW')
+      run_if_timing('KRW/PAX/XRP/BS/XCOIN/KRW')
     end
 
-    def run(krw_r)
-      Happy.logger.debug('SIMULATED') do
-        "Order Start: #{krw_r.to_human}"
-      end
+    KRW_R = Currency::KRW_R
+    KRW_X = Currency::KRW_X
+    BTC_X = Currency::BTC_X
+    BTC_BS = Currency::BTC_BS
+    BTC_BSR = Currency::BTC_BSR
+    BTC_B2R = Currency::BTC_B2R
+    BTC_P = Currency::BTC_P
+    XRP = Currency::XRP
+    KRW_P = Currency::KRW_P
 
-      MShard::MShard.new.set_safe(
-        pushbullet: true,
-        channel_tag: 'morder_process',
-        type: 'note',
-        title: 'SIMULATE Start',
-        body: "#{krw_r.to_human}"
+    L = Worker::Limit
+    V = Worker::Volume
+    E = Worker::ExchangeWorker
+    SE = Worker::ExchangeWorker::Simulated
+    N = Worker::Notifier
+    C = E
+
+    def krw_xcoin_bs_xrp_pax_krw(order)
+      job = Job.new
+      job.initial_balances = AmountHash.new.apply(
+        order['krw_r'].currency('KRW_R'),
+        -Amount::XRP_FEE * 2
       )
+      job.path = order['path']
+      job.jobs = [
+        { 'queue' => 'simulate', 'class' => L, 'args' => [:limit, 'XCoin'] },
+        { 'queue' => 'simulate', 'class' => V, 'args' => [:up, 'BTC/XRP'] },
+        { 'queue' => 'simulate', 'class' => L, 'args' => [:update, 'XCoin'] },
+        { 'queue' => 'simulate', 'class' => N, 'args' => [:start] },
+        [
+          { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_X] }
+        ],
+        { 'queue' => 'simulate', 'class' => SE, 'args' => [KRW_R, KRW_X] },
+        { 'queue' => 'krw_x', 'class' => C, 'args' => [KRW_X, BTC_X] },
+        [
+          { 'queue' => 'btc_x', 'class' => C, 'args' => [BTC_X, BTC_BS] }
+        ],
+        { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_X, BTC_BS] },
+        [
+          { 'queue' => 'btc_bs', 'class' => C, 'args' => [BTC_BS, BTC_BSR] }
+        ],
+        { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_BS, BTC_BSR] },
+        { 'queue' => 'btc_bsr', 'class' => C, 'args' => [BTC_BSR, XRP] },
+        { 'queue' => 'xrp', 'class' => C, 'args' => [XRP, KRW_P] },
+        [
+          { 'queue' => 'simulate', 'class' => V, 'args' => [:down, 'BTC/XRP'] }
+        ],
+        { 'queue' => 'krw_p', 'class' => SE, 'args' => [KRW_P, KRW_R] },
+        { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] }
+      ]
 
-      Happy.logger.level = Logger::FATAL
+      job.work
+    end
 
-      worker = Worker.new
-      worker.extend(XCoin::Information)
-      worker.extend(BitStamp::Information)
-      worker.extend(XRP::Information)
-      worker.extend(Worker::Balance)
-      # worker.extend(Logged::Balance) # TODO
-      # worker.extend(XCoin::Balance)
-      # worker.extend(BitStamp::Balance)
-      # worker.extend(XRP::Balance)
-      worker.extend(Simulator::Balance)
-      worker.extend(Worker::Market)
-      worker.extend(Logged::Market)
-      # worker.extend(XCoin::Market)
-      # worker.extend(XRP::Market)
-      worker.extend(Worker::Exchange)
-      worker.extend(Real::SimulatedExchange)
-      # worker.extend(XCoin::Exchange)
-      worker.extend(XCoin::SimulatedExchange)
-      # worker.extend(B2R::SimulatedExchange)
-      worker.extend(BitStamp::SimulatedExchange)
-      # worker.extend(XRP::Exchange)
-      worker.extend(XRP::SimulatedExchange)
-      # worker.extend(XRPSend::Exchange)
-      worker.extend(XRPSend::SimulatedExchange)
-
-      worker.initial_balance = krw_r
-      worker.local_balances.apply(-Amount::XRP_FEE)
-      worker.local_balances.apply(-Amount::XRP_FEE)
-
-      worker.time = Time.now
-      [
-        Currency::KRW_R,
-        Currency::KRW_X,
-        Currency::KRW_X,
-        Currency::BTC_X,
-        Currency::BTC_BS
-      ].each_cons(2) do |base,counter|
-        worker.exchange(worker.local_balances[base], counter)
-      end
-
-      Happy.logger.level = Logger::DEBUG
-      delay = 40 * 60
-      Happy.logger.debug('SIMULATED') do
-        "Sleep #{delay} to simulate"
-      end
-      sleep(delay)
-      Happy.logger.level = Logger::FATAL
-
-      worker.time = Time.now
-      [
-        Currency::BTC_BS,
-        Currency::BTC_BS,
-        Currency::BTC_BSR,
-        Currency::BTC_BSR,
-        Currency::XRP,
-        Currency::KRW_P,
-        Currency::KRW_R
-      ].each_cons(2) do |base,counter|
-        worker.exchange(worker.local_balances[base], counter)
-      end
-
-      Happy.logger.level = Logger::DEBUG
-
-      percent = (worker.benefit/worker.initial_balance * 100)['value']
-        .round(2).to_s('F') + '%'
-      Happy.logger.info('SIMULATED') do
-        "benefit: #{worker.benefit.to_human(round: 2)}, #{percent}"
-      end
-      MShard::MShard.new.set_safe(
-        pushbullet: true,
-        channel_tag: 'morder_process',
-        type: 'note',
-        title: 'SIMULATE Finish',
-        body: "#{worker.benefit.to_human(round: 2)}(#{percent}) #{worker.initial_balance.to_human}"
+    def krw_xcoin_b2r_xrp_pax_krw(order)
+      job = Job.new
+      job.initial_balances = AmountHash.new.apply(
+        order['krw_r'].currency('KRW_R'),
+        -Amount::XRP_FEE * 2
       )
+      job.path = order['path']
+      job.jobs = [
+        { 'queue' => 'simulate', 'class' => L, 'args' => [:limit, 'XCoin'] },
+        { 'queue' => 'simulate', 'class' => V, 'args' => [:up, 'BTC/XRP'] },
+        { 'queue' => 'simulate', 'class' => L, 'args' => [:update, 'XCoin'] },
+        { 'queue' => 'simulate', 'class' => N, 'args' => [:start] },
+        [
+          { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_X] }
+        ],
+        { 'queue' => 'simulate', 'class' => SE, 'args' => [KRW_R, KRW_X] },
+        { 'queue' => 'krw_x', 'class' => C, 'args' => [KRW_X, BTC_X] },
+        [
+          { 'queue' => 'btc_x', 'class' => C, 'args' => [BTC_X, BTC_B2R] }
+        ],
+        { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_X, BTC_B2R] },
+        { 'queue' => 'btc_b2r', 'class' => SE, 'args' => [BTC_B2R, BTC_P] },
+        { 'queue' => 'btc_p', 'class' => C, 'args' => [BTC_P, XRP] },
+        { 'queue' => 'xrp', 'class' => C, 'args' => [XRP, KRW_P] },
+        [
+          { 'queue' => 'simulate', 'class' => V, 'args' => [:down, 'BTC/XRP'] }
+        ],
+        { 'queue' => 'krw_p', 'class' => SE, 'args' => [KRW_P, KRW_R] },
+        { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] }
+      ]
+
+      job.work
+    end
+
+    def krw_pax_xrp_bs_xcoin_krw(order)
+      job = Job.new
+      job.initial_balances = AmountHash.new.apply(
+        order['krw_r'].currency('KRW_R'),
+        -Amount::XRP_FEE * 2
+      )
+      job.path = order['path']
+      job.jobs = [
+        { 'queue' => 'simulate', 'class' => L, 'args' => [:limit, 'PaxMoneta'] },
+        { 'queue' => 'simulate', 'class' => V, 'args' => [:up, 'XRP/BTC'] },
+        { 'queue' => 'simulate', 'class' => L, 'args' => [:update, 'PaxMoneta'] },
+        { 'queue' => 'simulate', 'class' => N, 'args' => [:start] },
+        [
+          { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_P] }
+        ],
+        { 'queue' => 'simulate', 'class' => SE, 'args' => [KRW_R, KRW_P] },
+        { 'queue' => 'krw_p', 'class' => C, 'args' => [KRW_P, XRP] },
+        { 'queue' => 'xrp', 'class' => C, 'args' => [XRP, BTC_BSR] },
+        [
+          { 'queue' => 'simulate', 'class' => V, 'args' => [:down, 'XRP/BTC'] }
+        ],
+        [
+          { 'queue' => 'btc_bsr', 'class' => C, 'args' => [BTC_BSR, BTC_BS] }
+        ],
+        { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_BSR, BTC_BS] },
+        [
+          { 'queue' => 'btc_bs', 'class' => C, 'args' => [BTC_BS, BTC_X] }
+        ],
+        { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_BS, BTC_X] },
+        { 'queue' => 'btc_x', 'class' => C, 'args' => [BTC_X, KRW_X] },
+        { 'queue' => 'krw_x', 'class' => SE, 'args' => [KRW_X, KRW_R] },
+        { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] }
+      ]
+
+      job.work
     end
   end
 end
