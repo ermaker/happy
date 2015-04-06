@@ -11,7 +11,7 @@ module Happy
       best = Grader.new.timing?(path)
       return unless best
       _, base, _ = best
-      krw_r = base.currency('KRW_R')
+      krw_r = base
       method(METHOD[path]).call('krw_r' => krw_r, 'path' => path)
     end
 
