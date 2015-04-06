@@ -41,6 +41,7 @@ module Happy
     XRP = Currency::XRP
     KRW_P = Currency::KRW_P
 
+    V = Worker::Volume
     E = Worker::ExchangeWorker
     SE = Worker::ExchangeWorker::Simulated
     N = Worker::Notifier
@@ -54,6 +55,7 @@ module Happy
       )
       job.path = order['path']
       job.jobs = [
+        { 'queue' => 'simulate', 'class' => V, 'args' => [:up, 'BTC/XRP'] },
         { 'queue' => 'simulate', 'class' => N, 'args' => [:start] },
         [
           { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_X] }
@@ -70,6 +72,9 @@ module Happy
         { 'queue' => 'simulate', 'class' => SE, 'args' => [BTC_BS, BTC_BSR] },
         { 'queue' => 'btc_bsr', 'class' => C, 'args' => [BTC_BSR, XRP] },
         { 'queue' => 'xrp', 'class' => C, 'args' => [XRP, KRW_P] },
+        [
+          { 'queue' => 'simulate', 'class' => V, 'args' => [:down, 'BTC/XRP'] }
+        ],
         { 'queue' => 'krw_p', 'class' => SE, 'args' => [KRW_P, KRW_R] },
         { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] }
       ]
@@ -85,6 +90,7 @@ module Happy
       )
       job.path = order['path']
       job.jobs = [
+        { 'queue' => 'simulate', 'class' => V, 'args' => [:up, 'BTC/XRP'] },
         { 'queue' => 'simulate', 'class' => N, 'args' => [:start] },
         [
           { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_X] }
@@ -98,6 +104,9 @@ module Happy
         { 'queue' => 'btc_b2r', 'class' => SE, 'args' => [BTC_B2R, BTC_P] },
         { 'queue' => 'btc_p', 'class' => C, 'args' => [BTC_P, XRP] },
         { 'queue' => 'xrp', 'class' => C, 'args' => [XRP, KRW_P] },
+        [
+          { 'queue' => 'simulate', 'class' => V, 'args' => [:down, 'BTC/XRP'] }
+        ],
         { 'queue' => 'krw_p', 'class' => SE, 'args' => [KRW_P, KRW_R] },
         { 'queue' => 'simulate', 'class' => N, 'args' => [:finish] }
       ]
@@ -113,6 +122,7 @@ module Happy
       )
       job.path = order['path']
       job.jobs = [
+        { 'queue' => 'simulate', 'class' => V, 'args' => [:up, 'XRP/BTC'] },
         { 'queue' => 'simulate', 'class' => N, 'args' => [:start] },
         [
           { 'queue' => 'krw_r', 'class' => SE, 'args' => [KRW_R, KRW_P] }
@@ -120,6 +130,9 @@ module Happy
         { 'queue' => 'simulate', 'class' => SE, 'args' => [KRW_R, KRW_P] },
         { 'queue' => 'krw_p', 'class' => C, 'args' => [KRW_P, XRP] },
         { 'queue' => 'xrp', 'class' => C, 'args' => [XRP, BTC_BSR] },
+        [
+          { 'queue' => 'simulate', 'class' => V, 'args' => [:down, 'XRP/BTC'] }
+        ],
         [
           { 'queue' => 'btc_bsr', 'class' => C, 'args' => [BTC_BSR, BTC_BS] }
         ],

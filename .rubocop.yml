@@ -2,4 +2,4 @@ inherit_from: .rubocop_todo.yml
 
 AllCops:
   Exclude:
-  - 'lib/old/tt.rb'
+  - 'lib/happy/tester.rb'
