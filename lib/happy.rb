@@ -49,6 +49,7 @@ module Happy
     autoload :ExchangeWorker, 'happy/worker/exchange_worker'
     autoload :Notifier, 'happy/worker/notifier'
     autoload :Volume, 'happy/worker/volume'
+    autoload :Limit, 'happy/worker/limit'
   end
 
   module_function

@@ -3,8 +3,11 @@ module Happy
     def test
       job = Job.new
       job.jobs = [
-        { 'queue' => 'simulate', 'class' => Worker::Volume, 'args' => [:up, 'BTC/XRP'] },
-        { 'queue' => 'simulate', 'class' => Worker::Volume, 'args' => [:down, 'BTC/XRP'] },
+        # { 'queue' => 'simulate', 'class' => Worker::Volume, 'args' => [:up, 'BTC/XRP'] },
+        # { 'queue' => 'simulate', 'class' => Worker::Volume, 'args' => [:down, 'BTC/XRP'] },
+        { 'queue' => 'simulate', 'class' => Worker::Limit, 'args' => [:limit, 'XCoin'] },
+        { 'queue' => 'simulate', 'class' => Worker::Limit, 'args' => [:update, 'XCoin'] },
+        { 'queue' => 'simulate', 'class' => Worker::Notifier, 'args' => [:start] },
       ]
       job.initial_balances = AmountHash.new.apply(
         '100000'.currency('KRW_R'),
