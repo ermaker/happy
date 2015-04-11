@@ -50,6 +50,24 @@ module Happy
         .map { |bucket| bucket['benefit']['value'] }.min
     end
 
+    LOW_FILTER = ->(_, _, values) do
+      values[0] > 0 &&
+        values[1] > 0 &&
+        values[2] >= -0.001 &&
+        values[3] >= -0.005 &&
+        values[4] >= -0.01
+    end
+
+    DEFAULT_FILTER = ->(_, _, values) do
+      values[0] >= 0.005 &&
+        values[1] >= 0.005 &&
+        values[2] >= -0.001 &&
+        values[3] >= -0.005 &&
+        values[4] >= -0.01
+    end
+
+    CURRENT_FILTER = LOW_FILTER
+
     def timing?(path)
       now = Time.now
       base_amount = 100000
@@ -66,13 +84,7 @@ module Happy
             min_of_avg(now - 70 * 60, now, amount, path) / amount
           ]
         ]
-      end.select do |_,_,values|
-        values[0] >= 0.005 &&
-          values[1] >= 0.005 &&
-          values[2] >= -0.001 &&
-          values[3] >= -0.005 &&
-          values[4] >= -0.01
-      end.max
+      end.select(&CURRENT_FILTER).max
     end
   end
 end
