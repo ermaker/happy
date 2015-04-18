@@ -29,8 +29,7 @@ module Happy
           title: 'Retry: exchange_xrpsend_prepare_payment',
           body: "#{e.message}"
         )
-        sleep 0.3
-        retry
+        raise
       end
 
       def exchange_xrpsend_uuid
@@ -49,8 +48,7 @@ module Happy
           title: 'Retry: exchange_xrpsend_uuid',
           body: "#{e.message}"
         )
-        sleep 0.3
-        retry
+        raise
       end
 
       def exchange_xrpsend_submit_payment(payment)
@@ -78,8 +76,7 @@ module Happy
           title: 'Retry: exchange_xrpsend_submit_payment',
           body: "#{e.message}"
         )
-        sleep 0.3
-        retry
+        raise
       end
 
       SEND_XRPSEND_DESTINATION_TAG = {
@@ -116,6 +113,9 @@ module Happy
           amount_ * SEND_XRPSEND_ANTI_FEE_RATIO[amount.currency]
         end
         ah.apply(balances)
+      rescue
+        sleep 0.3
+        retry
       end
     end
 

@@ -125,8 +125,7 @@ module Happy
           title: 'Retry: place_order',
           body: "#{e.message}"
         )
-        sleep 0.3
-        retry
+        raise
       end
 
       def order_transaction(hash)
@@ -147,8 +146,7 @@ module Happy
           title: 'Retry: order_transaction',
           body: "#{e.message}"
         )
-        sleep 0.3
-        retry
+        raise
       end
 
       EXCHAGE_XRP_FEE_RATIO = Hash.new(BigDecimal.new('0'))
@@ -182,6 +180,9 @@ module Happy
         AmountHash.new.apply(
           order_transaction(hash)['balance_changes']
         )
+      rescue
+        sleep 0.3
+        retry
       end
 
       def exchange_xrp_other_to_xrp(amount, counter)
