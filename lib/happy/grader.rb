@@ -66,19 +66,6 @@ module Happy
         values[4] >= -0.01
     end
 
-    PEAK_FILTER = lambda do |_, _, values|
-      values[0] >= 0.01 &&
-        values[1] >= 0.01
-    end
-
-    STEADY_FILTER = lambda do |_, _, values|
-      values[0] >= 0.003 &&
-        values[1] >= 0.003 &&
-        values[2] >= 0.003 &&
-        values[3] >= 0.003 &&
-        values[4] >= 0.003
-    end
-
     CURRENT_FILTER = LOW_FILTER
 
     def reference_values(path, multiplier)
@@ -106,13 +93,57 @@ module Happy
     end
 
     def peak?(path)
-      reference_values(path, 10)
-        .select(&PEAK_FILTER).max
+      reference_values(path, 5)
+        .select do |_, _, values|
+          values[0] >= 0.01 &&
+            values[1] >= 0.01
+        end.max
     end
 
-    def steady?(path)
-      reference_values(path, 5)
-        .select(&STEADY_FILTER).max
+    def steady01?(path)
+      reference_values(path, 1)
+        .select do |_, _, values|
+          values[0] >= 0.001 &&
+            values[1] >= 0.001 &&
+            values[2] >= 0.001 &&
+            values[3] >= 0.001 &&
+            values[4] >= 0.001
+        end.max
+    end
+
+    def steady02?(path)
+      reference_values(path, 1)
+        .select do |_, _, values|
+          values[0] >= 0.002 &&
+            values[1] >= 0.002 &&
+            values[2] >= 0.002 &&
+            values[3] >= 0.002
+        end.max
+    end
+
+    def steady03?(path)
+      reference_values(path, 1)
+        .select do |_, _, values|
+          values[0] >= 0.003 &&
+            values[1] >= 0.003 &&
+            values[2] >= 0.003
+        end.max
+    end
+
+    def steady05?(path)
+      reference_values(path, 2)
+        .select do |_, _, values|
+          values[0] >= 0.005 &&
+            values[1] >= 0.005
+        end.max
+    end
+
+    def steady08?(path)
+      reference_values(path, 2)
+        .select do |_, _, values|
+          values[0] >= 0.008 &&
+            values[1] >= 0.008
+        end.max
     end
   end
 end

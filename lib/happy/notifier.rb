@@ -23,7 +23,11 @@ module Happy
     end
 
     def notify_if_steady(path)
-      notify_if(path, &Grader.new.method(:steady?))
+      notify_if(path, &Grader.new.method(:steady08?))
+      notify_if(path, &Grader.new.method(:steady05?))
+      notify_if(path, &Grader.new.method(:steady03?))
+      notify_if(path, &Grader.new.method(:steady02?))
+      notify_if(path, &Grader.new.method(:steady01?))
     end
 
     def main

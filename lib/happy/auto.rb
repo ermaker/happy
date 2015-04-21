@@ -24,7 +24,11 @@ module Happy
     end
 
     def run_if_steady(path)
-      run_if(path, &Grader.new.method(:steady?))
+      run_if(path, &Grader.new.method(:steady08?))
+      run_if(path, &Grader.new.method(:steady05?))
+      run_if(path, &Grader.new.method(:steady03?))
+      run_if(path, &Grader.new.method(:steady02?))
+      run_if(path, &Grader.new.method(:steady01?))
     end
 
     def main
