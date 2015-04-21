@@ -7,16 +7,29 @@ module Happy
       'KRW/PAX/XRP/BS/XCOIN/KRW' => :krw_pax_xrp_bs_xcoin_krw
     }
 
-    def run_if_timing(path)
-      best = Grader.new.timing?(path)
+    def run_if(path)
+      best = yield(path)
       return unless best
       _, base, _ = best
       krw_r = base
       method(METHOD[path]).call('krw_r' => krw_r, 'path' => path)
     end
 
+    def run_if_timing(path)
+      run_if(path, &Grader.new.method(:timing?))
+    end
+
+    def run_if_peak(path)
+      run_if(path, &Grader.new.method(:peak?))
+    end
+
+    def run_if_steady(path)
+      run_if(path, &Grader.new.method(:steady?))
+    end
+
     def main
-      run_if_timing('KRW/PAX/XRP/BS/XCOIN/KRW')
+      run_if_peak('KRW/PAX/XRP/BS/XCOIN/KRW')
+      run_if_steady('KRW/PAX/XRP/BS/XCOIN/KRW')
       run_if_timing('KRW/XCOIN/B2R/XRP/PAX/KRW')
       run_if_timing('KRW/XCOIN/BS/XRP/PAX/KRW')
     end

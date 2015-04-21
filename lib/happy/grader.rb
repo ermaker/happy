@@ -50,7 +50,7 @@ module Happy
         .map { |bucket| bucket['benefit']['value'] }.min
     end
 
-    LOW_FILTER = ->(_, _, values) do
+    LOW_FILTER = lambda do |_, _, values|
       values[0] > 0 &&
         values[1] > 0 &&
         values[2] >= -0.001 &&
@@ -58,7 +58,7 @@ module Happy
         values[4] >= -0.01
     end
 
-    DEFAULT_FILTER = ->(_, _, values) do
+    DEFAULT_FILTER = lambda do |_, _, values|
       values[0] >= 0.005 &&
         values[1] >= 0.005 &&
         values[2] >= -0.001 &&
@@ -66,12 +66,25 @@ module Happy
         values[4] >= -0.01
     end
 
+    PEAK_FILTER = lambda do |_, _, values|
+      values[0] >= 0.01 &&
+        values[1] >= 0.01
+    end
+
+    STEADY_FILTER = lambda do |_, _, values|
+      values[0] >= 0.003 &&
+        values[1] >= 0.003 &&
+        values[2] >= 0.003 &&
+        values[3] >= 0.003 &&
+        values[4] >= 0.003
+    end
+
     CURRENT_FILTER = LOW_FILTER
 
-    def timing?(path)
+    def reference_values(path, multiplier)
       now = Time.now
       base_amount = 100000
-      (base_amount..5 * base_amount).step(base_amount).map do |amount|
+      (base_amount..multiplier * base_amount).step(base_amount).map do |amount|
         seb_ = seb(amount, path)
         [
           seb_['benefit'],
@@ -84,7 +97,22 @@ module Happy
             min_of_avg(now - 70 * 60, now, amount, path) / amount
           ]
         ]
-      end.select(&CURRENT_FILTER).max
+      end
+    end
+
+    def timing?(path)
+      reference_values(path, 5)
+        .select(&CURRENT_FILTER).max
+    end
+
+    def peak?(path)
+      reference_values(path, 10)
+        .select(&PEAK_FILTER).max
+    end
+
+    def steady?(path)
+      reference_values(path, 5)
+        .select(&STEADY_FILTER).max
     end
   end
 end
