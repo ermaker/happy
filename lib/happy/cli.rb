@@ -55,6 +55,11 @@ module Happy
       BitStampWorker.new.main
     end
 
+    desc 'reboot_router', 'Reboot router'
+    def reboot_router
+      Util::Router.new.reboot
+    end
+
     desc 'test', 'Test'
     def test
       Tester.new.test
