@@ -6,7 +6,7 @@ module Happy
           [Currency::KRW_P, Currency::KRW_R],
           [Currency::BTC_BSR, Currency::BTC_BS]
         ].each do |base,counter|
-          mod.proc_exchange[[base, counter]] = mod.method(:send_xrpsend)
+          mod.proc_exchange[[base, counter]] = mod.method(:send_xrpsend_websocket)
         end
       end
 
@@ -116,6 +116,36 @@ module Happy
       rescue
         sleep 0.3
         retry
+      end
+
+      def send_xrpsend_websocket(amount, _)
+        Happy::Util::XRPWebSocket.new do |ws|
+          begin
+            signed = ws.request(
+              command: 'sign',
+              tx_json: {
+                TransactionType: 'Payment',
+                Account: ENV['XRP_ADDRESS'],
+                Destination: amount['counterparty'],
+                DestinationTag: SEND_XRPSEND_DESTINATION_TAG[amount.currency],
+                Fee: '10000',
+                Amount: amount.merge(issuer: amount['counterparty'])
+              },
+              secret: ENV['XRP_SECRET']
+            )
+            fail signed.to_s unless signed['status'] == 'success'
+            result = ws.request(
+              command: 'submit',
+              tx_blob: signed['result']['tx_blob']
+            )
+            fail result.to_s unless signed['status'] == 'success'
+
+          rescue
+            sleep 0.3
+            retry
+          end
+        end
+        AmountHash.new # TODO: Calculate
       end
     end
 

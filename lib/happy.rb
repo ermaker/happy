@@ -41,6 +41,7 @@ module Happy
 
   module Util
     autoload :Query, 'happy/util/query'
+    autoload :XRPWebSocket, 'happy/util/xrp_websocket'
   end
 
   require 'happy/worker'
