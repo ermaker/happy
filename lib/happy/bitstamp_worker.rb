@@ -6,7 +6,14 @@ module Happy
         begin
           now = fetch_fails
           (now - prev).each do |item|
-            retry_(item)
+            begin
+              Timeout::timeout(60) do
+                retry_(item)
+              end
+            rescue Timeout::Error
+              sleep 3
+              retry
+            end
           end
           prev = now
         rescue => e
@@ -19,14 +26,16 @@ module Happy
     end
 
     def fetch_fails
-      worker = Worker.new
-      worker.extend(BitStamp::Information)
-      HTTParty.post(
-        'https://www.bitstamp.net/api/withdrawal_requests/',
-        body: worker.signature_hash
-      ).parsed_response.tap do |response|
-        fail response.to_s unless response.is_a?(Array)
-      end.select { |item| item['status'] == '4' }
+      Timeout::timeout(60) do
+        worker = Worker.new
+        worker.extend(BitStamp::Information)
+        HTTParty.post(
+          'https://www.bitstamp.net/api/withdrawal_requests/',
+          body: worker.signature_hash
+        ).parsed_response.tap do |response|
+          fail response.to_s unless response.is_a?(Array)
+        end.select { |item| item['status'] == '4' }
+      end
     rescue => e
       Happy.logger.warn { e.class }
       Happy.logger.warn { e }

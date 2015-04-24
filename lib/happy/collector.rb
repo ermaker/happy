@@ -1,3 +1,4 @@
+require 'timeout'
 require 'happy/xrp'
 
 module Happy
@@ -47,8 +48,10 @@ module Happy
     end
 
     def log_market
-      log_market_xcoin
-      log_market_xrp
+      Timeout::timeout(60) do
+        log_market_xcoin
+        log_market_xrp
+      end
     end
 
     def balance_worker

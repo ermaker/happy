@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'mail'
+require 'timeout'
 
 module Happy
   class MailWorker
@@ -15,10 +16,13 @@ module Happy
     end
 
     def main
-      Mail.find(delete_after_find: true).each do |mail|
-        Happy.logger.debug { "mail: #{mail.subject}" }
-        click mail if mail.subject =~ /출금요청/
-        put mail if mail.subject =~ /Forwarded Message from /
+      Timeout::timeout(60) do
+        until (mail = Array(Mail.first).first).nil?
+          Happy.logger.debug { "mail: #{mail.subject}" }
+          click mail if mail.subject =~ /출금요청/
+          put mail if mail.subject =~ /Forwarded Message from /
+          Mail.first(delete_after_find: true)
+        end
       end
     end
 
