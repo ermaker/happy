@@ -49,8 +49,8 @@ module Happy
 
     def log_market
       Timeout::timeout(60) do
-        log_market_xcoin
         log_market_xrp
+        log_market_xcoin
       end
     end
 
