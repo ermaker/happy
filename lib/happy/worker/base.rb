@@ -24,7 +24,9 @@ module Happy
         def perform_(job, base, counter)
           Happy.logger.debug { "before balance: #{job.local['balances']}" }
           worker(job) do |w|
-            w.wait(w.local_balances[base])
+            unless base.currency == Currency::BTC_X && counter.currency == Currency::KRW_X
+              w.wait(w.local_balances[base])
+            end
             w.exchange(w.local_balances[base], counter)
           end
           Happy.logger.debug { "after balance: #{job.local['balances']}" }
